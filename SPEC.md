@@ -61,9 +61,9 @@ Der frühere Insel-Konfigurator-Schritt (`island`) existiert im Code noch (SVG-I
 - Unten auf dem Foto: Text "Deine Insel im Alltag – ein Moment zum Ankommen, Durchatmen und einfach Sein." + CTA-Pille "Los geht's" (→ Kompass) + Textlink "Anmelden" (→ ebenfalls Kompass, kein echtes Auth)
 - Dunkler Verlauf oben *und* unten fürs Lesen, sonst ist die Mitte des Fotos frei sichtbar
 
-### 3.2 Kompass ("Wie geht es dir?")
+### 3.2 Kompass ("Wie fühlst du dich gerade?")
 - Fotobasierter Nautik-Kompass (echtes Kompass-Foto, kreisförmig zugeschnitten) mit transparentem SVG-Overlay: Vier Wörter statt Himmelsrichtungen: **oben Denken, unten Fühlen, links Anspannung, rechts Entspannung**
-- Eigene Karten-Überschrift **"Wie geht es dir?"** erklärt direkt Zweck und Ablauf ("Sag uns kurz, wie es dir geht. So empfehlen wir dir die passende Meditation als Hilfsmittel …") — der allgemeine Seitenkopf (Topbar/Stepper) ist auf diesem Schritt bewusst ausgeblendet, sonst gäbe es zwei Titel übereinander (gleiches Prinzip wie schon beim Profil-Tab)
+- Eigene Karten-Überschrift **"Wie fühlst du dich gerade?"** erklärt direkt Zweck und Ablauf ("Sag uns kurz, wie es dir geht. So empfehlen wir dir die passende Meditation als Hilfsmittel …") — der allgemeine Seitenkopf (Topbar/Stepper) ist auf diesem Schritt bewusst ausgeblendet, sonst gäbe es zwei Titel übereinander (gleiches Prinzip wie schon beim Profil-Tab)
 - Ein roter Punkt/Zeiger, **frei innerhalb der Scheibe verschiebbar** (nicht nur am Rand!) — wichtig: die beiden Achsen (Denken↔Fühlen, Anspannung↔Entspannung) sind **unabhängig voneinander** wählbar
 - Ergebnis wird **nicht in Prozent**, sondern als kurzes Wort ausgegeben (`moodOf()`/`moodHtml()`, siehe §5) — dabei zählt **nur der Winkel**, nicht wie weit gezogen wird: welcher der beiden Pole eines Quadranten (z. B. Fühlen oder Entspannung) näher an der Nadel liegt, bestimmt das Wort
 - Speichert `compassBefore = {x, y}` (jeweils −1…1)
