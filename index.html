@@ -999,8 +999,16 @@
       <div class="recap" id="recapBox"></div>
       <div class="shift" id="shiftBox"></div>
 
-      <div class="recap" id="weekBox"></div>
-      <div class="recap" id="journeyBox"></div>
+      <div class="cat-block" id="reisenBlock">
+        <button class="cat-header" id="reisenToggle">
+          <span class="cat-name">🗺️ Deine Inselreisen</span>
+          <span class="cat-arrow" id="reisenArrow">▸</span>
+        </button>
+        <div class="cat-body">
+          <div class="recap" id="weekBox"></div>
+          <div class="recap" id="journeyBox"></div>
+        </div>
+      </div>
 
       <div class="need-more">
         <h4>Brauchst du noch etwas?</h4>
@@ -2435,6 +2443,9 @@
     document.getElementById("mudraBox").innerHTML = "";
     renderWeek();
     renderJourney();
+    // Ohne jeglichen Verlauf gaebe es einen Aufklapp-Knopf, der zu nichts
+    // aufklappt - dann lieber ganz ausblenden statt eine leere Hülle zeigen.
+    document.getElementById("reisenBlock").style.display = loadHistory().length ? "" : "none";
 
     function row(k, v){
       return '<div class="recap-row"><span class="k">' + k + '</span><span class="v">' + v + '</span></div>';
@@ -2650,6 +2661,11 @@
 
   document.getElementById("needMudraBtn").addEventListener("click", zeigeMudra);
   document.getElementById("needMantraBtn").addEventListener("click", zeigeMantra);
+
+  document.getElementById("reisenToggle").addEventListener("click", function(){
+    var open = document.getElementById("reisenBlock").classList.toggle("open");
+    document.getElementById("reisenArrow").textContent = open ? "▾" : "▸";
+  });
 
   document.getElementById("profilAboBtn").addEventListener("click", function(){
     renderAbo(); goToStep("abo");
