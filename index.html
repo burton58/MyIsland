@@ -324,6 +324,14 @@
   .recap-row:last-child{ border-bottom:none; }
   .recap-row .k{ opacity:.55; font-size:.72rem; text-transform:uppercase; letter-spacing:.06em; font-weight:700; }
   .recap-row .v{ font-weight:600; text-align:left; line-height:1.4; }
+  .week-row{ display:flex; flex-direction:column; gap:2px; padding:10px 0; border-bottom:1px solid #e9f1ef; }
+  .week-row:last-child{ border-bottom:none; }
+  .week-day{ font-size:.72rem; text-transform:uppercase; letter-spacing:.06em; font-weight:700; opacity:.5; margin-bottom:2px; }
+  .week-line{ font-size:.88rem; font-weight:600; }
+  .week-line .lbl{ opacity:.5; font-weight:500; }
+  .mood-emoji{ font-size:1.05rem; }
+  .journey-lead{ margin:-4px 0 12px; font-size:.85rem; opacity:.6; font-style:italic; }
+  .journey-hint{ margin:6px 0 0; font-size:.85rem; opacity:.65; line-height:1.5; }
   .shift{ background:#eef7f5; border-radius:14px; padding:13px 15px; margin-top:12px; font-size:.88rem; line-height:1.5; }
   .need-more{ margin-top:16px; text-align:left; }
   .need-more h4{ margin:0 0 8px; font-size:.8rem; text-transform:uppercase; letter-spacing:.08em; opacity:.5; }
@@ -351,6 +359,11 @@
   .home-full-top{ position:absolute; top:0; left:0; right:0; padding:34px 22px 0; text-align:center; z-index:2; }
   .brand{ font-family:var(--serif); color:#fff; font-size:2.4rem; margin:0 0 6px; letter-spacing:.01em; text-shadow:0 2px 14px rgba(0,0,0,.4); }
   .brand-sub{ margin:0; font-size:.9rem; color:#eaf6f0; opacity:.92; text-shadow:0 2px 10px rgba(0,0,0,.35); }
+  .dialect-note{ margin:8px 0 0; font-size:.76rem; color:#eaf6f0; opacity:.72; text-shadow:0 2px 8px rgba(0,0,0,.4); }
+  .dialect-chip{
+    display:inline-block; margin:0 0 16px; padding:5px 12px; border-radius:20px;
+    background:#eef6f2; color:var(--forest); font-size:.74rem; font-weight:700;
+  }
 
   /* Platz fuer die Tab-Leiste, damit "Los geht's" und "Anmelden"
      vollstaendig sichtbar bleiben. */
@@ -403,6 +416,7 @@
       <div class="home-full-top">
         <h1 class="brand">My Island</h1>
         <p class="brand-sub">Eine Insel für dich. Zeit zum Ankommen.</p>
+        <p class="dialect-note">🇨🇭 Die Meditationen sind auf Schweizerdeutsch.</p>
       </div>
       <div class="home-full-bottom">
         <p class="overlay-title">Deine Insel im Alltag – ein Moment zum Ankommen, Durchatmen und einfach Sein.</p>
@@ -747,6 +761,7 @@
     <div class="compass-card">
       <h2>🧘 Deine Meditation</h2>
       <p class="lead">Passend zu deinem Kompass – du kannst aber frei wählen.</p>
+      <p class="dialect-chip">🇨🇭 Die Anleitungen sind auf Schweizerdeutsch</p>
 
       <div class="pref-row">
         <div class="pref-group">
@@ -884,6 +899,9 @@
       <div class="recap" id="recapBox"></div>
       <div class="shift" id="shiftBox"></div>
 
+      <div class="recap" id="weekBox"></div>
+      <div class="recap" id="journeyBox"></div>
+
       <div class="need-more">
         <h4>Brauchst du noch etwas?</h4>
         <div class="need-more-actions">
@@ -929,66 +947,66 @@
   };
 
   var MEDITATIONS = [
-    { id:"atem", dir:"nord", cat:"mini", name:"Atem-Anker", min:5, desc:"Den kreisenden Gedanken einen ruhigen Platz geben.",
-      steps:["Setz oder leg dich bequem hin. Die Augen dürfen sich schließen.",
-             "Spür, wie die Luft in die Nase strömt – und wieder hinaus.",
-             "Zähl innerlich: ein … aus … eins. Ein … aus … zwei. Bis vier, dann von vorn.",
-             "Wenn du dich verzählst: völlig in Ordnung. Beginn einfach neu bei eins.",
-             "Lass das Zählen los. Nur noch atmen.",
-             "Nimm den Klang der Wellen wahr. Komm langsam zurück."] },
-    { id:"wolken", dir:"nord", cat:"mittel", name:"Gedanken wie Wolken", min:8, desc:"Gedanken beobachten, ohne ihnen zu folgen.",
-      steps:["Komm an. Füße auf dem Boden, Schultern schwer.",
-             "Stell dir den Himmel über deiner Insel vor. Weit und offen.",
-             "Jeder Gedanke ist eine Wolke, die vorbeizieht. Du bist der Himmel.",
-             "Du musst keine Wolke festhalten. Und keine wegschieben.",
-             "Manche Wolken sind dunkel. Auch die ziehen weiter.",
-             "Der Himmel bleibt. Ruh dich einen Moment darin aus.",
-             "Öffne die Augen, wenn du bereit bist."] },
-    { id:"herz", dir:"sued", cat:"mittel", name:"Herzraum", min:7, desc:"Dem, was du fühlst, freundlich begegnen.",
-      steps:["Leg eine Hand auf die Brust. Spür die Wärme.",
-             "Atme in diesen Raum unter deiner Hand hinein.",
-             "Frag dich leise: Was ist gerade da?",
-             "Was auch kommt – sag innerlich: Das darf da sein.",
-             "Schick dir selbst einen freundlichen Satz. Zum Beispiel: Möge ich es leicht haben.",
-             "Bleib noch ein paar Atemzüge hier.",
-             "Nimm die Hand weg und komm zurück."] },
-    { id:"benennen", dir:"sued", cat:"mittel", name:"Gefühle benennen", min:6, desc:"Ordnung ins Gefühlschaos bringen.",
-      steps:["Werde still. Spür deinen Körper von innen.",
-             "Wo im Körper spürst du gerade am meisten?",
-             "Gib dem Gefühl einen Namen: Unruhe? Schwere? Sehnsucht? Freude?",
-             "Sag innerlich: Da ist … – und sprich den Namen aus.",
-             "Beobachte, ob sich etwas verändert, wenn du es benennst.",
-             "Danke dir selbst, dass du hingeschaut hast."] },
-    { id:"koerper", dir:"west", cat:"tief", name:"Körper lösen", min:10, desc:"Anspannung Stück für Stück abgeben.",
-      steps:["Leg dich hin, wenn du kannst. Sonst sitz bequem.",
-             "Wandere mit der Aufmerksamkeit zu den Füßen. Lass sie schwer werden.",
-             "Weiter zu den Waden und Oberschenkeln. Loslassen.",
-             "Bauch und Rücken. Mit jedem Ausatmen ein bisschen weicher.",
-             "Schultern sinken lassen. Sie dürfen nichts mehr tragen.",
-             "Kiefer, Zunge, Stirn – alles darf lose sein.",
-             "Spür den ganzen Körper als Ganzes. Getragen vom Sand.",
-             "Beweg langsam die Finger und komm zurück."] },
-    { id:"welle", dir:"west", cat:"mini", name:"Wellen-Atem", min:4, desc:"Kurz und wirksam, wenn es eng wird.",
-      steps:["Atme durch die Nase ein und zähl bis vier.",
-             "Halt kurz. Zähl bis zwei.",
-             "Atme durch den Mund aus und zähl bis sechs. Länger aus als ein.",
-             "Nochmal. Stell dir vor, jede Ausatmung ist eine Welle, die zurückläuft.",
-             "Weiter in deinem Tempo. Der Ausatem darf lang sein.",
-             "Lass den Atem von allein weiterfließen."] },
-    { id:"stille", dir:"ost", cat:"mittel", name:"Stille genießen", min:6, desc:"Die Ruhe, die schon da ist, vertiefen.",
-      steps:["Du musst nichts erreichen. Alles ist schon gut.",
-             "Hör nach außen: Wellen, Wind, Palmen.",
-             "Hör nach innen: dein Atem, dein Herzschlag.",
-             "Lass beides gleichzeitig da sein.",
-             "Ruh in dem Moment zwischen Ausatmen und Einatmen.",
-             "Nimm ein bisschen von dieser Stille mit."] },
-    { id:"dank", dir:"ost", cat:"mini", name:"Dankbarkeit am Strand", min:5, desc:"Das Gute festhalten, bevor es verblasst.",
-      steps:["Stell dir vor, du sitzt im warmen Sand deiner Insel.",
-             "Denk an etwas Kleines von heute, das gut war.",
-             "Lass das Bild wirklich da sein. Farben, Geräusche, Gefühl.",
-             "Denk an einen Menschen, für den du dankbar bist.",
-             "Und an etwas an dir selbst, das dich heute getragen hat.",
-             "Nimm dieses Gefühl mit zurück."] }
+    { id:"atem", dir:"nord", cat:"mini", name:"Atem-Anker", min:5, desc:"De chreisende Gedanke en ruhige Platz gäh.",
+      steps:["Setz oder lig di bequem ane. D'Auge dörfed zuegah.",
+             "Gspür, wie d'Luft i d'Nase inegoht – und wieder use.",
+             "Zell innerlich: i … us … eis. I … us … zwei. Bis vieri, denn wieder vo vorne.",
+             "Wänn du di verzellsch: völlig i Ornig. Fang eifach wieder bi eis a.",
+             "Lah s'Zelle los. Nur no schnuufe.",
+             "Nimm de Klang vo de Wälle wahr. Chumm langsam zrugg."] },
+    { id:"wolken", dir:"nord", cat:"mittel", name:"Gedanken wie Wolken", min:8, desc:"Gedanke aluege, ohni ne noochezgoh.",
+      steps:["Chumm a. D'Füess ufem Bode, d'Schultere schwer.",
+             "Stell dir de Himmel über dinere Insle vor. Wiit und offe.",
+             "Jede Gedanke isch e Wolche, wo verbiizieht. Du bisch de Himmel.",
+             "Du muesch kei Wolche festhalte. Und kei wägschiebe.",
+             "Mängi Wolche sind dunkel. Au die zieled wiiter.",
+             "De Himmel bliibt. Rueh di en Moment dine us.",
+             "Mach d'Auge uf, wänn du parat bisch."] },
+    { id:"herz", dir:"sued", cat:"mittel", name:"Herzraum", min:7, desc:"Dem, wo du fühlsch, fründlich begägne.",
+      steps:["Leg e Hand uf d'Bruscht. Gspür d'Wärmi.",
+             "Schnuuf i dä Ruum under dinere Hand ine.",
+             "Frag di liislig: Was isch grad da?",
+             "Was au chunnt – sag innerlich: Das dörf da si.",
+             "Schick dir sälber en fründliche Satz. Zum Bispil: Möge ich's liicht ha.",
+             "Blib no es paar Schnuuf da.",
+             "Nimm d'Hand wäg und chumm zrugg."] },
+    { id:"benennen", dir:"sued", cat:"mittel", name:"Gefühle benennen", min:6, desc:"Ornig is Gfühlschaos bringe.",
+      steps:["Wird still. Gspür din Körper vo inne.",
+             "Wo im Körper gspürsch du grad am meiste?",
+             "Gib em Gfühl en Name: Unrueh? Schweri? Sehnsucht? Freud?",
+             "Sag innerlich: Da isch … – und sprich de Name us.",
+             "Lueg, ob sich öppis verändert, wänn du's benennsch.",
+             "Dank dir sälber, dass du häsch häregluegt."] },
+    { id:"koerper", dir:"west", cat:"tief", name:"Körper lösen", min:10, desc:"Aspannig Stuck für Stuck abgäh.",
+      steps:["Lig di ane, wänn du chasch. Susch sitz bequem.",
+             "Wander mit de Ufmerksamkeit zu de Füess. Lah si schwer werde.",
+             "Wiiter zu de Wade und Oberschänkel. Loslah.",
+             "Buuch und Rugge. Mit jedem Usschnuufe es bitzli weicher.",
+             "D'Schultere sinke lah. Si dörfed nüt meh trage.",
+             "Chiefer, Zunge, Stirne – alles dörf los si.",
+             "Gspür de ganz Körper als Ganzes. Trage vom Sand.",
+             "Beweg langsam d'Finger und chumm zrugg."] },
+    { id:"welle", dir:"west", cat:"mini", name:"Wellen-Atem", min:4, desc:"Churz und wirksam, wänn's äng wird.",
+      steps:["Schnuuf dur d'Nase ii und zell bis vieri.",
+             "Halt churz. Zell bis zwei.",
+             "Schnuuf dur de Mund us und zell bis sächsi. Länger us als ii.",
+             "Nomal. Stell dir vor, jede Usschnuuf isch e Wälle, wo zrugglauft.",
+             "Wiiter i dim Tempo. De Usschnuuf dörf lang si.",
+             "Lah de Atem vo sälber wiiterflüsse."] },
+    { id:"stille", dir:"ost", cat:"mittel", name:"Stille genießen", min:6, desc:"D'Rueh, wo scho da isch, vertüüfe.",
+      steps:["Du muesch nüt erreiche. Alles isch scho guet.",
+             "Los nach usse: Wälle, Wind, Palme.",
+             "Los nach inne: din Atem, din Herzschlag.",
+             "Lah beides glichziitig da si.",
+             "Rueh i dem Moment zwüsched Usschnuufe und Ischnuufe.",
+             "Nimm es bitzli vo dere Stilli mit."] },
+    { id:"dank", dir:"ost", cat:"mini", name:"Dankbarkeit am Strand", min:5, desc:"S'Guete festhalte, bevor's verblasst.",
+      steps:["Stell dir vor, du sitzsch im warme Sand vo dinere Insle.",
+             "Dänk a öppis Chliises vo hüt, wo guet gsi isch.",
+             "Lah s'Bild würklich da si. Farbe, Grüüsch, Gfühl.",
+             "Dänk an en Mensch, für wo du dankbar bisch.",
+             "Und an öppis a dir sälber, wo di hüt trage hät.",
+             "Nimm das Gfühl mit zrugg."] }
   ];
 
   var CAT_INFO = {
@@ -1007,60 +1025,60 @@
 
   var PHRASES = {
     nord: {
-      open:"Komm an und lass die Gedanken erstmal da sein, wo sie sind.",
+      open:"Chumm a und lah d'Gedanke zerscht emal da si, wo si sind.",
       mid: [
-        "Beobachte einen Gedanken, ohne ihm zu folgen.",
-        "Stell dir vor, jeder Gedanke zieht wie eine Wolke vorbei.",
-        "Zähl innerlich deinen Atem – eins beim Einatmen, zwei beim Ausatmen.",
-        "Wenn du abschweifst, ist das kein Fehler. Komm einfach zurück.",
-        "Lass zwischen den Gedanken kleine Pausen entstehen.",
-        "Bemerke, wie der Geist von allein etwas ruhiger wird.",
-        "Du musst nichts lösen. Nur beobachten, was da ist.",
-        "Stell dir den weiten Himmel über deiner Insel vor."
+        "Lueg en Gedanke a, ohni em noochezgoh.",
+        "Stell dir vor, jede Gedanke zieht wie e Wolche verbii.",
+        "Zell innerlich din Atem – eis bim Ischnuufe, zwei bim Usschnuufe.",
+        "Wänn du abschweifsch, isch das kein Fähler. Chumm eifach zrugg.",
+        "Lah zwüsched de Gedanke chlini Pause entstah.",
+        "Merk, wie de Geist vo sälber es bitzli ruhiger wird.",
+        "Du muesch nüt löse. Nur aluege, was da isch.",
+        "Stell dir de wiit Himmel über dinere Insle vor."
       ],
-      close:"Lass das Zählen oder Beobachten los. Komm langsam zurück."
+      close:"Lah s'Zelle oder s'Aluege los. Chumm langsam zrugg."
     },
     sued: {
-      open:"Komm an. Spür, was gerade in dir ist, ohne es gleich zu ändern.",
+      open:"Chumm a. Gspür, was grad i dir isch, ohni es grad z'ändere.",
       mid: [
         "Leg eine Hand auf die Brust und spür die Wärme.",
-        "Frag dich leise: Was ist gerade da?",
-        "Was auch kommt, darf da sein – ohne Bewertung.",
-        "Schick dir selbst einen freundlichen Satz.",
-        "Spür, wie sich das Gefühl mit jedem Atemzug verändert.",
-        "Du musst nichts wegschieben und nichts festhalten.",
-        "Leg dem Gefühl innerlich einen Namen.",
-        "Bleib einen Moment einfach bei dir."
+        "Frag di liislig: Was isch grad da?",
+        "Was au chunnt, dörf da si – ohni Bewertig.",
+        "Schick dir sälber en fründliche Satz.",
+        "Gspür, wie sich s'Gfühl mit jedem Schnuuf verändert.",
+        "Du muesch nüt wägschiebe und nüt festhalte.",
+        "Gib em Gfühl innerlich en Name.",
+        "Blib en Moment eifach bi dir."
       ],
-      close:"Nimm dieses Gefühl der Zuwendung mit zurück."
+      close:"Nimm das Gfühl vo dere Zuewändig mit zrugg."
     },
     west: {
-      open:"Setz oder leg dich bequem hin. Lass die Schultern sinken.",
+      open:"Setz oder lig di bequem ane. Lah d'Schultere sinke.",
       mid: [
-        "Wandere mit der Aufmerksamkeit langsam durch den Körper.",
-        "Lass die Schultern sinken, ein Stück weiter als sonst.",
-        "Mit jedem Ausatmen darf ein bisschen Spannung gehen.",
-        "Kiefer, Zunge, Stirn – alles darf lose sein.",
-        "Spür, wie der Boden oder Sand dich trägt.",
-        "Atme etwas länger aus als ein – das beruhigt den Körper.",
-        "Da, wo noch Spannung ist, atme einfach bewusst hin.",
-        "Lass den ganzen Körper Stück für Stück schwerer werden."
+        "Wander mit de Ufmerksamkeit langsam dur de Körper.",
+        "Lah d'Schultere sinke, es Stuck wiiter als susch.",
+        "Mit jedem Usschnuufe dörf es bitzli Spannig goh.",
+        "Chiefer, Zunge, Stirne – alles dörf los si.",
+        "Gspür, wie de Bode oder de Sand di treit.",
+        "Schnuuf es bitzli länger us als ii – das berueiget de Körper.",
+        "Dört, wo no Spannig isch, schnuuf eifach bewusst häre.",
+        "Lah de ganz Körper Stuck für Stuck schwerer werde."
       ],
-      close:"Beweg langsam Finger und Zehen und komm zurück."
+      close:"Beweg langsam Finger und Zeche und chumm zrugg."
     },
     ost: {
-      open:"Komm an. Du musst hier nichts leisten.",
+      open:"Chumm a. Du muesch da nüt leischte.",
       mid: [
-        "Hör nach außen: Wellen, Wind, vielleicht Vögel.",
-        "Hör nach innen: deinen Atem, deinen Herzschlag.",
-        "Du musst nichts erreichen. Es ist schon gut, wie es ist.",
-        "Denk an etwas Kleines, das heute schon gut war.",
-        "Lass die Ruhe, die schon da ist, noch etwas größer werden.",
-        "Spür die Wärme der Sonne auf deiner Haut.",
-        "Genieß den Moment zwischen Ausatmen und Einatmen.",
-        "Nimm dir nichts vor. Bleib einfach hier."
+        "Los nach usse: Wälle, Wind, vilicht Vögel.",
+        "Los nach inne: din Atem, din Herzschlag.",
+        "Du muesch nüt erreiche. Es isch scho guet, wie's isch.",
+        "Dänk a öppis Chliises, wo hüt scho guet gsi isch.",
+        "Lah d'Rueh, wo scho da isch, no es bitzli grösser werde.",
+        "Gspür d'Wärmi vo de Sunne uf dinere Huut.",
+        "Gnüss de Moment zwüsched Usschnuufe und Ischnuufe.",
+        "Nimm dir nüt vor. Blib eifach da."
       ],
-      close:"Nimm ein bisschen von dieser Ruhe mit zurück in den Tag."
+      close:"Nimm es bitzli vo dere Rueh mit zrugg i de Tag."
     }
   };
 
@@ -1086,9 +1104,9 @@
         var theme = THEMES[d][themeIdx[d] % THEMES[d].length];
         themeIdx[d]++;
         var dur = info.durations[Math.floor(i / 4) % info.durations.length];
-        var desc = cat === "mini" ? (theme + " – kurz für zwischendurch.") :
-                   cat === "mittel" ? (theme + " in Ruhe vertiefen.") :
-                   ("Tiefe Reise: " + theme + ".");
+        var desc = cat === "mini" ? (theme + " – churz für zwüschedure.") :
+                   cat === "mittel" ? (theme + " i Rueh vertüüfe.") :
+                   ("Tüüfi Reis: " + theme + ".");
         var steps = buildSteps(d, info.midCount, seedCounters[d]);
         seedCounters[d] += info.midCount;
         MEDITATIONS.push({
@@ -1712,9 +1730,162 @@
     document.getElementById("compassReadout2").innerHTML =
       compassWords(compassAfter) +
       '<span class="sub">Ziehe den Punkt, um es anzupassen</span>';
+    recordSession();
     renderRecap();
     goToStep("outro");
   });
+
+  // ---- Verlauf ----
+  // Liegt ausschliesslich lokal im Browser dieses Geraets. Kein Server, kein
+  // Konto. Faellt localStorage aus (privater Modus, voller Speicher), laeuft
+  // die App normal weiter, nur eben ohne Gedaechtnis.
+  var STORAGE_KEY = "myisland.verlauf.v1";
+
+  function loadHistory(){
+    try {
+      var raw = localStorage.getItem(STORAGE_KEY);
+      if (!raw) return [];
+      var data = JSON.parse(raw);
+      return (data && data.sessions instanceof Array) ? data.sessions : [];
+    } catch (e){ return []; }
+  }
+  function saveHistory(list){
+    try { localStorage.setItem(STORAGE_KEY, JSON.stringify({ v:1, sessions:list.slice(-500) })); }
+    catch (e){}
+  }
+
+  var currentEntryTs = null;
+
+  function recordSession(){
+    var list = loadHistory();
+    currentEntryTs = Date.now();
+    list.push({
+      ts: currentEntryTs,
+      before: { x:compassBefore.x, y:compassBefore.y },
+      after:  { x:compassAfter.x,  y:compassAfter.y  },
+      meds: completedLog.map(function(l){ return { name:l.name, min:l.min, seconds:l.seconds }; })
+    });
+    saveHistory(list);
+  }
+  // Der Zeiger auf der Abschluss-Seite laesst sich nachtraeglich verschieben.
+  function updateCurrentEntry(){
+    if (currentEntryTs === null) return;
+    var list = loadHistory();
+    for (var i = list.length - 1; i >= 0; i--){
+      if (list[i].ts === currentEntryTs){
+        list[i].after = { x:compassAfter.x, y:compassAfter.y };
+        saveHistory(list);
+        return;
+      }
+    }
+  }
+
+  // ---- Stimmung als Bild und Wort ----
+  var MOOD_BALANCED = { emoji:"\uD83D\uDE0A", word:"ausgeglichen" };
+  var MOODS = {
+    "Denken_Anspannung":  { leicht:{emoji:"\uD83E\uDD14",word:"gr\u00fcblerisch"},  klar:{emoji:"\uD83D\uDE30",word:"angespannt"},    stark:{emoji:"\uD83C\uDF2A\uFE0F",word:"gestresst"} },
+    "Denken_Entspannung": { leicht:{emoji:"\uD83D\uDCAD",word:"gedankenvoll"},  klar:{emoji:"\uD83E\uDDE0",word:"klar im Kopf"},  stark:{emoji:"\u2728",word:"wach und weit"} },
+    "F\u00fchlen_Anspannung":  { leicht:{emoji:"\uD83D\uDE1F",word:"unruhig"},       klar:{emoji:"\uD83D\uDE14",word:"aufgew\u00fchlt"},   stark:{emoji:"\uD83D\uDE22",word:"schwer ums Herz"} },
+    "F\u00fchlen_Entspannung": { leicht:{emoji:"\uD83D\uDE0C",word:"entspannt"},     klar:{emoji:"\uD83C\uDF0A",word:"ruhig"},         stark:{emoji:"\uD83D\uDC9A",word:"geborgen"} }
+  };
+  function moodOf(c){
+    var overall = (Math.abs(c.y) + Math.abs(c.x)) / 2;
+    if (overall < 0.15) return MOOD_BALANCED;
+    var level = overall < 0.4 ? "leicht" : (overall < 0.7 ? "klar" : "stark");
+    return MOODS[(c.y < 0 ? "Denken" : "F\u00fchlen") + "_" + (c.x < 0 ? "Anspannung" : "Entspannung")][level];
+  }
+  function moodHtml(c){
+    var m = moodOf(c);
+    return '<span class="mood-emoji">' + m.emoji + '</span> ' + m.word;
+  }
+
+  // ---- Wochenansicht ----
+  var WEEKDAYS = ["Sonntag","Montag","Dienstag","Mittwoch","Donnerstag","Freitag","Samstag"];
+  function dayStamp(ts){ var d = new Date(ts); return d.getFullYear()+"-"+d.getMonth()+"-"+d.getDate(); }
+
+  function renderWeek(){
+    var box = document.getElementById("weekBox");
+    var grenze = Date.now() - 7*24*60*60*1000;
+    var letzte = loadHistory().filter(function(e){ return e.ts >= grenze; });
+    if (!letzte.length){ box.innerHTML = ""; box.style.display = "none"; return; }
+    box.style.display = "";
+
+    // Pro Tag eine Zeile: erster Stand beim Ankommen, letzter beim Gehen.
+    var tage = [], index = {};
+    letzte.forEach(function(e){
+      var k = dayStamp(e.ts);
+      if (!(k in index)){ index[k] = tage.length; tage.push({ ts:e.ts, before:e.before, after:e.after, n:1 }); }
+      else { var t = tage[index[k]]; t.after = e.after; t.n++; }
+    });
+
+    box.innerHTML = '<h4>Deine Insel-Woche</h4>' + tage.map(function(t){
+      return '<div class="week-row">' +
+        '<span class="week-day">' + WEEKDAYS[new Date(t.ts).getDay()] +
+          (t.n > 1 ? ' \u00b7 ' + t.n + ' Mal' : '') + '</span>' +
+        '<span class="week-line"><span class="lbl">Vorher:</span> ' + moodHtml(t.before) + '</span>' +
+        '<span class="week-line"><span class="lbl">Nachher:</span> ' + moodHtml(t.after) + '</span>' +
+      '</div>';
+    }).join("");
+  }
+
+  // ---- Inselreise: kein Punktestand, sondern Muster ----
+  var TAGESZEIT = [ {bis:11,wort:"morgens"}, {bis:14,wort:"mittags"}, {bis:18,wort:"nachmittags"}, {bis:22,wort:"abends"} ];
+
+  function haeufigste(werte){
+    var zaehler = {}, best = null, bestN = 0;
+    werte.forEach(function(w){
+      zaehler[w] = (zaehler[w] || 0) + 1;
+      if (zaehler[w] > bestN){ bestN = zaehler[w]; best = w; }
+    });
+    return best === null ? null : { wert:best, n:bestN };
+  }
+
+  function renderJourney(){
+    var box = document.getElementById("journeyBox");
+    var list = loadHistory();
+    if (list.length < 2){ box.innerHTML = ""; box.style.display = "none"; return; }
+    box.style.display = "";
+
+    var tage = Math.max(1, Math.round((list[list.length-1].ts - list[0].ts) / 86400000) + 1);
+    var kopf = '<h4>Deine Inselreise</h4>' +
+      '<p class="journey-lead">Du lernst deine innere Landschaft besser kennen.</p>' +
+      row("Bisher", list.length + " Besuche in " + tage + (tage === 1 ? " Tag" : " Tagen"));
+
+    if (list.length < 5){
+      box.innerHTML = kopf +
+        '<p class="journey-hint">Deine Reise f\u00e4ngt gerade an. Nach ein paar Wochen zeigen sich hier deine Muster \u2013 ' +
+        'was dich am h\u00e4ufigsten herbringt, was dir am meisten hilft und wohin sich deine Stimmung bewegt.</p>';
+      return;
+    }
+
+    var ankunft = haeufigste(list.map(function(e){ return moodOf(e.before).word; }));
+    var alleMeds = [];
+    list.forEach(function(e){ (e.meds || []).forEach(function(m){ alleMeds.push(m.name); }); });
+    var liebling = haeufigste(alleMeds);
+    var zeiten = list.map(function(e){
+      var h = new Date(e.ts).getHours();
+      for (var i = 0; i < TAGESZEIT.length; i++){ if (h < TAGESZEIT[i].bis) return TAGESZEIT[i].wort; }
+      return "abends";
+    });
+    var rhythmus = haeufigste(zeiten);
+    var schnitt = list.reduce(function(sum,e){ return sum + (e.after.x - e.before.x); }, 0) / list.length;
+    var entwicklung = schnitt > 0.12
+      ? "Im Schnitt gehst du entspannter, als du gekommen bist."
+      : (schnitt < -0.12
+        ? "Im Schnitt f\u00fchrt dich das Ankommen eher nach innen als zur Ruhe \u2013 auch das ist ein Ergebnis."
+        : "Im Schnitt bleibt dein Zeiger, wo er war. Manchmal ist Ankommen genug.");
+
+    var html = kopf;
+    if (ankunft)  html += row("Wie du meistens ankommst", ankunft.wert + " \u2013 " + ankunft.n + " von " + list.length + " Mal");
+    if (liebling) html += row("Deine liebste \u00dcbung", liebling.wert + " (" + liebling.n + "\u00d7)");
+    if (rhythmus) html += row("Dein Rhythmus", "Du kommst meistens " + rhythmus.wert + " her.");
+    html += row("Entwicklung", entwicklung);
+    box.innerHTML = html;
+
+    function row(k, v){
+      return '<div class="recap-row"><span class="k">' + k + '</span><span class="v">' + v + '</span></div>';
+    }
+  }
 
   // ---- recap ----
   function renderRecap(){
@@ -1728,6 +1899,9 @@
       row("Jetzt", compassWords(compassAfter)) +
       row("Meditationen", medSummary);
     updateShift();
+    updateCurrentEntry();
+    renderWeek();
+    renderJourney();
 
     function row(k, v){
       return '<div class="recap-row"><span class="k">' + k + '</span><span class="v">' + v + '</span></div>';
@@ -1901,6 +2075,7 @@
     chosenMedIds = [];
     completedLog = [];
     session.queue = [];
+    currentEntryTs = null;
     goToStep("home");
   });
 
