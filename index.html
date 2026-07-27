@@ -633,7 +633,7 @@
       </div>
 
       <div class="home-full-bottom">
-        <p class="overlay-title">Mach Ferien auf deiner Insel – auch wenn's nur zehn Minuten sind.</p>
+        <p class="overlay-title">Kurz durchatmen: Meditation, die sich anfühlt wie Ferien auf deiner Insel.</p>
         <p class="price-line">7 Tage gratis testen</p>
         <button class="cta-pill" id="homeStartBtn">
           <svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="2">
@@ -1996,12 +1996,15 @@
   var MOOD_BALANCED = { emoji:"\uD83D\uDE0A", word:"ausgeglichen" };
   var MOODS = {
     "Denken_Anspannung":  { leicht:{emoji:"\uD83E\uDD14",word:"gr\u00fcblerisch"},  klar:{emoji:"\uD83D\uDE30",word:"angespannt"},    stark:{emoji:"\uD83C\uDF2A\uFE0F",word:"gestresst"} },
-    "Denken_Entspannung": { leicht:{emoji:"\uD83D\uDCAD",word:"gedankenvoll"},  klar:{emoji:"\uD83E\uDDE0",word:"aufger\u00E4umt im Kopf"},  stark:{emoji:"\u2728",word:"wach und weit"} },
+    "Denken_Entspannung": { leicht:{emoji:"\uD83D\uDCAD",word:"gedankenvoll"},  klar:{emoji:"\uD83E\uDDE0",word:"gelassen"},  stark:{emoji:"\u2728",word:"wach und weit"} },
     "F\u00fchlen_Anspannung":  { leicht:{emoji:"\uD83D\uDE1F",word:"unruhig"},       klar:{emoji:"\uD83D\uDE14",word:"aufgew\u00fchlt"},   stark:{emoji:"\uD83D\uDE22",word:"schwer ums Herz"} },
     "F\u00fchlen_Entspannung": { leicht:{emoji:"\uD83D\uDE0C",word:"entspannt"},     klar:{emoji:"\uD83C\uDF0A",word:"ruhig"},         stark:{emoji:"\uD83D\uDC9A",word:"geborgen"} }
   };
   function moodOf(c){
-    var overall = (Math.abs(c.y) + Math.abs(c.x)) / 2;
+    // Staerkere Achse entscheidet die Intensitaet, nicht der Mittelwert -
+    // sonst verwaessert z. B. "stark Fuehlen, kaum Entspannung" zu einem
+    // laues Mittelmass statt die tatsaechlich dominante Seite zu zeigen.
+    var overall = Math.max(Math.abs(c.y), Math.abs(c.x));
     if (overall < 0.15) return MOOD_BALANCED;
     var level = overall < 0.4 ? "leicht" : (overall < 0.7 ? "klar" : "stark");
     return MOODS[(c.y < 0 ? "Denken" : "F\u00fchlen") + "_" + (c.x < 0 ? "Anspannung" : "Entspannung")][level];
