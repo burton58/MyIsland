@@ -874,7 +874,7 @@
   <div class="page compass-page" id="compassPage">
     <div class="compass-card">
       <h2>🧭 Auf deiner Insel ankommen</h2>
-      <p class="lead">Wie fühlst du dich gerade? Wir zeigen dir, was dir hilft, die Seele baumeln zu lassen.</p>
+      <p class="lead">Zieh die Nadel dahin, wie es dir gerade geht. Danach schlagen wir dir passende Meditationen vor.</p>
 
       <div class="compass-wrap" id="compassWrap">
         <div class="compass-photo"></div>
@@ -2167,19 +2167,20 @@
   // ---- Stimmung als Bild und Wort ----
   var MOOD_BALANCED = { emoji:"\uD83D\uDE0A", word:"ausgeglichen" };
   var MOODS = {
-    "Denken_Anspannung":  { leicht:{emoji:"\uD83E\uDD14",word:"gr\u00fcblerisch"},  klar:{emoji:"\uD83D\uDE30",word:"angespannt"},    stark:{emoji:"\uD83C\uDF2A\uFE0F",word:"gestresst"} },
-    "Denken_Entspannung": { leicht:{emoji:"\uD83D\uDCAD",word:"gedankenvoll"},  klar:{emoji:"\uD83E\uDDE0",word:"gelassen"},  stark:{emoji:"\u2728",word:"wach und weit"} },
-    "F\u00fchlen_Anspannung":  { leicht:{emoji:"\uD83D\uDE1F",word:"unruhig"},       klar:{emoji:"\uD83D\uDE14",word:"aufgew\u00fchlt"},   stark:{emoji:"\uD83D\uDE22",word:"schwer ums Herz"} },
-    "F\u00fchlen_Entspannung": { leicht:{emoji:"\uD83D\uDE0C",word:"entspannt"},     klar:{emoji:"\uD83C\uDF0A",word:"ruhig"},         stark:{emoji:"\uD83D\uDC9A",word:"geborgen"} }
+    "Denken_Anspannung":  { vert:{emoji:"\uD83E\uDD14",word:"gr\u00fcblerisch"},   horiz:{emoji:"\uD83D\uDE30",word:"angespannt"} },
+    "Denken_Entspannung": { vert:{emoji:"\uD83D\uDCAD",word:"gedankenvoll"},   horiz:{emoji:"\uD83E\uDDE0",word:"gelassen"} },
+    "F\u00fchlen_Anspannung":  { vert:{emoji:"\uD83D\uDE14",word:"aufgew\u00fchlt"},    horiz:{emoji:"\uD83D\uDE1F",word:"unruhig"} },
+    "F\u00fchlen_Entspannung": { vert:{emoji:"\uD83D\uDC9A",word:"geborgen"},      horiz:{emoji:"\uD83D\uDE0C",word:"entspannt"} }
   };
   function moodOf(c){
-    // Staerkere Achse entscheidet die Intensitaet, nicht der Mittelwert -
-    // sonst verwaessert z. B. "stark Fuehlen, kaum Entspannung" zu einem
-    // laues Mittelmass statt die tatsaechlich dominante Seite zu zeigen.
-    var overall = Math.max(Math.abs(c.y), Math.abs(c.x));
-    if (overall < 0.15) return MOOD_BALANCED;
-    var level = overall < 0.4 ? "leicht" : (overall < 0.7 ? "klar" : "stark");
-    return MOODS[(c.y < 0 ? "Denken" : "F\u00fchlen") + "_" + (c.x < 0 ? "Anspannung" : "Entspannung")][level];
+    // Wie weit man zieht (Laenge) spielt keine Rolle - nur der Winkel:
+    // welcher der beiden Pole (z. B. Fuehlen oder Entspannung) naeher an
+    // der Nadel liegt, entscheidet das Wort. Nur ganz nah am Zentrum gilt
+    // "ausgeglichen", weil dort keine Seite eindeutig ueberwiegt.
+    var ax = Math.abs(c.x), ay = Math.abs(c.y);
+    if (Math.max(ax, ay) < 0.15) return MOOD_BALANCED;
+    var combo = MOODS[(c.y < 0 ? "Denken" : "F\u00fchlen") + "_" + (c.x < 0 ? "Anspannung" : "Entspannung")];
+    return ay >= ax ? combo.vert : combo.horiz;
   }
   function moodHtml(c){
     var m = moodOf(c);
