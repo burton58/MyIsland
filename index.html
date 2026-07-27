@@ -2073,6 +2073,10 @@
   // ---- Zugang: Testphase und Abo ----
   // Der Stand liegt wie der Verlauf nur lokal im Geraet. Es ist KEINE
   // Bezahlung angeschlossen - diese Logik regelt allein, was die App anzeigt.
+  // Solange ABO_LIVE=false ist, bleibt die ganze Bibliothek fuer alle offen
+  // und es wird keine Testphase/kein "Abo laeuft ab" angezeigt - eine echte
+  // Einschraenkung ergibt erst Sinn, sobald tatsaechlich bezahlt werden kann.
+  var ABO_LIVE = false;
   var ABO_KEY = "myisland.abo.v1";
   var TEST_TAGE = 7;
 
@@ -2099,7 +2103,7 @@
   }
   function hatAbo(){ return !!loadAbo().plan; }
   function imTest(){ return !hatAbo() && testTageUebrig() > 0; }
-  function istFrei(id){ return hatAbo() || (imTest() && GRATIS_IDS.indexOf(id) !== -1); }
+  function istFrei(id){ return !ABO_LIVE || hatAbo() || (imTest() && GRATIS_IDS.indexOf(id) !== -1); }
   function tageWort(n){ return n + (n === 1 ? " Tag" : " Tage"); }
 
   // ---- Mudras & Mantras: liegen in der App, brauchen also kein Netz ----
@@ -2341,6 +2345,16 @@
   // ---- Profil ----
   function renderStatusCard(){
     var el = document.getElementById("statusCard");
+    if (!ABO_LIVE){
+      el.className = "status-card state-active";
+      el.innerHTML =
+        '<div class="status-icon">🤍</div>' +
+        '<div class="status-body">' +
+          '<div class="status-title">Alle Meditationen offen</div>' +
+          '<div class="status-detail">Die Bezahlung ist noch nicht live – bis dahin ist die ganze Bibliothek frei zugänglich.</div>' +
+        '</div>';
+      return;
+    }
     var abo = loadAbo();
     var state = hatAbo() ? "active" : (imTest() ? "test" : "expired");
     var icon, title, detail, zeigeCta = false;
@@ -2386,6 +2400,11 @@
   // ---- Abo ----
   function renderAbo(){
     var t = document.getElementById("trialBox");
+    if (!ABO_LIVE){
+      t.innerHTML = "<strong>Noch nicht live.</strong> Die Bezahlung ist noch nicht angeschlossen – " +
+        "bis dahin ist die ganze Bibliothek frei zugänglich.";
+      return;
+    }
     if (hatAbo()){
       t.innerHTML = "<strong>Du bist dabei.</strong> Die ganze Bibliothek ist offen. " +
         "Deine Inselreise läuft weiter.";
