@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<title>Deine Trauminsel</title>
+<title>My Island</title>
 
 <!-- Damit "Zum Home-Bildschirm" auf dem iPhone eine richtige App ergibt:
      eigenes Symbol, eigener Name, ohne Safari-Leisten. -->
@@ -330,12 +330,14 @@
   /* ---------- Session overlay ---------- */
   .session-bg{ position:absolute; inset:0; z-index:1; display:none; }
   .session-bg img{
+    /* Waehrend der eigentlichen Meditation soll die Insel scharf zu sehen
+       sein, nicht verwischt wie auf Kompass/Auswahl - das ist der Moment,
+       um den sich alles dreht. */
     width:100%; height:100%; object-fit:cover; object-position:center 84%; display:block;
-    filter:blur(13px) saturate(.92) brightness(1.0); transform:scale(1.08);
   }
   .session-bg::after{
     content:""; position:absolute; inset:0; pointer-events:none;
-    background:linear-gradient(180deg, rgba(255,255,255,.30) 0%, rgba(255,255,255,.20) 45%, rgba(252,247,238,.58) 100%);
+    background:linear-gradient(180deg, rgba(4,20,22,.32) 0%, rgba(4,20,22,.06) 30%, rgba(4,20,22,.08) 60%, rgba(4,20,22,.6) 100%);
   }
   body.in-session #scene{ visibility:hidden; }
   body.in-session .session-bg{ display:block; }
@@ -631,7 +633,7 @@
       </div>
 
       <div class="home-full-bottom">
-        <p class="overlay-title">Deine Insel im Alltag – Meditation für mehr Ruhe, Klarheit und Gelassenheit.</p>
+        <p class="overlay-title">Deine Insel ist dein Kraftort in dir – der Ort, an den du dich zurückziehst, um bei dir anzukommen.</p>
         <p class="price-line">7 Tage gratis testen</p>
         <button class="cta-pill" id="homeStartBtn">
           <svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="2">
@@ -665,7 +667,7 @@
   </nav>
 
   <div class="topbar">
-    <h1>🏝️ Gestalte deine Trauminsel</h1>
+    <h1>🏝️ Gestalte deine Inselreise</h1>
     <p class="subtitle" id="subtitle">Wähle, wie deine Insel aussieht – und betritt sie danach.</p>
   </div>
   <p class="stepper" id="stepper">Schritt 1 von 2 · Insel</p>

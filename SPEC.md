@@ -1,6 +1,10 @@
 # My Island — App-Spezifikation
 
-Meditations-App rund um eine persönliche "Trauminsel": Nutzer:innen richten sich über einen Kompass aus, wählen passende geführte Meditationen aus einer kategorisierten Bibliothek und bekommen am Ende einen Rückblick, was sich verändert hat.
+Meditations-App rund um die eigene "Insel": Nutzer:innen richten sich über einen Kompass aus, wählen passende geführte Meditationen aus einer kategorisierten Bibliothek und bekommen am Ende einen Rückblick, was sich verändert hat.
+
+**Wichtig fürs Verständnis der Marke:** Die Insel ist eine **Metapher**, kein Themenzwang. Sie steht für den Kraftort in einem selbst — den Ort, an den man sich zurückzieht, um anzukommen, durchzuatmen und bei sich zu sein. Das heisst: Die *Insel* ist der Rahmen (Startseite, Kompass, Abschluss, Bildsprache), die *Meditationen darin* müssen inhaltlich nicht bei "Strand und Palmen" bleiben — genau wie ein Rückzugsort auch nicht bedeutet, dass jedes Gespräch darin vom Rückzugsort handeln muss. Siehe §5a für die daraus folgende Themenvielfalt.
+
+Titel/Überschriften wurden entsprechend angepasst: Browser-Tab und Home-Bildschirm-Symbol heissen weiterhin **"My Island"**, die Kopfzeile auf Kompass-/Meditations-/Abschluss-Seite heisst **"Gestalte deine Inselreise"** (vorher "Gestalte deine Trauminsel") — man *reist*, man baut keine Insel mehr zusammen (der alte Insel-Konfigurator ist ohnehin nicht im Hauptfluss, siehe §4). Der Text unten auf der Startseite benennt die Metapher jetzt direkt: "Deine Insel ist dein Kraftort in dir – der Ort, an den du dich zurückziehst, um bei dir anzukommen."
 
 Aktueller Stand ist ein **einzelnes, selbstständiges HTML-File** (`index.html`) — kein Build-Step, keine externen Abhängigkeiten außer einem Fetch-Call an die Anthropic API für den Chat-Begleiter. Dieses Dokument beschreibt den Ist-Zustand, damit er 1:1 in ein neues Repo übersetzt werden kann (z. B. als React/Next-App mit echten Routen statt CSS-Step-Umschaltung).
 
@@ -73,9 +77,10 @@ Der frühere Insel-Konfigurator-Schritt (`island`) existiert im Code noch (SVG-I
 - "Insel betreten & starten →" → Vollbild-Session
 
 ### 3.4 Session (Vollbild, `body.entered.in-session`)
-- Hintergrund: **dasselbe Titel-Foto** (nicht die animierte SVG-Insel) mit dunklem Verlauf
+- Hintergrund: **aktuell überall dasselbe Titel-Foto** (nicht die animierte SVG-Insel), scharf statt verwischt gezeigt
 - Unteres Panel: Name + Position ("Meditation 2 von 3"), Fortschritts-Punkte für die Playlist, Anleitungstext (wandert mit der Zeit durch die `steps[]`), Fortschrittsbalken, Timer, Pause/Vorspulen/Fertig
 - Playlist spielt die gewählten Übungen **automatisch nacheinander** ab
+- ⚠️ Geplant (siehe §5a): der Hintergrund soll künftig zum Thema der jeweiligen Meditation passen, nicht mehr immer die Insel zeigen
 
 ### 3.5 Abschluss
 - Zweiter Kompass (gleiche Optik/Bedienung), Frage "Wie fühlst du dich jetzt?" → `compassAfter`
@@ -124,6 +129,25 @@ MEDITATIONS[] = {
 - **`generateLibrary()`** füllt jede Kategorie auf 13 Einträge auf (macht insgesamt **39** Meditationen): kombiniert einen Themen-Namen (`THEMES[dir]`, ~13 Begriffe je Richtung, z. B. "Herzenswärme", "Schulter-Fall") mit einem Baukasten aus Anleitungssätzen (`PHRASES[dir] = { open, mid[8], close }`). Pro Kategorie ist die Anzahl der "mid"-Sätze unterschiedlich (mini=1, mittel=3, tief=5), wodurch die Session-Länge zur Dauer passt.
 - ⚠️ **Bekannte Einschränkung:** Die 31 generierten Einträge sind inhaltlich stimmig, aber nicht individuell wie die 8 Flaggschiffe. Für Produktionsreife sollten die wichtigsten davon (v. a. die, die oft empfohlen werden) durch echte, einzeln geschriebene Skripte ersetzt werden.
 
+## 5a. Themenvielfalt (Konzept, noch nicht umgesetzt)
+
+**Entscheidung:** Die Insel bleibt das einzige Bild/Branding der App (kein zweites, drittes Landschafts-"Skin"). Die *Meditationen selbst* werden aber inhaltlich viel breiter als bisher — nicht mehr nur Strand/Palmen/Wellen, sondern klassische Themen aus Achtsamkeit, Körperarbeit und Alltagsbewältigung. Die vier Kompass-Richtungen (Denken/Fühlen/Anspannung/Entspannung) bleiben als Zuordnungs-Logik bestehen; jedes neue Thema bekommt weiterhin eine Richtung zugeordnet, damit die Empfehlungslogik unverändert funktioniert.
+
+**Kuratierte Themenliste (Entwurf, 40 Themen)** — als Ersatz/Ergänzung für die generierten Themen aus `THEMES[dir]`, verteilt auf die drei bestehenden Kategorien. Dies ist ein Vorschlag zur Durchsicht, keine finale Liste:
+
+| Kategorie | Themen (Auswahl) |
+|---|---|
+| **Mini** (3–6 Min) | Atem-Anker · Kurzer Körper-Scan · Erdungsatem · Kurze Lichtmeditation · Dankbarkeits-Blitzlicht · Vertrauens-Anker · Kraft-Impuls · Herz beruhigen · Loslass-Atem · Freundlicher Blick auf mich · Fantasiereise: Ankommen am See (kurz) · Fantasiereise: Insel-Anker (kurz) · Feierabend-Übergang (Arbeit → Zuhause) |
+| **Mittel** (7–14 Min) | Herzraum · Gefühle benennen · Wurzelchakra – Erdung · Herzchakra – Weite · Stirnchakra – Klarheit · Vertrauen aufbauen · Innere Stärke · Loslassen, was nicht mehr trägt · Verzeihen – ein erster Schritt · Alltag einer berufstätigen Mutter · Geduld im Umgang mit Kindern · Fantasiereise: Waldlichtung · Tiefenentspannung (progressiv) |
+| **Tief** (15–30 Min) | Körper lösen · Wellen-Atem · Chakren-Reise (alle sieben) · Lichtmeditation Ganzkörper · Tiefes Vertrauen · Innere Stärke vertiefen · Grosses Loslassen · Verzeihen – dir selbst und anderen · Schwangerschafts-Reise · Fantasiereise: Bergspitze · Fantasiereise: Winterlandschaft · Fantasiereise: Insel · Yoga-Nidra-artige Tiefenentspannung · Dankbarkeits-Reise (ausführlich) |
+
+**Bildsprache pro Meditation:** Der Foto-Hintergrund von Kompass-, Meditations- und Session-Seite (aktuell überall dasselbe Insel-Foto, siehe §3.4/§2) soll künftig **zur jeweiligen Meditation passen** — eine Fantasiereise "Bergspitze" mit Insel-Hintergrund abzuspielen wäre inhaltlich unstimmig. Konkret geplant:
+- Insel-Foto bleibt Standard-Hintergrund für Home, Kompass, Meditationsauswahl, Abschluss (der "Rahmen" der Reise) sowie für alle Insel-thematischen Meditationen.
+- Für andere Themen (Wald, See, Winterlandschaft, Bergspitze, Chakren/Licht, …) braucht es **je ein eigenes Foto** für den Session-Hintergrund — diese Fotos liefert die Repo-Inhaberin, sie werden nicht selbst erzeugt/erfunden.
+- Bis die zusätzlichen Fotos vorliegen, bleibt der Insel-Hintergrund als Platzhalter für alle Themen bestehen.
+
+**Umsetzung (noch offen):** `MEDITATIONS[]` bräuchte ein Feld `bg` (welches Foto für die Session), `THEMES`/`PHRASES` müssten um die neuen Themenfelder erweitert werden oder ganz durch handgeschriebene Einträge ersetzt werden (siehe bekannte Einschränkung oben — 31 generierte Texte wirken formelhaft, das gilt für neue Themen genauso). Reihenfolge der nächsten Schritte: (1) Themenliste mit der Repo-Inhaberin final abstimmen, (2) passende Fotos je Thema sammeln, (3) Texte je Thema schreiben, (4) Datenmodell um `bg` erweitern.
+
 ### Auswahl-Logik
 ```js
 chosenMedIds = []      // Reihenfolge = Playlist-Reihenfolge
@@ -162,8 +186,10 @@ TAB_FOR_STEP = { home:"home", meditation:"meditation" }  // andere Steps haben k
 
 1. **Architektur**: von "ein HTML-File mit `data-step`" zu echten Routen/Komponenten migrieren.
 2. **Assets**: Fotos aus base64 lösen, als echte Dateien (WebP/AVIF) mit `srcset` einbinden.
-3. **Persistenz**: aktuell nichts wird gespeichert — Verlauf/Streak/Login wären ein sinnvoller nächster Schritt, falls gewünscht.
-4. **Meditationstexte**: die 31 generierten Übungen inhaltlich vertiefen (s. o.).
-5. **"Schlaf"/"Profil"-Tabs**: aktuell nur Platzhalter mit "bald"-Badge — echte Inhalte oder bewusst rausnehmen.
+3. **Persistenz**: Verlauf und Abo-Testphase liegen inzwischen in `localStorage` (geräte-gebunden, siehe §5 in `index.html`, Schlüssel `myisland.verlauf.v1`/`myisland.abo.v1`) — kein Server, kein geräteübergreifendes Konto. Bei echtem Verkauf braucht es dafür ein richtiges Konto/Backend (siehe Zahlungsanbieter-Hinweis unten).
+4. **Meditationstexte**: die 31 generierten Übungen inhaltlich vertiefen (s. o.); dieselbe Einschränkung gilt für die neuen Themen aus §5a.
+5. **"Profil"-Tab**: existiert inzwischen (Status-Karte, Insel-Woche, Inselreise, Verlauf löschen). Der "Schlaf"-Tab wurde entfernt statt als Platzhalter stehen zu lassen.
 6. **Barrierefreiheit**: Kompass-Drag aktuell nur Pointer-Events — Tastatursteuerung/ARIA fehlt noch.
-7. **Mehrsprachigkeit**: aktuell komplett Deutsch, hart codiert.
+7. **Mehrsprachigkeit**: Oberfläche Hochdeutsch, Meditationen Schweizerdeutsch, beides hart codiert.
+8. **Themenvielfalt** (siehe §5a): Themenliste abstimmen, passende Fotos je Thema beschaffen, Texte schreiben, `bg`-Feld je Meditation einführen.
+9. **Bezahlung**: Testphase/Abo-Zustand ist reine Anzeige-Logik ohne echten Zahlungsanbieter — siehe Hinweis auf der Abo-Seite in der App ("noch nicht bezahlbar").
