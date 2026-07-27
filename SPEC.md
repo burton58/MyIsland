@@ -129,11 +129,11 @@ MEDITATIONS[] = {
 - **`generateLibrary()`** füllt jede Kategorie auf 13 Einträge auf (macht insgesamt **39** Meditationen): kombiniert einen Themen-Namen (`THEMES[dir]`, ~13 Begriffe je Richtung, z. B. "Herzenswärme", "Schulter-Fall") mit einem Baukasten aus Anleitungssätzen (`PHRASES[dir] = { open, mid[8], close }`). Pro Kategorie ist die Anzahl der "mid"-Sätze unterschiedlich (mini=1, mittel=3, tief=5), wodurch die Session-Länge zur Dauer passt.
 - ⚠️ **Bekannte Einschränkung:** Die 31 generierten Einträge sind inhaltlich stimmig, aber nicht individuell wie die 8 Flaggschiffe. Für Produktionsreife sollten die wichtigsten davon (v. a. die, die oft empfohlen werden) durch echte, einzeln geschriebene Skripte ersetzt werden.
 
-## 5a. Themenvielfalt (Konzept, noch nicht umgesetzt)
+## 5a. Themenvielfalt (umgesetzt)
 
-**Entscheidung:** Die Insel bleibt das einzige Bild/Branding der App (kein zweites, drittes Landschafts-"Skin"). Die *Meditationen selbst* werden aber inhaltlich viel breiter als bisher — nicht mehr nur Strand/Palmen/Wellen, sondern klassische Themen aus Achtsamkeit, Körperarbeit und Alltagsbewältigung. Die vier Kompass-Richtungen (Denken/Fühlen/Anspannung/Entspannung) bleiben als Zuordnungs-Logik bestehen; jedes neue Thema bekommt weiterhin eine Richtung zugeordnet, damit die Empfehlungslogik unverändert funktioniert.
+**Entscheidung:** Die Insel bleibt das einzige Bild/Branding der App (kein zweites, drittes Landschafts-"Skin"). Die *Meditationen selbst* sind inhaltlich breiter als vorher — nicht mehr nur Strand/Palmen/Wellen, sondern klassische Themen aus Achtsamkeit, Körperarbeit und Alltagsbewältigung. Die vier Kompass-Richtungen (Denken/Fühlen/Anspannung/Entspannung) bleiben als Zuordnungs-Logik bestehen; jedes Thema hat weiterhin eine Richtung zugeordnet, damit die Empfehlungslogik unverändert funktioniert.
 
-**Kuratierte Titelliste (Entwurf, 40 Meditationen)** — als Ersatz/Ergänzung für die generierten Themen aus `THEMES[dir]`. Jeder Titel ist bereits einer Kategorie, einer ungefähren Dauer und einer Kompass-Richtung zugeordnet, damit sowohl die Richtungs-Empfehlung als auch die Dauer-Passung (siehe §5, Auswahl-Logik) über die ganze Liste hinweg genug Auswahl haben — nicht nur ein, zwei Themen decken jede Dauerstufe ab. Titel in *Kursiv* sind die 8 bestehenden Flaggschiff-Skripte, die unverändert bleiben. Dies ist ein Vorschlag zur Durchsicht, keine finale Liste.
+**Umgesetzte Titelliste (40 Meditationen, alle handgeschrieben)** — ersetzt die früher automatisch generierten "Insel-<Thema>"-Einträge aus `THEMES[dir]`/`PHRASES[dir]` (dieser Generator inkl. `generateLibrary()` wurde entfernt, `MEDITATIONS[]` enthält jetzt alle 40 Einträge direkt). Jeder Titel ist einer Kategorie, einer festen Dauer und einer Kompass-Richtung zugeordnet, damit sowohl die Richtungs-Empfehlung als auch die Dauer-Passung (siehe §5, Auswahl-Logik) über die ganze Liste hinweg genug Auswahl haben — nicht nur ein, zwei Themen decken jede Dauerstufe ab. Titel in *Kursiv* sind die 8 ursprünglichen Flaggschiff-Skripte, die unverändert geblieben sind.
 
 **Mini (3–6 Min), 13 Titel:**
 
@@ -192,14 +192,14 @@ MEDITATIONS[] = {
 
 **Verteilung über die vier Kompass-Richtungen** (Summe über alle 40): Denken 8 · Fühlen 12 · Anspannung 10 · Entspannung 10. Nicht perfekt gleich, aber bewusst nah dran — Fühlen ist am stärksten besetzt, weil sich viele der gewünschten Themen (Herz, Dankbarkeit, Verzeihen, Chakra-Herz, Schwangerschaft) inhaltlich dort einordnen. Falls das zu schief wirkt, liesse sich z. B. "Fantasiereise: Insel" oder "Dankbarkeits-Reise" auf Denken/Entspannung umlegen, ohne die Titel selbst zu ändern.
 
-**Dauer-Abdeckung je Kategorie:** Mini deckt 3–6 Min in allen vier Stufen mehrfach ab, Mittel deckt 6–13 Min, Tief deckt 10–30 Min inklusive der bisher fehlenden 30-Min-Stufe (siehe Bugfix in `generateLibrary()`, §5). Damit hat die Dauer-Empfehlungslogik (§5, Auswahl-Logik) in jeder Kategorie und Richtung genug Auswahl, um nah an die gewünschte Zieldauer zu kommen, statt immer auf denselben ein, zwei Titeln zu landen.
+**Dauer-Abdeckung je Kategorie:** Mini deckt 3–6 Min in allen vier Stufen mehrfach ab, Mittel deckt 6–13 Min, Tief deckt 10–30 Min inklusive der 30-Min-Stufe. Damit hat die Dauer-Empfehlungslogik (§5, Auswahl-Logik) in jeder Kategorie und Richtung genug Auswahl, um nah an die gewünschte Zieldauer zu kommen, statt immer auf denselben ein, zwei Titeln zu landen.
 
 **Bildsprache pro Meditation:** Der Foto-Hintergrund von Kompass-, Meditations- und Session-Seite (aktuell überall dasselbe Insel-Foto, siehe §3.4/§2) soll künftig **zur jeweiligen Meditation passen** — eine Fantasiereise "Bergspitze" mit Insel-Hintergrund abzuspielen wäre inhaltlich unstimmig. Konkret geplant:
 - Insel-Foto bleibt Standard-Hintergrund für Home, Kompass, Meditationsauswahl, Abschluss (der "Rahmen" der Reise) sowie für alle Insel-thematischen Meditationen.
 - Für andere Themen (Wald, See, Winterlandschaft, Bergspitze, Chakren/Licht, …) braucht es **je ein eigenes Foto** für den Session-Hintergrund — diese Fotos liefert die Repo-Inhaberin, sie werden nicht selbst erzeugt/erfunden.
 - Bis die zusätzlichen Fotos vorliegen, bleibt der Insel-Hintergrund als Platzhalter für alle Themen bestehen.
 
-**Umsetzung (noch offen):** `MEDITATIONS[]` bräuchte ein Feld `bg` (welches Foto für die Session), `THEMES`/`PHRASES` müssten um die neuen Themenfelder erweitert werden oder ganz durch handgeschriebene Einträge ersetzt werden (siehe bekannte Einschränkung oben — 31 generierte Texte wirken formelhaft, das gilt für neue Themen genauso). Reihenfolge der nächsten Schritte: (1) Themenliste mit der Repo-Inhaberin final abstimmen, (2) passende Fotos je Thema sammeln, (3) Texte je Thema schreiben, (4) Datenmodell um `bg` erweitern.
+**Umsetzung (noch offen):** `MEDITATIONS[]` bräuchte ein Feld `bg` (welches Foto für die Session), damit die Bildsprache pro Meditation (siehe oben) tatsächlich variiert. Bis die zusätzlichen Fotos von der Repo-Inhaberin vorliegen, bleibt der Insel-Hintergrund als Platzhalter für alle Themen bestehen.
 
 ### Auswahl-Logik
 ```js
@@ -240,9 +240,9 @@ TAB_FOR_STEP = { home:"home", meditation:"meditation" }  // andere Steps haben k
 1. **Architektur**: von "ein HTML-File mit `data-step`" zu echten Routen/Komponenten migrieren.
 2. **Assets**: Fotos aus base64 lösen, als echte Dateien (WebP/AVIF) mit `srcset` einbinden.
 3. **Persistenz**: Verlauf und Abo-Testphase liegen inzwischen in `localStorage` (geräte-gebunden, siehe §5 in `index.html`, Schlüssel `myisland.verlauf.v1`/`myisland.abo.v1`) — kein Server, kein geräteübergreifendes Konto. Bei echtem Verkauf braucht es dafür ein richtiges Konto/Backend (siehe Zahlungsanbieter-Hinweis unten).
-4. **Meditationstexte**: die 31 generierten Übungen inhaltlich vertiefen (s. o.); dieselbe Einschränkung gilt für die neuen Themen aus §5a.
+4. **Meditationstexte**: alle 40 Übungen sind inzwischen handgeschrieben (siehe §5a) — keine generierten Platzhaltertexte mehr.
 5. **"Profil"-Tab**: existiert inzwischen (Status-Karte, Insel-Woche, Inselreise, Verlauf löschen). Der "Schlaf"-Tab wurde entfernt statt als Platzhalter stehen zu lassen.
 6. **Barrierefreiheit**: Kompass-Drag aktuell nur Pointer-Events — Tastatursteuerung/ARIA fehlt noch.
 7. **Mehrsprachigkeit**: Oberfläche Hochdeutsch, Meditationen Schweizerdeutsch, beides hart codiert.
-8. **Themenvielfalt** (siehe §5a): Themenliste abstimmen, passende Fotos je Thema beschaffen, Texte schreiben, `bg`-Feld je Meditation einführen.
+8. **Themenvielfalt** (siehe §5a): Titelliste und Texte sind umgesetzt. Offen: passende Fotos je Thema beschaffen und `bg`-Feld je Meditation einführen.
 9. **Bezahlung**: Testphase/Abo-Zustand ist reine Anzeige-Logik ohne echten Zahlungsanbieter — siehe Hinweis auf der Abo-Seite in der App ("noch nicht bezahlbar").
