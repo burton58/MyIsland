@@ -69,14 +69,29 @@ Christine kann einen Fehler nicht selbst rückgängig machen, deshalb:
 
 ## Das Projekt
 
-`insel-gestalter.html` ist die komplette App — ein einzelnes HTML-File mit
+`index.html` ist die komplette App — ein einzelnes HTML-File mit
 CSS und JavaScript darin, keine Installation, kein Build. Zum Anschauen einfach
 im Browser öffnen. `SPEC.md` beschreibt, wie die App aufgebaut ist und was sie
 kann; wer größere Änderungen macht, sollte dort vorher reinschauen und die Datei
 danach nachziehen, wenn sich etwas Grundlegendes geändert hat.
 
-**Kein API-Key** gehört in `insel-gestalter.html` — er wäre für alle sichtbar,
+**Kein API-Key** gehört in `index.html` — er wäre für alle sichtbar,
 die die Seite öffnen. Der KI-Begleiter läuft ohne Key mit Ersatztexten weiter.
+
+## Die App ist live
+
+Alles, was gespeichert wird, ist rund eine Minute später öffentlich unter
+<https://burton58.github.io/MyIsland/> zu sehen — dort schaut Christine auf
+ihrem iPhone drauf. Zwei Dinge folgen daraus:
+
+- Das Repo ist **öffentlich**. Keine privaten Daten, keine Passwörter, keine
+  Schlüssel in Dateien schreiben, auch nicht „nur zum Testen".
+- Wenn sie fragt „ist das schon auf meinem Handy?": ja, sie muss die Seite nur
+  neu laden. Falls sie nichts sieht, ist meist die alte Fassung im Speicher —
+  Seite schließen und neu öffnen hilft.
+
+Die Datei muss `index.html` heißen und im obersten Ordner liegen, sonst ist die
+Adresse nicht mehr erreichbar. Nicht umbenennen, nicht verschieben.
 
 ## Für den Repo-Inhaber
 

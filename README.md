@@ -4,20 +4,23 @@ Meditations-App rund um eine persönliche "Trauminsel": Man richtet sich über e
 Kompass aus, wählt passende geführte Meditationen aus einer kategorisierten Bibliothek
 und bekommt am Ende einen Rückblick, was sich verändert hat.
 
+**Live:** <https://burton58.github.io/MyIsland/> — wird bei jeder Änderung an
+`main` automatisch neu veröffentlicht.
+
 ## Inhalt dieses Repos
 
 | Datei | Beschreibung |
 |---|---|
-| `insel-gestalter.html` | Der komplette aktuelle Prototyp — ein einzelnes, selbstständiges HTML-File (HTML + CSS + Vanilla JS, kein Build-Step). Alle Fotos sind base64-inline eingebettet. |
+| `index.html` | Der komplette aktuelle Prototyp — ein einzelnes, selbstständiges HTML-File (HTML + CSS + Vanilla JS, kein Build-Step). Alle Fotos sind base64-inline eingebettet. |
 | `SPEC.md` | App-Spezifikation: Design-System, Flow, Datenmodell, Kernlogik und offene Punkte für die Migration in ein echtes Repo. |
 
 ## Starten
 
-Kein Build, keine Abhängigkeiten — `insel-gestalter.html` einfach im Browser öffnen:
+Kein Build, keine Abhängigkeiten — `index.html` einfach im Browser öffnen:
 
 ```bash
-open insel-gestalter.html       # macOS
-xdg-open insel-gestalter.html   # Linux
+open index.html       # macOS
+xdg-open index.html   # Linux
 ```
 
 ## Hinweis zum KI-Begleiter
