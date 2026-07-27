@@ -499,16 +499,20 @@
   .brand-sub{ margin:0; font-size:.9rem; color:#eaf6f0; opacity:.92; text-shadow:0 2px 10px rgba(0,0,0,.35); }
   .dialect-note{ margin:8px 0 0; font-size:.76rem; color:#eaf6f0; opacity:.72; text-shadow:0 2px 8px rgba(0,0,0,.4); }
 
-  /* Kompass-Rose auf der Startseite: genau dieselbe Zeichnung und Groesse
-     wie auf der Kompass-Seite (.compass-wrap, max-width 320px), echt
-     ziehbar. Sie teilt sich compassBefore mit dem Kompass auf Schritt 1 -
+  /* Kompass-Rose auf der Startseite: klein, damit Insel und Boot sichtbar
+     bleiben. Antippen laesst sie auf die echte Groesse (wie Schritt 1)
+     aufwachsen. Sie teilt sich compassBefore mit dem Kompass auf Schritt 1 -
      was hier eingestellt wird, ist dort schon richtig positioniert. */
   .home-compass{
     /* Absolut positionierte Elemente ohne eigenen Inhalt schrumpfen auf
        Breite 0 - .compass-wrap braucht hier also eine echte Breite statt
        nur max-width, sonst bleibt die Scheibe unsichtbar. */
-    position:absolute; left:50%; top:44%; transform:translate(-50%,-50%);
-    width:82vw; z-index:2;
+    position:absolute; left:50%; top:30%; transform:translate(-50%,-50%);
+    width:118px; z-index:2; cursor:pointer;
+    transition:width .38s cubic-bezier(.25,1,.4,1), top .38s cubic-bezier(.25,1,.4,1);
+  }
+  .home-compass.gross{
+    width:82vw; top:44%;
   }
   @media (min-width:1000px){
     /* Auf sehr breiten Schirmen zeigt das Foto einen anderen Ausschnitt
@@ -2376,6 +2380,12 @@
 
   document.getElementById("homeStartBtn").addEventListener("click", function(){ goToStep("compass"); });
   document.getElementById("homeLoginBtn").addEventListener("click", function(){ goToStep("compass"); });
+
+  // Kompass auf der Startseite: klein, damit Insel und Boot sichtbar bleiben.
+  // Erste Beruehrung laesst ihn auf die echte Groesse aufwachsen.
+  document.getElementById("compassWrapHome").addEventListener("pointerdown", function(){
+    this.classList.add("gross");
+  }, { once: true });
 
   document.getElementById("needMudraBtn").addEventListener("click", zeigeMudra);
 
