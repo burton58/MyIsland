@@ -53,7 +53,7 @@ Home  →  Kompass  →  Meditationsauswahl  →  Session (Vollbild)  →  Absch
  ↺ (Neu beginnen)                                                    ↳ "Noch eine Meditation" → zurück zu Meditationsauswahl
 ```
 
-Der frühere Insel-Konfigurator-Schritt (`island`) existiert im Code noch (SVG-Insel-Generator mit Größe/Wetter/Meer/Charakter/Boot), ist aber **aus dem Hauptfluss entfernt** — "Los geht's" auf der Startseite führt direkt zum Kompass. Der Insel-Step wird nur noch indirekt gebraucht: sein Standard-Rendering ist der Hintergrund der Session, wenn man **nicht** im "in-session"-Fotomodus ist (siehe unten).
+Der frühere Insel-Konfigurator-Schritt (`island`) existiert im Code noch (SVG-Insel-Generator mit Größe/Wetter/Meer/Charakter/Boot), ist aber **aus dem Hauptfluss entfernt** — "Los geht's" auf der Startseite führt direkt zum Kompass. Er war bis vor Kurzem noch indirekt über den Button "Zurück auf die Insel" im Abschluss erreichbar (zeigte die SVG-Szene als Vollbild); dieser Button wurde entfernt (siehe §3.5), damit ist der Insel-Step jetzt **vollständig unerreichbar** über die Oberfläche.
 
 ### 3.1 Home (`data-step="home"`)
 - Vollflächiges Foto (Boot + Insel, Sonnenuntergang), edge-to-edge, keine Karte/Rand
@@ -61,11 +61,11 @@ Der frühere Insel-Konfigurator-Schritt (`island`) existiert im Code noch (SVG-I
 - Unten auf dem Foto: Text "Deine Insel im Alltag – ein Moment zum Ankommen, Durchatmen und einfach Sein." + CTA-Pille "Los geht's" (→ Kompass) + Textlink "Anmelden" (→ ebenfalls Kompass, kein echtes Auth)
 - Dunkler Verlauf oben *und* unten fürs Lesen, sonst ist die Mitte des Fotos frei sichtbar
 
-### 3.2 Kompass ("Deine innere Ausrichtung")
-- Gezeichneter Nautik-Kompass (SVG): Messing-Gehäuse, 8-strahlige Rose mit Hell/Dunkel-Schattierung je Zacke, 32 feine Randstriche
-- Vier Wörter statt Himmelsrichtungen: **oben Denken, unten Fühlen, links Anspannung, rechts Entspannung**
+### 3.2 Kompass ("Wie geht es dir?")
+- Fotobasierter Nautik-Kompass (echtes Kompass-Foto, kreisförmig zugeschnitten) mit transparentem SVG-Overlay: Vier Wörter statt Himmelsrichtungen: **oben Denken, unten Fühlen, links Anspannung, rechts Entspannung**
+- Eigene Karten-Überschrift **"Wie geht es dir?"** erklärt direkt Zweck und Ablauf ("Sag uns kurz, wie es dir geht. So empfehlen wir dir die passende Meditation als Hilfsmittel …") — der allgemeine Seitenkopf (Topbar/Stepper) ist auf diesem Schritt bewusst ausgeblendet, sonst gäbe es zwei Titel übereinander (gleiches Prinzip wie schon beim Profil-Tab)
 - Ein roter Punkt/Zeiger, **frei innerhalb der Scheibe verschiebbar** (nicht nur am Rand!) — wichtig: die beiden Achsen (Denken↔Fühlen, Anspannung↔Entspannung) sind **unabhängig voneinander** wählbar
-- Ergebnis wird **nicht in Prozent**, sondern in weichen Sätzen ausgegeben (`compassWords()`, siehe §5)
+- Ergebnis wird **nicht in Prozent**, sondern als kurzes Wort ausgegeben (`moodOf()`/`moodHtml()`, siehe §5) — dabei zählt **nur der Winkel**, nicht wie weit gezogen wird: welcher der beiden Pole eines Quadranten (z. B. Fühlen oder Entspannung) näher an der Nadel liegt, bestimmt das Wort
 - Speichert `compassBefore = {x, y}` (jeweils −1…1)
 
 ### 3.3 Meditationsauswahl
@@ -86,9 +86,9 @@ Der frühere Insel-Konfigurator-Schritt (`island`) existiert im Code noch (SVG-I
 - Zweiter Kompass (gleiche Optik/Bedienung), Frage "Wie fühlst du dich jetzt?" → `compassAfter`
 - Rückblick: **nur noch** Vorher/Jetzt (in Worten) + Liste der gemachten Meditationen mit Dauer — **keine** Insel-Details mehr (Größe/Palmen/Wetter wurden bewusst entfernt)
 - Ein Satz zur Veränderung (`updateShift()`, vergleicht Vorher/Jetzt)
-- "Brauchst du noch etwas?": Buttons **"Noch eine Meditation"** (zurück zur Auswahl, neue Empfehlung basiert auf dem *neuen* Kompassstand) und **"Ein Mantra für mich"** (schickt automatisch eine Anfrage an den Chat-Begleiter)
+- "Brauchst du noch etwas?": Buttons **"Noch eine Meditation"** (zurück zur Auswahl, neue Empfehlung basiert auf dem *neuen* Kompassstand), **"3 Mudras für mich"** und **"3 Mantras für mich"** — beide zeigen 3 Karten aus einer fest hinterlegten Bibliothek, ausgewählt passend zur aktuellen Kompass-Richtung (siehe §5, `MUDRAS`/`MANTRAS`/`empfehle3()`)
 - Begleiter-Chat (zweite Instanz, ohne Empfehlungs-Tag-Parsing)
-- "Neu beginnen" (→ Home) / "Zurück auf die Insel" (→ Vollbild-Ansicht der SVG-Insel, ohne Session)
+- "Neu beginnen" / "Fertig →" — beide beenden die Sitzung gleich (Auswahl/Verlauf-Zwischenstand zurücksetzen, zurück zu Home). Der frühere Button "Zurück auf die Insel" (→ Vollbild-Ansicht der SVG-Insel-Szene) wurde entfernt: unnötiger Zwischenschritt mit einem Bild, das nicht zum Rest der App passte (echtes Foto überall sonst, hier eine gezeichnete Szene).
 
 ---
 
@@ -106,7 +106,10 @@ compassBefore = { x: -1..1, y: -1..1 }   // x: -1=Anspannung … 1=Entspannung
 compassAfter  = { x: -1..1, y: -1..1 }   // y: -1=Denken     … 1=Fühlen
 
 dirFromCompass(c)   // → "nord"|"sued"|"west"|"ost", dominante Achse gewinnt
-compassWords(c)     // → weicher Satz (siehe COMPASS_COMBOS: 4 Richtungspaare × 3 Intensitäten "leicht/klar/stark", + Sonderfall "ausgeglichen" bei Betrag < 0.15)
+moodOf(c)/moodHtml(c) // → kurzes Wort + Emoji (siehe MOODS: 4 Richtungspaare × 2 Wörter "vert"/"horiz",
+                        //   + Sonderfall "ausgeglichen" bei Betrag < 0.15). Nur der WINKEL entscheidet,
+                        //   welcher der beiden Pole eines Quadranten naeher liegt - wie weit man zieht
+                        //   (Laenge) spielt bewusst keine Rolle.
 compassText(c)      // Prozent-Variante — nur noch intern für den KI-Kontext genutzt, NICHT mehr im UI
 ```
 
@@ -115,9 +118,9 @@ compassText(c)      // Prozent-Variante — nur noch intern für den KI-Kontext 
 DIRS = { nord:"Denken", sued:"Fühlen", west:"Anspannung", ost:"Entspannung" }  // + je ein Erklärsatz
 
 CAT_INFO = {
-  mini:   { name:"Mini Insel-Meditationen",     range:"3–6 Min",   … },
-  mittel: { name:"Mittlere Insel-Meditationen", range:"7–14 Min",  … },
-  tief:   { name:"Tiefe Insel-Meditationen",    range:"15–30 Min", … }
+  mini:   { name:"Kurze Meditationen",    range:"3–6 Min" },
+  mittel: { name:"Mittlere Meditationen", range:"7–14 Min" },
+  tief:   { name:"Tiefe Meditationen",    range:"15–30 Min" }
 }
 
 MEDITATIONS[] = {
@@ -125,9 +128,17 @@ MEDITATIONS[] = {
   name, min (Zahl), desc, steps: [ "...", "...", ... ]  // Anleitungstexte, zeitlich verteilt über die Dauer
 }
 ```
-- **8 handgeschriebene "Flaggschiff"-Meditationen** (Atem-Anker, Gedanken wie Wolken, Herzraum, Gefühle benennen, Körper lösen, Wellen-Atem, Stille genießen, Dankbarkeit am Strand) — jede mit eigenem, einzigartigem Skript.
-- **`generateLibrary()`** füllt jede Kategorie auf 13 Einträge auf (macht insgesamt **39** Meditationen): kombiniert einen Themen-Namen (`THEMES[dir]`, ~13 Begriffe je Richtung, z. B. "Herzenswärme", "Schulter-Fall") mit einem Baukasten aus Anleitungssätzen (`PHRASES[dir] = { open, mid[8], close }`). Pro Kategorie ist die Anzahl der "mid"-Sätze unterschiedlich (mini=1, mittel=3, tief=5), wodurch die Session-Länge zur Dauer passt.
-- ⚠️ **Bekannte Einschränkung:** Die 31 generierten Einträge sind inhaltlich stimmig, aber nicht individuell wie die 8 Flaggschiffe. Für Produktionsreife sollten die wichtigsten davon (v. a. die, die oft empfohlen werden) durch echte, einzeln geschriebene Skripte ersetzt werden.
+- **40 handgeschriebene Meditationen insgesamt** (13 mini / 13 mittel / 14 tief) — siehe §5a für die volle Titelliste. Kein Generator mehr: `generateLibrary()`/`THEMES`/`PHRASES` wurden entfernt, jeder Eintrag ist ein einzeln geschriebenes Skript.
+
+### Mudras & Mantras (Abschluss-Seite)
+```js
+MUDRAS[]  = { dir, name, how, why }   // 20 Eintraege, 5 je Richtung, Erklaerung auf Hochdeutsch
+MANTRAS[] = { dir, text, why }        // 20 Eintraege, 5 je Richtung, auf Hochdeutsch
+
+empfehle3(liste, dir)  // mischt die zur Richtung passenden Eintraege nach vorne, fuellt bei Bedarf mit
+                        // den restlichen auf, gibt 3 zurueck — bei jedem Antippen eine neue Zufallsauswahl
+zeigeMudra()/zeigeMantra()  // rendern die 3 Karten in #mudraBox/#mantraBox, Richtung kommt aus compassAfter
+```
 
 ## 5a. Themenvielfalt (umgesetzt)
 

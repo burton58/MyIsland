@@ -407,12 +407,13 @@
   }
   .med-card.locked{ opacity:.55; }
   .med-lock{ font-size:.9rem; margin-left:6px; }
-  .mudra-card{
+  .mudra-card, .mantra-card{
     text-align:left; background:#f7fbfa; border-radius:18px; padding:16px 18px; margin-top:12px;
   }
-  .mudra-card h5{ margin:0 0 4px; font-size:.95rem; color:var(--forest); }
-  .mudra-card .how{ margin:0 0 6px; font-size:.88rem; line-height:1.5; }
-  .mudra-card .why{ margin:0; font-size:.8rem; opacity:.62; }
+  .mudra-card h5, .mantra-card h5{ margin:0 0 4px; font-size:.95rem; color:var(--forest); }
+  .mudra-card .how, .mantra-card .how{ margin:0 0 6px; font-size:.88rem; line-height:1.5; }
+  .mudra-card .why, .mantra-card .why{ margin:0; font-size:.8rem; opacity:.62; }
+  .mudra-card + .mudra-card, .mantra-card + .mantra-card{ margin-top:8px; }
 
   /* ---------- Profil: eigenstaendiger, aufgeraeumter Bildschirm ----------
      Bewusst kein Foto-Hintergrund und keine grosse Karte wie bei Kompass/
@@ -486,6 +487,11 @@
      Seitenkopf waere hier doppelt. */
   body:not(.entered)[data-step="profil"] .topbar,
   body:not(.entered)[data-step="profil"] .stepper{ display:none; }
+  /* Kompass-Karte bringt mit "Wie geht es dir?" ihre eigene Frage/Erklaerung
+     mit - der allgemeine Seitenkopf waere hier ein zweiter, ueberfluessiger
+     Titel. */
+  body:not(.entered)[data-step="compass"] .topbar,
+  body:not(.entered)[data-step="compass"] .stepper{ display:none; }
   body[data-step="home"]:not(.entered){ padding-bottom:0; }
 
   /* dvh zuletzt, damit es gewinnt: 100vh rechnet auf dem Handy die
@@ -873,8 +879,8 @@
 
   <div class="page compass-page" id="compassPage">
     <div class="compass-card">
-      <h2>🧭 Auf deiner Insel ankommen</h2>
-      <p class="lead">Zieh die Nadel dahin, wie es dir gerade geht. Danach schlagen wir dir passende Meditationen vor.</p>
+      <h2>🧭 Wie geht es dir?</h2>
+      <p class="lead">Sag uns kurz, wie es dir geht. So empfehlen wir dir die passende Meditation als Hilfsmittel, damit du auf deiner Insel richtig entspannen kannst.</p>
 
       <div class="compass-wrap" id="compassWrap">
         <div class="compass-photo"></div>
@@ -995,10 +1001,11 @@
         <h4>Brauchst du noch etwas?</h4>
         <div class="need-more-actions">
           <button class="mini-btn" id="needMoreMedBtn">🧘 Noch eine Meditation</button>
-          <button class="mini-btn" id="needMantraBtn">✨ Ein Mantra für mich</button>
-          <button class="mini-btn" id="needMudraBtn">🤲 Ein Mudra für mich</button>
+          <button class="mini-btn" id="needMudraBtn">🤲 3 Mudras für mich</button>
+          <button class="mini-btn" id="needMantraBtn">✨ 3 Mantras für mich</button>
         </div>
         <div id="mudraBox"></div>
+        <div id="mantraBox"></div>
       </div>
 
       <div class="companion">
@@ -1013,7 +1020,7 @@
 
       <div class="compass-actions">
         <button class="back-link-btn" id="restartBtn">Neu beginnen</button>
-        <button class="enter-btn" id="backToIslandViewBtn">Zurück auf die Insel →</button>
+        <button class="enter-btn" id="finishOutroBtn">Fertig →</button>
       </div>
     </div>
   </div>
@@ -2093,30 +2100,92 @@
   function istFrei(id){ return hatAbo() || (imTest() && GRATIS_IDS.indexOf(id) !== -1); }
   function tageWort(n){ return n + (n === 1 ? " Tag" : " Tage"); }
 
-  // ---- Mudras: liegen in der App, brauchen also kein Netz ----
-  var MUDRAS = {
-    nord: { name:"Gyan Mudra",
-            how:"Dume und Zeigfinger berüehred sich sanft, di andere drei Finger bliibed locker gstreckt. D\u2019Händ ufs Chnüü, Handflächi nach obe.",
-            why:"Für en chlare Chopf, wänn d\u2019Gedanke chreised." },
-    sued: { name:"Hridaya Mudra",
-            how:"De Zeigfinger a d\u2019Wurzle vom Dume lege. Dume, Mittel- und Ringfinger zämebringe, beidi Händ ufem Schoss.",
-            why:"Öffnet de Herzruum, wänn viel Gfühl da isch." },
-    west: { name:"Apana Mudra",
-            how:"Dume, Mittel- und Ringfinger berüehred sich, Zeigfinger und chliine Finger gstreckt. Ruhig wiiterschnuufe.",
-            why:"Hilft, Spannig us em Körper z\u2019loh." },
-    ost:  { name:"Dhyana Mudra",
-            how:"Beidi Händ im Schoss, di rechti uf di linki, d\u2019Dumespitze berüehred sich ganz liicht.",
-            why:"Vertüüft e Rueh, wo scho da isch." }
-  };
+  // ---- Mudras & Mantras: liegen in der App, brauchen also kein Netz ----
+  // Beide Bibliotheken sind bewusst groesser als noetig (nicht nur 1 pro
+  // Richtung), damit die 3er-Empfehlung sich von Mal zu Mal unterscheidet
+  // statt immer dieselben 3 zu zeigen.
+  var MUDRAS = [
+    { dir:"nord", name:"Gyan Mudra", how:"Daumen und Zeigefinger berühren sich sanft, die anderen drei Finger bleiben locker gestreckt. Hände auf die Knie, Handflächen nach oben.", why:"Für einen klaren Kopf, wenn die Gedanken kreisen." },
+    { dir:"nord", name:"Buddhi Mudra", how:"Daumen und kleiner Finger berühren sich sanft, die restlichen Finger bleiben gestreckt.", why:"Fördert Klarheit und einen offenen Umgang mit den eigenen Gedanken." },
+    { dir:"nord", name:"Shuni Mudra", how:"Daumen und Mittelfinger berühren sich, die restlichen Finger bleiben locker gestreckt.", why:"Unterstützt Geduld und Konzentration." },
+    { dir:"nord", name:"Hakini Mudra", how:"Die Fingerspitzen beider Hände berühren sich sanft, die Handflächen zeigen zueinander, ohne sich zu berühren.", why:"Verbindet beide Gehirnhälften und hilft, Gedanken zu sortieren." },
+    { dir:"nord", name:"Vayu Mudra", how:"Den Zeigefinger an die Daumenwurzel legen, den Daumen leicht darüberlegen.", why:"Beruhigt einen unruhigen, überaktiven Verstand." },
+    { dir:"sued", name:"Hridaya Mudra", how:"Den Zeigefinger an die Daumenwurzel legen, Daumen, Mittel- und Ringfinger zusammenbringen. Beide Hände auf den Schoss.", why:"Öffnet den Herzraum, wenn viel Gefühl da ist." },
+    { dir:"sued", name:"Padma Mudra", how:"Handballen und kleine Finger berühren sich, die restlichen Finger öffnen sich wie eine Blüte.", why:"Steht für Offenheit gegenüber den eigenen Gefühlen." },
+    { dir:"sued", name:"Anjali Mudra", how:"Beide Handflächen vor der Brust zusammenlegen, als würde man Danke sagen.", why:"Für Dankbarkeit und Verbindung zu sich selbst." },
+    { dir:"sued", name:"Karana Mudra", how:"Zeige- und kleiner Finger gestreckt, die restlichen Finger halten den Daumen.", why:"Hilft, schwere Gefühle Stück für Stück loszulassen." },
+    { dir:"sued", name:"Matangi Mudra", how:"Beide Hände vor dem Bauch falten, die Mittelfinger gestreckt aneinanderlegen, die Daumen kreuzen.", why:"Für inneren Ausgleich bei starken Gefühlen." },
+    { dir:"west", name:"Apana Mudra", how:"Daumen, Mittel- und Ringfinger berühren sich, Zeigefinger und kleiner Finger bleiben gestreckt.", why:"Hilft, Spannung aus dem Körper zu lassen." },
+    { dir:"west", name:"Prana Mudra", how:"Daumen, Ring- und kleiner Finger berühren sich, die restlichen Finger bleiben gestreckt.", why:"Aktiviert neue Energie, wenn alles schwer und angespannt wirkt." },
+    { dir:"west", name:"Kubera Mudra", how:"Daumen, Zeige- und Mittelfinger an den Spitzen zusammenführen, die restlichen Finger locker einrollen.", why:"Für ein Gefühl von Halt und Sicherheit." },
+    { dir:"west", name:"Rudra Mudra", how:"Daumen, Zeige- und Ringfinger berühren sich, die restlichen Finger bleiben gestreckt.", why:"Unterstützt Stabilität, wenn der Körper unruhig ist." },
+    { dir:"west", name:"Ksepana Mudra", how:"Beide Zeigefinger aneinanderlegen, die restlichen Finger ineinander verschränken, Daumen zeigen nach unten.", why:"Zum bewussten Loslassen von Druck und Anspannung." },
+    { dir:"ost", name:"Dhyana Mudra", how:"Beide Hände im Schoss, die rechte auf die linke, die Daumenspitzen berühren sich ganz leicht.", why:"Vertieft eine Ruhe, die schon da ist." },
+    { dir:"ost", name:"Chin Mudra", how:"Daumen und Zeigefinger berühren sich, die Handrücken liegen auf den Knien.", why:"Für eine ruhige, nach innen gerichtete Aufmerksamkeit." },
+    { dir:"ost", name:"Shankh Mudra", how:"Beide Hände formen zusammen eine Muschel, ein Daumen steht aufrecht und wird von der anderen Hand locker umschlossen.", why:"Unterstützt einen langen, ruhigen Atem." },
+    { dir:"ost", name:"Uttarabodhi Mudra", how:"Zeigefinger beider Hände aneinanderlegen und nach oben strecken, die restlichen Finger verschränken.", why:"Für ein Gefühl von Weite und Gelassenheit." },
+    { dir:"ost", name:"Linga Mudra", how:"Beide Hände falten, ein Daumen steht aufrecht und wird von der anderen Hand locker umschlossen.", why:"Verstärkt ein warmes, entspanntes Gefühl im Körper." }
+  ];
+
+  var MANTRAS = [
+    { dir:"nord", text:"Ich muss nicht jeden Gedanken zu Ende denken.", why:"Hilft, aus dem Gedankenkreisen auszusteigen." },
+    { dir:"nord", text:"Ruhe.", why:"Ein einzelnes Wort, bei jedem Ausatmen wiederholt, beruhigt einen vollen Kopf oft mehr als ein ganzer Satz." },
+    { dir:"nord", text:"Ich sehe klar, was jetzt wichtig ist.", why:"Für Momente, in denen zu viele Gedanken gleichzeitig da sind." },
+    { dir:"nord", text:"So Ham.", why:"Traditionelles Atem-Mantra aus dem Sanskrit für „Ich bin das“ – „So“ beim Einatmen, „Ham“ beim Ausatmen." },
+    { dir:"nord", text:"Ein Gedanke nach dem anderen.", why:"Erinnert daran, dass du nicht alles auf einmal lösen musst." },
+    { dir:"sued", text:"Was ich fühle, darf da sein.", why:"Für Momente, in denen ein Gefühl unterdrückt werden will." },
+    { dir:"sued", text:"Om.", why:"Eines der ältesten Mantras überhaupt, steht für Verbundenheit mit dir selbst." },
+    { dir:"sued", text:"Ich bin mit mir selbst im Reinen.", why:"Ein einfacher Satz für emotionale Momente." },
+    { dir:"sued", text:"Ich behandle mich wie einen guten Freund.", why:"Erinnert an Selbstmitgefühl." },
+    { dir:"sued", text:"Lokah Samastah Sukhino Bhavantu.", why:"Sanskrit für „Mögen alle Wesen glücklich und frei sein“ – ein Mitgefühls-Mantra, das den Blick öffnet." },
+    { dir:"west", text:"Ich darf jetzt loslassen.", why:"Für Momente, in denen der Körper angespannt ist." },
+    { dir:"west", text:"Om Shanti.", why:"Klassisches Friedens-Mantra aus dem Sanskrit, oft dreifach wiederholt." },
+    { dir:"west", text:"Es ist genug für heute.", why:"Hilft, inneren Druck herunterzufahren." },
+    { dir:"west", text:"Mit jedem Atemzug etwas leichter.", why:"Ein Satz, der sich an den Atem anlehnt." },
+    { dir:"west", text:"Ich muss nicht alles gleichzeitig schaffen.", why:"Für Momente von Überforderung." },
+    { dir:"ost", text:"Ich bin genau richtig, wie es gerade ist.", why:"Für einen Moment ganz ohne Erwartung." },
+    { dir:"ost", text:"Sat Nam.", why:"Bekanntes Mantra aus dem Kundalini-Yoga, sinngemäss „wahre Identität“." },
+    { dir:"ost", text:"Alles darf langsam sein.", why:"Passt zu ruhigen, entspannten Momenten." },
+    { dir:"ost", text:"Ich bin dankbar für diesen Moment.", why:"Ein einfacher Satz, um Ruhe zu vertiefen." },
+    { dir:"ost", text:"Om Mani Padme Hum.", why:"Bekanntes buddhistisches Mitgefühls-Mantra für inneren Frieden." }
+  ];
+
+  // Aus einer Liste 3 Eintraege passend zur Kompass-Richtung waehlen -
+  // gemischt, damit es bei mehrmaligem Antippen abwechslungsreich bleibt.
+  // Reicht die eigene Richtung nicht (kommt bei 5 Eintraegen/Richtung nicht
+  // vor, ist aber eine sinnvolle Absicherung), wird mit den anderen aufgefuellt.
+  function mische(liste){
+    var kopie = liste.slice();
+    for (var i = kopie.length - 1; i > 0; i--){
+      var j = Math.floor(Math.random() * (i + 1));
+      var tmp = kopie[i]; kopie[i] = kopie[j]; kopie[j] = tmp;
+    }
+    return kopie;
+  }
+  function empfehle3(liste, dir){
+    var passend = mische(liste.filter(function(e){ return e.dir === dir; }));
+    var rest = mische(liste.filter(function(e){ return e.dir !== dir; }));
+    return passend.concat(rest).slice(0, 3);
+  }
 
   function zeigeMudra(){
-    var m = MUDRAS[dirFromCompass(compassAfter)];
-    document.getElementById("mudraBox").innerHTML =
-      '<div class="mudra-card">' +
+    var auswahl = empfehle3(MUDRAS, dirFromCompass(compassAfter));
+    document.getElementById("mudraBox").innerHTML = auswahl.map(function(m){
+      return '<div class="mudra-card">' +
         '<h5>🤲 ' + m.name + '</h5>' +
         '<p class="how">' + m.how + '</p>' +
         '<p class="why">' + m.why + '</p>' +
       '</div>';
+    }).join("");
+  }
+  function zeigeMantra(){
+    var auswahl = empfehle3(MANTRAS, dirFromCompass(compassAfter));
+    document.getElementById("mantraBox").innerHTML = auswahl.map(function(m){
+      return '<div class="mantra-card">' +
+        '<h5>✨ ' + m.text + '</h5>' +
+        '<p class="why">' + m.why + '</p>' +
+      '</div>';
+    }).join("");
   }
 
   // ---- Verlauf ----
@@ -2536,18 +2605,15 @@
     document.body.classList.remove("entered", "in-session");
     render({ animateBoatIn:false });
   });
-  document.getElementById("backToIslandViewBtn").addEventListener("click", function(){
-    document.body.classList.add("entered");
-    document.body.classList.remove("in-session");
-    render({ animateBoatIn:false });
-  });
-  document.getElementById("restartBtn").addEventListener("click", function(){
+  function beendeSitzung(){
     chosenMedIds = [];
     completedLog = [];
     session.queue = [];
     currentEntryTs = null;
     goToStep("home");
-  });
+  }
+  document.getElementById("restartBtn").addEventListener("click", beendeSitzung);
+  document.getElementById("finishOutroBtn").addEventListener("click", beendeSitzung);
 
   document.getElementById("needMoreMedBtn").addEventListener("click", function(){
     compassBefore.x = compassAfter.x;
@@ -2555,11 +2621,6 @@
     chosenMedIds = [];
     renderMedList();
     goToStep("meditation");
-  });
-  document.getElementById("needMantraBtn").addEventListener("click", function(){
-    var input = document.getElementById("chatInput2");
-    input.value = "Magst du mir ein kurzes Mantra oder einen Glaubenssatz für jetzt mitgeben?";
-    document.getElementById("chatSend2").click();
   });
 
   initCompass("compassSvg", "needleLine", "needleTip", "compassReadout", compassBefore, null,
@@ -2591,6 +2652,7 @@
   document.getElementById("homeContinueBtn").addEventListener("click", function(){ goToStep("compass"); });
 
   document.getElementById("needMudraBtn").addEventListener("click", zeigeMudra);
+  document.getElementById("needMantraBtn").addEventListener("click", zeigeMantra);
 
   document.getElementById("profilAboBtn").addEventListener("click", function(){
     renderAbo(); goToStep("abo");
