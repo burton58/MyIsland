@@ -1553,6 +1553,13 @@
   var TAB_FOR_STEP = { home:"home", compass:"kompass", meditation:"meditation", profil:"profil" };
 
   function goToStep(step){
+    if (step === "home"){
+      // Kompass auf der Startseite bei jedem Besuch wieder klein zeigen -
+      // das Aufwachsen soll sich jedes Mal von neuem "verdienen" lassen,
+      // nicht dauerhaft gross bleiben, nachdem er einmal benutzt wurde.
+      document.getElementById("compassWrapHome").classList.remove("gross");
+      document.querySelector(".home-full").classList.remove("kompass-fokus");
+    }
     document.body.setAttribute("data-step", step);
     var info = STEPS[step] || STEPS.island;
     document.getElementById("stepper").textContent = info.label;
@@ -2411,10 +2418,12 @@
   // Erste Beruehrung laesst ihn auf die echte Groesse aufwachsen und
   // blendet den Marketing-Text gegen einen "Weiter"-Knopf direkt am
   // Kompass ein - kein automatischer Sprung, das bleibt ein bewusster Tipp.
+  // Kein {once:true}: goToStep("home") setzt beide Klassen bei jeder
+  // Rueckkehr zurueck, also muss das Antippen jedes Mal wieder greifen.
   document.getElementById("compassWrapHome").addEventListener("pointerdown", function(){
     this.classList.add("gross");
     document.querySelector(".home-full").classList.add("kompass-fokus");
-  }, { once: true });
+  });
   document.getElementById("homeContinueBtn").addEventListener("click", function(){ goToStep("compass"); });
 
   document.getElementById("needMudraBtn").addEventListener("click", zeigeMudra);
