@@ -133,13 +133,66 @@ MEDITATIONS[] = {
 
 **Entscheidung:** Die Insel bleibt das einzige Bild/Branding der App (kein zweites, drittes Landschafts-"Skin"). Die *Meditationen selbst* werden aber inhaltlich viel breiter als bisher — nicht mehr nur Strand/Palmen/Wellen, sondern klassische Themen aus Achtsamkeit, Körperarbeit und Alltagsbewältigung. Die vier Kompass-Richtungen (Denken/Fühlen/Anspannung/Entspannung) bleiben als Zuordnungs-Logik bestehen; jedes neue Thema bekommt weiterhin eine Richtung zugeordnet, damit die Empfehlungslogik unverändert funktioniert.
 
-**Kuratierte Themenliste (Entwurf, 40 Themen)** — als Ersatz/Ergänzung für die generierten Themen aus `THEMES[dir]`, verteilt auf die drei bestehenden Kategorien. Dies ist ein Vorschlag zur Durchsicht, keine finale Liste:
+**Kuratierte Titelliste (Entwurf, 40 Meditationen)** — als Ersatz/Ergänzung für die generierten Themen aus `THEMES[dir]`. Jeder Titel ist bereits einer Kategorie, einer ungefähren Dauer und einer Kompass-Richtung zugeordnet, damit sowohl die Richtungs-Empfehlung als auch die Dauer-Passung (siehe §5, Auswahl-Logik) über die ganze Liste hinweg genug Auswahl haben — nicht nur ein, zwei Themen decken jede Dauerstufe ab. Titel in *Kursiv* sind die 8 bestehenden Flaggschiff-Skripte, die unverändert bleiben. Dies ist ein Vorschlag zur Durchsicht, keine finale Liste.
 
-| Kategorie | Themen (Auswahl) |
-|---|---|
-| **Mini** (3–6 Min) | Atem-Anker · Kurzer Körper-Scan · Erdungsatem · Kurze Lichtmeditation · Dankbarkeits-Blitzlicht · Vertrauens-Anker · Kraft-Impuls · Herz beruhigen · Loslass-Atem · Freundlicher Blick auf mich · Fantasiereise: Ankommen am See (kurz) · Fantasiereise: Insel-Anker (kurz) · Feierabend-Übergang (Arbeit → Zuhause) |
-| **Mittel** (7–14 Min) | Herzraum · Gefühle benennen · Wurzelchakra – Erdung · Herzchakra – Weite · Stirnchakra – Klarheit · Vertrauen aufbauen · Innere Stärke · Loslassen, was nicht mehr trägt · Verzeihen – ein erster Schritt · Alltag einer berufstätigen Mutter · Geduld im Umgang mit Kindern · Fantasiereise: Waldlichtung · Tiefenentspannung (progressiv) |
-| **Tief** (15–30 Min) | Körper lösen · Wellen-Atem · Chakren-Reise (alle sieben) · Lichtmeditation Ganzkörper · Tiefes Vertrauen · Innere Stärke vertiefen · Grosses Loslassen · Verzeihen – dir selbst und anderen · Schwangerschafts-Reise · Fantasiereise: Bergspitze · Fantasiereise: Winterlandschaft · Fantasiereise: Insel · Yoga-Nidra-artige Tiefenentspannung · Dankbarkeits-Reise (ausführlich) |
+**Mini (3–6 Min), 13 Titel:**
+
+| Titel | Dauer | Richtung | Themenfamilie |
+|---|---|---|---|
+| *Atem-Anker* | 5 | Denken | Atem/Fokus |
+| *Wellen-Atem* | 4 | Anspannung | Atem/Kurzintervention |
+| *Dankbarkeit am Strand* | 5 | Entspannung | Dankbarkeit (Insel) |
+| Kurzer Körper-Scan | 6 | Entspannung | Körperarbeit |
+| Erdungsatem | 4 | Anspannung | Erdung |
+| Kurze Lichtmeditation | 5 | Entspannung | Licht |
+| Dankbarkeits-Blitzlicht | 3 | Fühlen | Dankbarkeit |
+| Vertrauens-Anker | 6 | Entspannung | Vertrauen |
+| Kraft-Impuls | 4 | Anspannung | Stärke |
+| Herz beruhigen | 3 | Fühlen | Herz |
+| Freundlicher Blick auf mich | 5 | Fühlen | Selbstmitgefühl |
+| Fantasiereise: Ankommen am See | 6 | Fühlen | Fantasiereise |
+| Feierabend-Übergang | 4 | Denken | Alltag |
+
+**Mittel (7–14 Min), 13 Titel:**
+
+| Titel | Dauer | Richtung | Themenfamilie |
+|---|---|---|---|
+| *Gedanken wie Wolken* | 8 | Denken | Gedankenarbeit |
+| *Herzraum* | 7 | Fühlen | Herz |
+| *Gefühle benennen* | 6 | Fühlen | Gefühlsarbeit |
+| *Stille genießen* | 6 | Entspannung | Ruhe |
+| Wurzelchakra – Erdung | 9 | Anspannung | Chakra |
+| Herzchakra – Weite | 11 | Fühlen | Chakra |
+| Stirnchakra – Klarheit | 9 | Denken | Chakra |
+| Vertrauen aufbauen | 11 | Entspannung | Vertrauen |
+| Innere Stärke | 9 | Anspannung | Stärke |
+| Loslassen, was nicht mehr trägt | 13 | Anspannung | Loslassen |
+| Verzeihen – ein erster Schritt | 11 | Fühlen | Verzeihen |
+| Alltag einer berufstätigen Mutter | 13 | Denken | Alltag |
+| Fantasiereise: Waldlichtung | 9 | Entspannung | Fantasiereise |
+
+**Tief (15–30 Min), 14 Titel:**
+
+| Titel | Dauer | Richtung | Themenfamilie |
+|---|---|---|---|
+| *Körper lösen* | 10 | Anspannung | Körperarbeit |
+| Grosses Loslassen | 19 | Anspannung | Loslassen |
+| Chakren-Reise: alle sieben Zentren | 27 | Denken | Chakra (umfassend) |
+| Lichtmeditation – Ganzkörper | 23 | Entspannung | Licht |
+| Tiefes Vertrauen | 19 | Entspannung | Vertrauen |
+| Innere Stärke vertiefen | 23 | Anspannung | Stärke |
+| Verzeihen – dir selbst und anderen | 27 | Fühlen | Verzeihen |
+| Schwangerschafts-Reise: Verbindung zum Kind | 23 | Fühlen | Lebensphase |
+| Fantasiereise: Bergspitze | 30 | Denken | Fantasiereise |
+| Fantasiereise: Winterlandschaft | 19 | Denken | Fantasiereise |
+| Fantasiereise: Insel | 27 | Fühlen | Fantasiereise (Insel) |
+| Yoga-Nidra-artige Tiefenentspannung | 30 | Entspannung | Tiefenentspannung |
+| Dankbarkeits-Reise (ausführlich) | 15 | Fühlen | Dankbarkeit |
+| Geduld im Umgang mit Kindern (vertieft) | 15 | Anspannung | Alltag/Kinder |
+
+**Verteilung über die vier Kompass-Richtungen** (Summe über alle 40): Denken 8 · Fühlen 12 · Anspannung 10 · Entspannung 10. Nicht perfekt gleich, aber bewusst nah dran — Fühlen ist am stärksten besetzt, weil sich viele der gewünschten Themen (Herz, Dankbarkeit, Verzeihen, Chakra-Herz, Schwangerschaft) inhaltlich dort einordnen. Falls das zu schief wirkt, liesse sich z. B. "Fantasiereise: Insel" oder "Dankbarkeits-Reise" auf Denken/Entspannung umlegen, ohne die Titel selbst zu ändern.
+
+**Dauer-Abdeckung je Kategorie:** Mini deckt 3–6 Min in allen vier Stufen mehrfach ab, Mittel deckt 6–13 Min, Tief deckt 10–30 Min inklusive der bisher fehlenden 30-Min-Stufe (siehe Bugfix in `generateLibrary()`, §5). Damit hat die Dauer-Empfehlungslogik (§5, Auswahl-Logik) in jeder Kategorie und Richtung genug Auswahl, um nah an die gewünschte Zieldauer zu kommen, statt immer auf denselben ein, zwei Titeln zu landen.
 
 **Bildsprache pro Meditation:** Der Foto-Hintergrund von Kompass-, Meditations- und Session-Seite (aktuell überall dasselbe Insel-Foto, siehe §3.4/§2) soll künftig **zur jeweiligen Meditation passen** — eine Fantasiereise "Bergspitze" mit Insel-Hintergrund abzuspielen wäre inhaltlich unstimmig. Konkret geplant:
 - Insel-Foto bleibt Standard-Hintergrund für Home, Kompass, Meditationsauswahl, Abschluss (der "Rahmen" der Reise) sowie für alle Insel-thematischen Meditationen.
