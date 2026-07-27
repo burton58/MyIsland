@@ -203,6 +203,29 @@
     background:rgba(252,250,245,.74); backdrop-filter:blur(7px) saturate(1.1); -webkit-backdrop-filter:blur(7px) saturate(1.1);
     border-radius:26px; padding:24px 20px 26px; box-shadow:0 14px 34px rgba(4,20,18,.28); text-align:center;
   }
+  /* Kompass und Meditationen: kein Kasten mehr - die Karte wird zur
+     durchsichtigen Glasscheibe, durch die die Insel klar sichtbar bleibt.
+     Einzelne Bedienelemente (Buttons, Listen, Chat) bringen ihren eigenen
+     Hintergrund mit und bleiben deshalb ohne Weiteres lesbar; nur der lose
+     Text bekommt einen leichten hellen Schein fuers Auge. */
+  body[data-step="compass"] .compass-card,
+  body[data-step="meditation"] .compass-card{
+    /* Ganz ohne Flaeche: jede Fuellfarbe erzeugt an der Kante einen
+       sichtbaren Sprung gegenueber dem Foto dahinter - also wieder ein
+       Rechteck, nur heller. Der lose Text bekommt stattdessen einen
+       Schein (text-shadow); Buttons, Listen und Chat bringen ihren
+       eigenen Hintergrund schon mit. */
+    background:transparent;
+    backdrop-filter:none; -webkit-backdrop-filter:none;
+    box-shadow:none;
+  }
+  body[data-step="compass"] .compass-card h2, body[data-step="compass"] .compass-card .lead,
+  body[data-step="compass"] .compass-card .compass-readout,
+  body[data-step="meditation"] .compass-card h2, body[data-step="meditation"] .compass-card .lead,
+  body[data-step="meditation"] .compass-card .pref-group h3, body[data-step="meditation"] .compass-card .pref-status,
+  body[data-step="meditation"] .compass-card .companion h4, body[data-step="meditation"] .compass-card .companion .intro{
+    text-shadow:0 1px 3px rgba(255,255,255,.9), 0 1px 10px rgba(255,255,255,.7);
+  }
   .compass-card h2{ margin:2px 0 6px; font-size:1.2rem; font-family:var(--serif); color:var(--forest); }
   .compass-card .lead{ margin:0 0 18px; opacity:.62; font-size:.88rem; }
   .compass-wrap{ max-width:320px; margin:0 auto; touch-action:none; cursor:grab; }
@@ -323,7 +346,8 @@
   .mini-btn.primary{ background:linear-gradient(135deg,var(--sage),var(--sage-deep)); color:#fff; }
 
   /* ---------- Recap ---------- */
-  .recap{ text-align:left; background:#f7fbfa; border-radius:18px; padding:16px 18px; margin-top:16px; }
+  .recap{ text-align:left; background:#f7fbfa; border-radius:18px; padding:16px 18px; margin-top:16px; box-shadow:0 6px 16px rgba(11,43,51,.06); }
+  .profil-shell .recap{ margin:0 0 18px; }
   .recap h4{ margin:0 0 10px; font-size:.75rem; text-transform:uppercase; letter-spacing:.08em; opacity:.5; }
   .recap-row{ display:flex; flex-direction:column; gap:3px; padding:9px 0; border-bottom:1px solid #e9f1ef; font-size:.87rem; }
   .recap-row:last-child{ border-bottom:none; }
@@ -369,6 +393,61 @@
   .mudra-card h5{ margin:0 0 4px; font-size:.95rem; color:var(--forest); }
   .mudra-card .how{ margin:0 0 6px; font-size:.88rem; line-height:1.5; }
   .mudra-card .why{ margin:0; font-size:.8rem; opacity:.62; }
+
+  /* ---------- Profil: eigenstaendiger, aufgeraeumter Bildschirm ----------
+     Bewusst kein Foto-Hintergrund und keine grosse Karte wie bei Kompass/
+     Meditation - ein Profil ist eine Uebersicht, kein Stimmungsmoment.
+     Aufbau wie in gaengigen Apps: Kopf mit Avatar, ein Statuskaertchen
+     oben, gruppierte Listenzeilen darunter, destruktive Aktion getrennt
+     und zurueckhaltend. */
+  .profil-page{
+    background:var(--cream); min-height:calc(100vh - var(--tabbar-h)); min-height:calc(100dvh - var(--tabbar-h));
+    max-width:none; width:100%; margin:0; padding:0 0 40px;
+  }
+  .profil-shell{ max-width:480px; margin:0 auto; text-align:left; padding:4px 16px 0; }
+
+  .profil-header{ text-align:center; margin-bottom:18px; }
+  .profil-avatar{
+    width:60px; height:60px; border-radius:50%; margin:0 auto 10px;
+    display:flex; align-items:center; justify-content:center; font-size:26px;
+    background:linear-gradient(135deg,var(--sage),var(--sage-deep));
+    box-shadow:0 8px 20px rgba(90,147,112,.35);
+  }
+  .profil-header h2{ margin:0 0 3px; font-family:var(--serif); color:var(--forest); font-size:1.25rem; }
+  .profil-header .profil-sub{ margin:0; font-size:.85rem; opacity:.6; }
+
+  .status-card{
+    display:flex; align-items:center; gap:13px; background:#fff; border-radius:20px;
+    padding:15px 16px; margin-bottom:22px; box-shadow:0 10px 26px rgba(11,43,51,.10);
+  }
+  .status-card .status-icon{
+    flex:0 0 auto; width:44px; height:44px; border-radius:13px; font-size:20px;
+    display:flex; align-items:center; justify-content:center; background:#eef6f2;
+  }
+  .status-card.state-test .status-icon{ background:#fff3d9; }
+  .status-card.state-expired .status-icon{ background:#fbe9e7; }
+  .status-card .status-body{ flex:1; min-width:0; }
+  .status-card .status-title{ font-weight:800; font-size:.94rem; color:var(--forest); line-height:1.3; }
+  .status-card .status-detail{ font-size:.78rem; opacity:.6; margin-top:3px; line-height:1.45; }
+  .status-cta-btn{
+    flex:0 0 auto; border:none; cursor:pointer; white-space:nowrap;
+    background:linear-gradient(135deg,var(--sage),var(--sage-deep)); color:#fff;
+    font-weight:700; font-size:.78rem; padding:9px 13px; border-radius:14px;
+  }
+
+  .section-label{ margin:22px 2px 8px; font-size:.7rem; text-transform:uppercase; letter-spacing:.08em; font-weight:800; opacity:.42; }
+
+  .list-card{ background:#fff; border-radius:18px; box-shadow:0 8px 20px rgba(11,43,51,.08); overflow:hidden; }
+  .list-row{
+    width:100%; display:flex; align-items:center; gap:12px; padding:14px 16px;
+    border:none; background:none; cursor:pointer; text-align:left;
+    font-size:.9rem; font-weight:600; color:var(--ink); border-bottom:1px solid #eef4f2;
+  }
+  .list-card .list-row:last-child{ border-bottom:none; }
+  .list-row .row-icon{ font-size:1.05rem; width:20px; text-align:center; flex:0 0 auto; }
+  .list-row .row-chevron{ margin-left:auto; opacity:.32; font-size:1.15rem; }
+  .list-row.danger{ color:#b3413a; }
+  .list-row.danger .row-icon{ opacity:.85; }
   .shift{ background:#eef7f5; border-radius:14px; padding:13px 15px; margin-top:12px; font-size:.88rem; line-height:1.5; }
   .need-more{ margin-top:16px; text-align:left; }
   .need-more h4{ margin:0 0 8px; font-size:.8rem; text-transform:uppercase; letter-spacing:.08em; opacity:.5; }
@@ -383,6 +462,10 @@
   body:not(.entered)[data-step="home"] .topbar,
   body:not(.entered)[data-step="home"] .stepper,
   body[data-step="home"] .layout{ display:none; }
+  /* Profil bringt seinen eigenen Kopf mit (Avatar, Titel) - der allgemeine
+     Seitenkopf waere hier doppelt. */
+  body:not(.entered)[data-step="profil"] .topbar,
+  body:not(.entered)[data-step="profil"] .stepper{ display:none; }
   body[data-step="home"]:not(.entered){ padding-bottom:0; }
 
   /* dvh zuletzt, damit es gewinnt: 100vh rechnet auf dem Handy die
@@ -967,17 +1050,26 @@
   </div>
 
   <div class="page profil-page" id="profilPage">
-    <div class="compass-card">
-      <h2>🌴 Dein Profil</h2>
-      <p class="lead">Deine Inselreise und dein Zugang.</p>
+    <div class="profil-shell">
+      <div class="profil-header">
+        <div class="profil-avatar">🌴</div>
+        <h2>Dein Profil</h2>
+        <p class="profil-sub">Deine Inselreise und dein Zugang</p>
+      </div>
 
-      <div class="recap" id="aboStatusBox"></div>
+      <div class="status-card" id="statusCard"></div>
+
       <div class="recap" id="profilWeekBox"></div>
       <div class="recap" id="profilJourneyBox"></div>
 
-      <div class="compass-actions">
-        <button class="back-link-btn" id="profilResetBtn">Verlauf löschen</button>
-        <button class="enter-btn" id="profilAboBtn">Abo ansehen →</button>
+      <div class="section-label">Einstellungen</div>
+      <div class="list-card">
+        <button class="list-row" id="profilAboBtn">
+          <span class="row-icon">💳</span><span class="row-text">Abo verwalten</span><span class="row-chevron">›</span>
+        </button>
+        <button class="list-row danger" id="profilResetBtn">
+          <span class="row-icon">🗑️</span><span class="row-text">Verlauf löschen</span>
+        </button>
       </div>
     </div>
   </div>
@@ -2037,23 +2129,46 @@
   }
 
   // ---- Profil ----
-  function zugangsZeile(){
-    var a = loadAbo();
-    if (a.plan === "jahr")  return "Jahresabo · CHF 49 pro Jahr";
-    if (a.plan === "monat") return "Monatsabo · CHF 5 pro Monat";
-    if (imTest()) return "Test – noch " + tageWort(testTageUebrig()) + " mit " + GRATIS_IDS.length + " Meditationen";
-    return "Test beendet – mit einem Abo hörst du die ganze Bibliothek";
+  function renderStatusCard(){
+    var el = document.getElementById("statusCard");
+    var abo = loadAbo();
+    var state = hatAbo() ? "active" : (imTest() ? "test" : "expired");
+    var icon, title, detail, zeigeCta = false;
+
+    if (state === "active"){
+      icon = "✅";
+      title = (abo.plan === "jahr" ? "Jahresabo" : "Monatsabo") + " aktiv";
+      detail = (abo.plan === "jahr" ? "CHF 49 pro Jahr" : "CHF 5 pro Monat") + " · ganze Bibliothek offen";
+    } else if (state === "test"){
+      icon = "⏳";
+      title = "Test läuft · noch " + tageWort(testTageUebrig());
+      detail = GRATIS_IDS.length + " Meditationen offen · danach Monatsabo CHF 5 oder Jahresabo CHF 49";
+      zeigeCta = true;
+    } else {
+      icon = "🔒";
+      title = "Test beendet";
+      detail = "Mit einem Abo öffnest du die ganze Bibliothek · Monatsabo CHF 5 oder Jahresabo CHF 49";
+      zeigeCta = true;
+    }
+
+    el.className = "status-card state-" + state;
+    el.innerHTML =
+      '<div class="status-icon">' + icon + '</div>' +
+      '<div class="status-body">' +
+        '<div class="status-title">' + title + '</div>' +
+        '<div class="status-detail">' + detail + '</div>' +
+      '</div>' +
+      (zeigeCta ? '<button class="status-cta-btn" id="statusCtaBtn">Abo ansehen</button>' : '');
+
+    if (zeigeCta){
+      document.getElementById("statusCtaBtn").addEventListener("click", function(){
+        renderAbo(); goToStep("abo");
+      });
+    }
   }
 
   function renderProfil(){
-    document.getElementById("aboStatusBox").innerHTML =
-      '<h4>Dein Zugang</h4>' +
-      '<div class="recap-row"><span class="k">Zugang</span><span class="v">' + zugangsZeile() + '</span></div>' +
-      '<div class="recap-row"><span class="k">Bibliothek</span><span class="v">' +
-        (hatAbo() ? "ganz offen" : GRATIS_IDS.length + " Meditationen offen") +
-        '</span></div>' +
-      (hatAbo() ? '' :
-        '<div class="recap-row"><span class="k">Pläne</span><span class="v">Monatsabo CHF 5 / Monat &middot; Jahresabo CHF 49 / Jahr</span></div>');
+    renderStatusCard();
     renderWeek("profilWeekBox");
     renderJourney("profilJourneyBox");
   }
