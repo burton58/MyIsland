@@ -232,6 +232,24 @@
   .compass-wrap:active{ cursor:grabbing; }
   .compass-wrap svg{ width:100%; height:auto; display:block; }
   .compass-readout{ margin-top:16px; font-size:.95rem; font-weight:700; color:#3a2a20; }
+
+  /* ---------- Kompass-Rose: flach, ohne Gehaeuse/Hintergrund ----------
+     Ersetzt den fruehreren 3D-Messing-Kompass. Nur Linien und die
+     Zacken-Fuellung selbst zaehlen als Grafik, kein Gehaeuse/keine
+     Scheibe dahinter - passt zum durchsichtigen Kompass-/Meditations-
+     Hintergrund (kein Rechteck, keine Flaeche). */
+  .compass-flat .rose-ring{ fill:none; stroke:#5b6b4f; stroke-width:1.5; opacity:.55; }
+  .compass-flat .rose-ring-thin{ fill:none; stroke:#5b6b4f; stroke-width:1; opacity:.32; }
+  .compass-flat .rose-ticks line{ stroke:#5b6b4f; stroke-width:1; opacity:.4; }
+  .compass-flat .rose-star path{ stroke:#46543c; stroke-width:1; stroke-linejoin:round; }
+  .compass-flat .rose-star .a{ fill:#cdd6ab; }
+  .compass-flat .rose-star .b{ fill:#7f9160; }
+  .compass-flat .rose-star .c{ fill:#e3e6cf; }
+  .compass-flat .rose-star .d{ fill:#9aa878; }
+  .compass-flat .rose-labels text{ fill:#33402c; paint-order:stroke; stroke:#faf8ef; stroke-width:4px; stroke-linejoin:round; }
+  .compass-flat .rose-needle{ stroke:#d62828; stroke-width:4; }
+  .compass-flat .rose-needle-tip{ fill:#d62828; stroke:#fffaf0; stroke-width:2.5; }
+  .compass-flat .rose-hub{ fill:none; stroke:#46543c; stroke-width:1.5; }
   .compass-readout .sub{ display:block; margin-top:3px; font-size:.78rem; font-weight:500; opacity:.6; }
   .compass-actions{ display:flex; gap:10px; margin-top:20px; }
   .compass-actions .enter-btn{ margin-top:0; }
@@ -480,6 +498,23 @@
   .brand{ font-family:var(--serif); color:#fff; font-size:2.4rem; margin:0 0 6px; letter-spacing:.01em; text-shadow:0 2px 14px rgba(0,0,0,.4); }
   .brand-sub{ margin:0; font-size:.9rem; color:#eaf6f0; opacity:.92; text-shadow:0 2px 10px rgba(0,0,0,.35); }
   .dialect-note{ margin:8px 0 0; font-size:.76rem; color:#eaf6f0; opacity:.72; text-shadow:0 2px 8px rgba(0,0,0,.4); }
+
+  /* Kompass-Rose auf der Startseite: rein dekorativ, im offenen Himmel
+     zwischen Titel und Foto - dieselbe Zeichnung wie beim echten Kompass,
+     ohne eigene Flaeche dahinter. */
+  .home-compass{
+    position:absolute; left:50%; top:27%; transform:translate(-50%,-50%);
+    width:112px; z-index:2; pointer-events:none;
+    filter:drop-shadow(0 6px 14px rgba(4,20,22,.3));
+  }
+  .home-compass svg{ width:100%; height:auto; display:block; }
+  @media (min-width:1000px){
+    /* Auf sehr breiten Schirmen zeigt das Foto einen anderen Ausschnitt
+       (das Boot ruecht in die Bildmitte) - dort wuerde die Kompass-Rose
+       genau darauf liegen. My Island ist fuers Handy gebaut; hier blenden
+       wir sie lieber aus, statt eine wacklige Position zu suchen. */
+    .home-compass{ display:none; }
+  }
   .dialect-chip{
     display:inline-block; margin:0 0 16px; padding:5px 12px; border-radius:20px;
     background:#eef6f2; color:var(--forest); font-size:.74rem; font-weight:700;
@@ -539,6 +574,64 @@
         <p class="brand-sub">Geführte Meditationen auf Schweizerdeutsch</p>
         <p class="dialect-note">🇨🇭 Von 3 Minuten bis zur halben Stunde</p>
       </div>
+
+      <div class="home-compass" aria-hidden="true">
+        <svg viewBox="0 0 400 400" class="compass-flat">
+          <circle cx="200" cy="200" r="190" class="rose-ring"/>
+          <circle cx="200" cy="200" r="150" class="rose-ring-thin"/>
+          <circle cx="200" cy="200" r="110" class="rose-ring-thin"/>
+          <g class="rose-ticks">
+            <line x1="229.3" y1="52.9" x2="232.8" y2="35.2"/>
+            <line x1="257.4" y1="61.4" x2="264.3" y2="44.8"/>
+            <line x1="283.3" y1="75.3" x2="293.3" y2="60.3"/>
+            <line x1="324.7" y1="116.7" x2="339.7" y2="106.7"/>
+            <line x1="338.6" y1="142.6" x2="355.2" y2="135.7"/>
+            <line x1="347.1" y1="170.7" x2="364.8" y2="167.2"/>
+            <line x1="347.1" y1="229.3" x2="364.8" y2="232.8"/>
+            <line x1="338.6" y1="257.4" x2="355.2" y2="264.3"/>
+            <line x1="324.7" y1="283.3" x2="339.7" y2="293.3"/>
+            <line x1="283.3" y1="324.7" x2="293.3" y2="339.7"/>
+            <line x1="257.4" y1="338.6" x2="264.3" y2="355.2"/>
+            <line x1="229.3" y1="347.1" x2="232.8" y2="364.8"/>
+            <line x1="170.7" y1="347.1" x2="167.2" y2="364.8"/>
+            <line x1="142.6" y1="338.6" x2="135.7" y2="355.2"/>
+            <line x1="116.7" y1="324.7" x2="106.7" y2="339.7"/>
+            <line x1="75.3" y1="283.3" x2="60.3" y2="293.3"/>
+            <line x1="61.4" y1="257.4" x2="44.8" y2="264.3"/>
+            <line x1="52.9" y1="229.3" x2="35.2" y2="232.8"/>
+            <line x1="52.9" y1="170.7" x2="35.2" y2="167.2"/>
+            <line x1="61.4" y1="142.6" x2="44.8" y2="135.7"/>
+            <line x1="75.3" y1="116.7" x2="60.3" y2="106.7"/>
+            <line x1="116.7" y1="75.3" x2="106.7" y2="60.3"/>
+            <line x1="142.6" y1="61.4" x2="135.7" y2="44.8"/>
+            <line x1="170.7" y1="52.9" x2="167.2" y2="35.2"/>
+          </g>
+          <g class="rose-star">
+            <path class="a" d="M200,200 L196.6,178.3 L200.0,52.0 Z"/>
+            <path class="b" d="M200,200 L200.0,52.0 L203.4,178.3 Z"/>
+            <path class="a" d="M200,200 L221.7,196.6 L348.0,200.0 Z"/>
+            <path class="b" d="M200,200 L348.0,200.0 L221.7,203.4 Z"/>
+            <path class="a" d="M200,200 L203.4,221.7 L200.0,348.0 Z"/>
+            <path class="b" d="M200,200 L200.0,348.0 L196.6,221.7 Z"/>
+            <path class="a" d="M200,200 L178.3,203.4 L52.0,200.0 Z"/>
+            <path class="b" d="M200,200 L52.0,200.0 L178.3,196.6 Z"/>
+            <path class="c" d="M200,200 L212.9,182.2 L263.6,136.4 Z"/>
+            <path class="d" d="M200,200 L263.6,136.4 L217.8,187.1 Z"/>
+            <path class="c" d="M200,200 L217.8,212.9 L263.6,263.6 Z"/>
+            <path class="d" d="M200,200 L263.6,263.6 L212.9,217.8 Z"/>
+            <path class="c" d="M200,200 L187.1,217.8 L136.4,263.6 Z"/>
+            <path class="d" d="M200,200 L136.4,263.6 L182.2,212.9 Z"/>
+            <path class="c" d="M200,200 L182.2,187.1 L136.4,136.4 Z"/>
+            <path class="d" d="M200,200 L136.4,136.4 L187.1,182.2 Z"/>
+          </g>
+          <circle cx="200" cy="200" r="60" class="rose-ring-thin"/>
+          <!-- Dekorativ, ohne Zug: die Nadel steht fest auf Richtung Entspannung. -->
+          <line x1="200" y1="200" x2="245" y2="135" class="rose-needle" stroke-linecap="round"/>
+          <circle cx="245" cy="135" r="9" class="rose-needle-tip"/>
+          <circle cx="200" cy="200" r="7" class="rose-hub"/>
+        </svg>
+      </div>
+
       <div class="home-full-bottom">
         <p class="overlay-title">Deine Insel im Alltag – Meditation für mehr Ruhe, Klarheit und Gelassenheit.</p>
         <p class="price-line">7 Tage gratis testen</p>
@@ -784,87 +877,75 @@
       <p class="lead">Ziehe den Kompass-Zeiger auf deine Richtung.</p>
 
       <div class="compass-wrap" id="compassWrap">
-        <svg id="compassSvg" viewBox="0 0 400 400">
+        <svg id="compassSvg" viewBox="0 0 400 400" class="compass-flat">
           <defs>
-            <radialGradient id="bezelGrad" cx="35%" cy="30%" r="75%">
-              <stop offset="0%" stop-color="#f7e6ae"/>
-              <stop offset="55%" stop-color="#d4a54a"/>
-              <stop offset="100%" stop-color="#8a6423"/>
-            </radialGradient>
-            <radialGradient id="faceGrad" cx="40%" cy="35%" r="70%">
-              <stop offset="0%" stop-color="#f6eed4"/>
-              <stop offset="100%" stop-color="#e6d6ac"/>
-            </radialGradient>
-            <radialGradient id="hubGrad" cx="35%" cy="30%" r="70%">
-              <stop offset="0%" stop-color="#fff6da"/>
-              <stop offset="100%" stop-color="#8a6423"/>
-            </radialGradient>
-            <filter id="needleShadow" x="-60%" y="-60%" width="220%" height="220%">
-              <feDropShadow dx="0" dy="3" stdDeviation="4" flood-color="#000" flood-opacity=".35"/>
+            <filter id="compassSvgShadow" x="-60%" y="-60%" width="220%" height="220%">
+              <feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#000" flood-opacity=".3"/>
             </filter>
           </defs>
 
-          <circle cx="200" cy="200" r="192" fill="url(#bezelGrad)"/>
-          <circle cx="200" cy="200" r="192" fill="none" stroke="#5b4020" stroke-width="2" opacity=".6"/>
-          <circle cx="200" cy="200" r="170" fill="url(#faceGrad)" stroke="#5b4020" stroke-width="2"/>
+          <circle cx="200" cy="200" r="190" class="rose-ring"/>
+          <circle cx="200" cy="200" r="150" class="rose-ring-thin"/>
+          <circle cx="200" cy="200" r="110" class="rose-ring-thin"/>
 
-          <g opacity=".9">
-            <path d="M200,200 L196.6,178.3 L200.0,52.0 Z" fill="rgb(100,137,180)"/>
-            <path d="M200,200 L200.0,52.0 L203.4,178.3 Z" fill="rgb(24,61,104)"/>
-            <path d="M200,200 L221.7,196.6 L348.0,200.0 Z" fill="rgb(105,164,127)"/>
-            <path d="M200,200 L348.0,200.0 L221.7,203.4 Z" fill="rgb(29,88,51)"/>
-            <path d="M200,200 L203.4,221.7 L200.0,348.0 Z" fill="rgb(210,115,105)"/>
-            <path d="M200,200 L200.0,348.0 L196.6,221.7 Z" fill="rgb(134,39,29)"/>
-            <path d="M200,200 L178.3,203.4 L52.0,200.0 Z" fill="rgb(164,105,86)"/>
-            <path d="M200,200 L52.0,200.0 L178.3,196.6 Z" fill="rgb(88,29,10)"/>
-            <path d="M200,200 L212.9,182.2 L263.6,136.4 Z" fill="rgb(243,210,138)"/>
-            <path d="M200,200 L263.6,136.4 L217.8,187.1 Z" fill="rgb(167,134,62)"/>
-            <path d="M200,200 L217.8,212.9 L263.6,263.6 Z" fill="rgb(243,210,138)"/>
-            <path d="M200,200 L263.6,263.6 L212.9,217.8 Z" fill="rgb(167,134,62)"/>
-            <path d="M200,200 L187.1,217.8 L136.4,263.6 Z" fill="rgb(243,210,138)"/>
-            <path d="M200,200 L136.4,263.6 L182.2,212.9 Z" fill="rgb(167,134,62)"/>
-            <path d="M200,200 L182.2,187.1 L136.4,136.4 Z" fill="rgb(243,210,138)"/>
-            <path d="M200,200 L136.4,136.4 L187.1,182.2 Z" fill="rgb(167,134,62)"/>
-          </g>
-          <g>
-            <line x1="229.3" y1="52.9" x2="232.8" y2="35.2" stroke="#5b4020" stroke-width="1" opacity=".35"/>
-            <line x1="257.4" y1="61.4" x2="264.3" y2="44.8" stroke="#5b4020" stroke-width="1" opacity=".35"/>
-            <line x1="283.3" y1="75.3" x2="293.3" y2="60.3" stroke="#5b4020" stroke-width="1" opacity=".35"/>
-            <line x1="324.7" y1="116.7" x2="339.7" y2="106.7" stroke="#5b4020" stroke-width="1" opacity=".35"/>
-            <line x1="338.6" y1="142.6" x2="355.2" y2="135.7" stroke="#5b4020" stroke-width="1" opacity=".35"/>
-            <line x1="347.1" y1="170.7" x2="364.8" y2="167.2" stroke="#5b4020" stroke-width="1" opacity=".35"/>
-            <line x1="347.1" y1="229.3" x2="364.8" y2="232.8" stroke="#5b4020" stroke-width="1" opacity=".35"/>
-            <line x1="338.6" y1="257.4" x2="355.2" y2="264.3" stroke="#5b4020" stroke-width="1" opacity=".35"/>
-            <line x1="324.7" y1="283.3" x2="339.7" y2="293.3" stroke="#5b4020" stroke-width="1" opacity=".35"/>
-            <line x1="283.3" y1="324.7" x2="293.3" y2="339.7" stroke="#5b4020" stroke-width="1" opacity=".35"/>
-            <line x1="257.4" y1="338.6" x2="264.3" y2="355.2" stroke="#5b4020" stroke-width="1" opacity=".35"/>
-            <line x1="229.3" y1="347.1" x2="232.8" y2="364.8" stroke="#5b4020" stroke-width="1" opacity=".35"/>
-            <line x1="170.7" y1="347.1" x2="167.2" y2="364.8" stroke="#5b4020" stroke-width="1" opacity=".35"/>
-            <line x1="142.6" y1="338.6" x2="135.7" y2="355.2" stroke="#5b4020" stroke-width="1" opacity=".35"/>
-            <line x1="116.7" y1="324.7" x2="106.7" y2="339.7" stroke="#5b4020" stroke-width="1" opacity=".35"/>
-            <line x1="75.3" y1="283.3" x2="60.3" y2="293.3" stroke="#5b4020" stroke-width="1" opacity=".35"/>
-            <line x1="61.4" y1="257.4" x2="44.8" y2="264.3" stroke="#5b4020" stroke-width="1" opacity=".35"/>
-            <line x1="52.9" y1="229.3" x2="35.2" y2="232.8" stroke="#5b4020" stroke-width="1" opacity=".35"/>
-            <line x1="52.9" y1="170.7" x2="35.2" y2="167.2" stroke="#5b4020" stroke-width="1" opacity=".35"/>
-            <line x1="61.4" y1="142.6" x2="44.8" y2="135.7" stroke="#5b4020" stroke-width="1" opacity=".35"/>
-            <line x1="75.3" y1="116.7" x2="60.3" y2="106.7" stroke="#5b4020" stroke-width="1" opacity=".35"/>
-            <line x1="116.7" y1="75.3" x2="106.7" y2="60.3" stroke="#5b4020" stroke-width="1" opacity=".35"/>
-            <line x1="142.6" y1="61.4" x2="135.7" y2="44.8" stroke="#5b4020" stroke-width="1" opacity=".35"/>
-            <line x1="170.7" y1="52.9" x2="167.2" y2="35.2" stroke="#5b4020" stroke-width="1" opacity=".35"/>
-          </g>
-          <circle cx="200" cy="200" r="170" fill="none" stroke="#5b4020" stroke-width="1.5" opacity=".5"/>
-          <circle cx="200" cy="200" r="60" fill="url(#faceGrad)" stroke="#5b4020" stroke-width="1" opacity=".9"/>
-
-          <g font-family="Georgia, 'Times New Roman', serif" fill="#3a2c1c" text-anchor="middle" style="paint-order:stroke; stroke:#f6eed4; stroke-width:3px;">
-            <text x="200" y="46" font-size="17" font-style="italic" font-weight="700">Denken</text>
-            <text x="200" y="368" font-size="17" font-style="italic" font-weight="700">Fühlen</text>
-            <text x="66" y="205" font-size="16" font-style="italic" font-weight="700">Anspannung</text>
-            <text x="334" y="205" font-size="16" font-style="italic" font-weight="700">Entspannung</text>
+          <g class="rose-ticks">
+            <line x1="229.3" y1="52.9" x2="232.8" y2="35.2"/>
+            <line x1="257.4" y1="61.4" x2="264.3" y2="44.8"/>
+            <line x1="283.3" y1="75.3" x2="293.3" y2="60.3"/>
+            <line x1="324.7" y1="116.7" x2="339.7" y2="106.7"/>
+            <line x1="338.6" y1="142.6" x2="355.2" y2="135.7"/>
+            <line x1="347.1" y1="170.7" x2="364.8" y2="167.2"/>
+            <line x1="347.1" y1="229.3" x2="364.8" y2="232.8"/>
+            <line x1="338.6" y1="257.4" x2="355.2" y2="264.3"/>
+            <line x1="324.7" y1="283.3" x2="339.7" y2="293.3"/>
+            <line x1="283.3" y1="324.7" x2="293.3" y2="339.7"/>
+            <line x1="257.4" y1="338.6" x2="264.3" y2="355.2"/>
+            <line x1="229.3" y1="347.1" x2="232.8" y2="364.8"/>
+            <line x1="170.7" y1="347.1" x2="167.2" y2="364.8"/>
+            <line x1="142.6" y1="338.6" x2="135.7" y2="355.2"/>
+            <line x1="116.7" y1="324.7" x2="106.7" y2="339.7"/>
+            <line x1="75.3" y1="283.3" x2="60.3" y2="293.3"/>
+            <line x1="61.4" y1="257.4" x2="44.8" y2="264.3"/>
+            <line x1="52.9" y1="229.3" x2="35.2" y2="232.8"/>
+            <line x1="52.9" y1="170.7" x2="35.2" y2="167.2"/>
+            <line x1="61.4" y1="142.6" x2="44.8" y2="135.7"/>
+            <line x1="75.3" y1="116.7" x2="60.3" y2="106.7"/>
+            <line x1="116.7" y1="75.3" x2="106.7" y2="60.3"/>
+            <line x1="142.6" y1="61.4" x2="135.7" y2="44.8"/>
+            <line x1="170.7" y1="52.9" x2="167.2" y2="35.2"/>
           </g>
 
-          <line id="needleLine" x1="200" y1="200" x2="200" y2="200" stroke="#c0392b" stroke-width="4" stroke-linecap="round" filter="url(#needleShadow)"/>
-          <circle id="needleTip" cx="200" cy="200" r="10" fill="#c0392b" stroke="#fffaf0" stroke-width="2.5" style="cursor:grab;" filter="url(#needleShadow)"/>
-          <circle cx="200" cy="200" r="13" fill="url(#hubGrad)" stroke="#5b4020" stroke-width="1.5"/>
+          <g class="rose-star">
+            <path class="a" d="M200,200 L196.6,178.3 L200.0,52.0 Z"/>
+            <path class="b" d="M200,200 L200.0,52.0 L203.4,178.3 Z"/>
+            <path class="a" d="M200,200 L221.7,196.6 L348.0,200.0 Z"/>
+            <path class="b" d="M200,200 L348.0,200.0 L221.7,203.4 Z"/>
+            <path class="a" d="M200,200 L203.4,221.7 L200.0,348.0 Z"/>
+            <path class="b" d="M200,200 L200.0,348.0 L196.6,221.7 Z"/>
+            <path class="a" d="M200,200 L178.3,203.4 L52.0,200.0 Z"/>
+            <path class="b" d="M200,200 L52.0,200.0 L178.3,196.6 Z"/>
+            <path class="c" d="M200,200 L212.9,182.2 L263.6,136.4 Z"/>
+            <path class="d" d="M200,200 L263.6,136.4 L217.8,187.1 Z"/>
+            <path class="c" d="M200,200 L217.8,212.9 L263.6,263.6 Z"/>
+            <path class="d" d="M200,200 L263.6,263.6 L212.9,217.8 Z"/>
+            <path class="c" d="M200,200 L187.1,217.8 L136.4,263.6 Z"/>
+            <path class="d" d="M200,200 L136.4,263.6 L182.2,212.9 Z"/>
+            <path class="c" d="M200,200 L182.2,187.1 L136.4,136.4 Z"/>
+            <path class="d" d="M200,200 L136.4,136.4 L187.1,182.2 Z"/>
+          </g>
+
+          <circle cx="200" cy="200" r="60" class="rose-ring-thin"/>
+
+          <g class="rose-labels" font-family="Georgia, 'Times New Roman', serif" text-anchor="middle">
+            <text x="200" y="44" font-size="17" font-style="italic" font-weight="700">Denken</text>
+            <text x="200" y="370" font-size="17" font-style="italic" font-weight="700">Fühlen</text>
+            <text x="60" y="205" font-size="16" font-style="italic" font-weight="700">Anspannung</text>
+            <text x="340" y="205" font-size="16" font-style="italic" font-weight="700">Entspannung</text>
+          </g>
+
+          <line id="needleLine" x1="200" y1="200" x2="200" y2="200" class="rose-needle" stroke-linecap="round" filter="url(#compassSvgShadow)"/>
+          <circle id="needleTip" cx="200" cy="200" r="9" class="rose-needle-tip" style="cursor:grab;" filter="url(#compassSvgShadow)"/>
+          <circle cx="200" cy="200" r="7" class="rose-hub"/>
         </svg>
       </div>
 
@@ -930,87 +1011,75 @@
       <p class="lead">Stell den Zeiger noch einmal auf deine Richtung.</p>
 
       <div class="compass-wrap" id="compassWrap2">
-        <svg id="compassSvg2" viewBox="0 0 400 400">
+        <svg id="compassSvg2" viewBox="0 0 400 400" class="compass-flat">
           <defs>
-            <radialGradient id="bezelGrad2" cx="35%" cy="30%" r="75%">
-              <stop offset="0%" stop-color="#f7e6ae"/>
-              <stop offset="55%" stop-color="#d4a54a"/>
-              <stop offset="100%" stop-color="#8a6423"/>
-            </radialGradient>
-            <radialGradient id="faceGrad2" cx="40%" cy="35%" r="70%">
-              <stop offset="0%" stop-color="#f6eed4"/>
-              <stop offset="100%" stop-color="#e6d6ac"/>
-            </radialGradient>
-            <radialGradient id="hubGrad2" cx="35%" cy="30%" r="70%">
-              <stop offset="0%" stop-color="#fff6da"/>
-              <stop offset="100%" stop-color="#8a6423"/>
-            </radialGradient>
-            <filter id="needleShadow2" x="-60%" y="-60%" width="220%" height="220%">
-              <feDropShadow dx="0" dy="3" stdDeviation="4" flood-color="#000" flood-opacity=".35"/>
+            <filter id="compassSvg2Shadow" x="-60%" y="-60%" width="220%" height="220%">
+              <feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#000" flood-opacity=".3"/>
             </filter>
           </defs>
 
-          <circle cx="200" cy="200" r="192" fill="url(#bezelGrad2)"/>
-          <circle cx="200" cy="200" r="192" fill="none" stroke="#5b4020" stroke-width="2" opacity=".6"/>
-          <circle cx="200" cy="200" r="170" fill="url(#faceGrad2)" stroke="#5b4020" stroke-width="2"/>
+          <circle cx="200" cy="200" r="190" class="rose-ring"/>
+          <circle cx="200" cy="200" r="150" class="rose-ring-thin"/>
+          <circle cx="200" cy="200" r="110" class="rose-ring-thin"/>
 
-          <g opacity=".9">
-            <path d="M200,200 L196.6,178.3 L200.0,52.0 Z" fill="rgb(100,137,180)"/>
-            <path d="M200,200 L200.0,52.0 L203.4,178.3 Z" fill="rgb(24,61,104)"/>
-            <path d="M200,200 L221.7,196.6 L348.0,200.0 Z" fill="rgb(105,164,127)"/>
-            <path d="M200,200 L348.0,200.0 L221.7,203.4 Z" fill="rgb(29,88,51)"/>
-            <path d="M200,200 L203.4,221.7 L200.0,348.0 Z" fill="rgb(210,115,105)"/>
-            <path d="M200,200 L200.0,348.0 L196.6,221.7 Z" fill="rgb(134,39,29)"/>
-            <path d="M200,200 L178.3,203.4 L52.0,200.0 Z" fill="rgb(164,105,86)"/>
-            <path d="M200,200 L52.0,200.0 L178.3,196.6 Z" fill="rgb(88,29,10)"/>
-            <path d="M200,200 L212.9,182.2 L263.6,136.4 Z" fill="rgb(243,210,138)"/>
-            <path d="M200,200 L263.6,136.4 L217.8,187.1 Z" fill="rgb(167,134,62)"/>
-            <path d="M200,200 L217.8,212.9 L263.6,263.6 Z" fill="rgb(243,210,138)"/>
-            <path d="M200,200 L263.6,263.6 L212.9,217.8 Z" fill="rgb(167,134,62)"/>
-            <path d="M200,200 L187.1,217.8 L136.4,263.6 Z" fill="rgb(243,210,138)"/>
-            <path d="M200,200 L136.4,263.6 L182.2,212.9 Z" fill="rgb(167,134,62)"/>
-            <path d="M200,200 L182.2,187.1 L136.4,136.4 Z" fill="rgb(243,210,138)"/>
-            <path d="M200,200 L136.4,136.4 L187.1,182.2 Z" fill="rgb(167,134,62)"/>
-          </g>
-          <g>
-            <line x1="229.3" y1="52.9" x2="232.8" y2="35.2" stroke="#5b4020" stroke-width="1" opacity=".35"/>
-            <line x1="257.4" y1="61.4" x2="264.3" y2="44.8" stroke="#5b4020" stroke-width="1" opacity=".35"/>
-            <line x1="283.3" y1="75.3" x2="293.3" y2="60.3" stroke="#5b4020" stroke-width="1" opacity=".35"/>
-            <line x1="324.7" y1="116.7" x2="339.7" y2="106.7" stroke="#5b4020" stroke-width="1" opacity=".35"/>
-            <line x1="338.6" y1="142.6" x2="355.2" y2="135.7" stroke="#5b4020" stroke-width="1" opacity=".35"/>
-            <line x1="347.1" y1="170.7" x2="364.8" y2="167.2" stroke="#5b4020" stroke-width="1" opacity=".35"/>
-            <line x1="347.1" y1="229.3" x2="364.8" y2="232.8" stroke="#5b4020" stroke-width="1" opacity=".35"/>
-            <line x1="338.6" y1="257.4" x2="355.2" y2="264.3" stroke="#5b4020" stroke-width="1" opacity=".35"/>
-            <line x1="324.7" y1="283.3" x2="339.7" y2="293.3" stroke="#5b4020" stroke-width="1" opacity=".35"/>
-            <line x1="283.3" y1="324.7" x2="293.3" y2="339.7" stroke="#5b4020" stroke-width="1" opacity=".35"/>
-            <line x1="257.4" y1="338.6" x2="264.3" y2="355.2" stroke="#5b4020" stroke-width="1" opacity=".35"/>
-            <line x1="229.3" y1="347.1" x2="232.8" y2="364.8" stroke="#5b4020" stroke-width="1" opacity=".35"/>
-            <line x1="170.7" y1="347.1" x2="167.2" y2="364.8" stroke="#5b4020" stroke-width="1" opacity=".35"/>
-            <line x1="142.6" y1="338.6" x2="135.7" y2="355.2" stroke="#5b4020" stroke-width="1" opacity=".35"/>
-            <line x1="116.7" y1="324.7" x2="106.7" y2="339.7" stroke="#5b4020" stroke-width="1" opacity=".35"/>
-            <line x1="75.3" y1="283.3" x2="60.3" y2="293.3" stroke="#5b4020" stroke-width="1" opacity=".35"/>
-            <line x1="61.4" y1="257.4" x2="44.8" y2="264.3" stroke="#5b4020" stroke-width="1" opacity=".35"/>
-            <line x1="52.9" y1="229.3" x2="35.2" y2="232.8" stroke="#5b4020" stroke-width="1" opacity=".35"/>
-            <line x1="52.9" y1="170.7" x2="35.2" y2="167.2" stroke="#5b4020" stroke-width="1" opacity=".35"/>
-            <line x1="61.4" y1="142.6" x2="44.8" y2="135.7" stroke="#5b4020" stroke-width="1" opacity=".35"/>
-            <line x1="75.3" y1="116.7" x2="60.3" y2="106.7" stroke="#5b4020" stroke-width="1" opacity=".35"/>
-            <line x1="116.7" y1="75.3" x2="106.7" y2="60.3" stroke="#5b4020" stroke-width="1" opacity=".35"/>
-            <line x1="142.6" y1="61.4" x2="135.7" y2="44.8" stroke="#5b4020" stroke-width="1" opacity=".35"/>
-            <line x1="170.7" y1="52.9" x2="167.2" y2="35.2" stroke="#5b4020" stroke-width="1" opacity=".35"/>
-          </g>
-          <circle cx="200" cy="200" r="170" fill="none" stroke="#5b4020" stroke-width="1.5" opacity=".5"/>
-          <circle cx="200" cy="200" r="60" fill="url(#faceGrad2)" stroke="#5b4020" stroke-width="1" opacity=".9"/>
-
-          <g font-family="Georgia, 'Times New Roman', serif" fill="#3a2c1c" text-anchor="middle" style="paint-order:stroke; stroke:#f6eed4; stroke-width:3px;">
-            <text x="200" y="46" font-size="17" font-style="italic" font-weight="700">Denken</text>
-            <text x="200" y="368" font-size="17" font-style="italic" font-weight="700">Fühlen</text>
-            <text x="66" y="205" font-size="16" font-style="italic" font-weight="700">Anspannung</text>
-            <text x="334" y="205" font-size="16" font-style="italic" font-weight="700">Entspannung</text>
+          <g class="rose-ticks">
+            <line x1="229.3" y1="52.9" x2="232.8" y2="35.2"/>
+            <line x1="257.4" y1="61.4" x2="264.3" y2="44.8"/>
+            <line x1="283.3" y1="75.3" x2="293.3" y2="60.3"/>
+            <line x1="324.7" y1="116.7" x2="339.7" y2="106.7"/>
+            <line x1="338.6" y1="142.6" x2="355.2" y2="135.7"/>
+            <line x1="347.1" y1="170.7" x2="364.8" y2="167.2"/>
+            <line x1="347.1" y1="229.3" x2="364.8" y2="232.8"/>
+            <line x1="338.6" y1="257.4" x2="355.2" y2="264.3"/>
+            <line x1="324.7" y1="283.3" x2="339.7" y2="293.3"/>
+            <line x1="283.3" y1="324.7" x2="293.3" y2="339.7"/>
+            <line x1="257.4" y1="338.6" x2="264.3" y2="355.2"/>
+            <line x1="229.3" y1="347.1" x2="232.8" y2="364.8"/>
+            <line x1="170.7" y1="347.1" x2="167.2" y2="364.8"/>
+            <line x1="142.6" y1="338.6" x2="135.7" y2="355.2"/>
+            <line x1="116.7" y1="324.7" x2="106.7" y2="339.7"/>
+            <line x1="75.3" y1="283.3" x2="60.3" y2="293.3"/>
+            <line x1="61.4" y1="257.4" x2="44.8" y2="264.3"/>
+            <line x1="52.9" y1="229.3" x2="35.2" y2="232.8"/>
+            <line x1="52.9" y1="170.7" x2="35.2" y2="167.2"/>
+            <line x1="61.4" y1="142.6" x2="44.8" y2="135.7"/>
+            <line x1="75.3" y1="116.7" x2="60.3" y2="106.7"/>
+            <line x1="116.7" y1="75.3" x2="106.7" y2="60.3"/>
+            <line x1="142.6" y1="61.4" x2="135.7" y2="44.8"/>
+            <line x1="170.7" y1="52.9" x2="167.2" y2="35.2"/>
           </g>
 
-          <line id="needleLine2" x1="200" y1="200" x2="200" y2="200" stroke="#c0392b" stroke-width="4" stroke-linecap="round" filter="url(#needleShadow2)"/>
-          <circle id="needleTip2" cx="200" cy="200" r="10" fill="#c0392b" stroke="#fffaf0" stroke-width="2.5" style="cursor:grab;" filter="url(#needleShadow2)"/>
-          <circle cx="200" cy="200" r="13" fill="url(#hubGrad2)" stroke="#5b4020" stroke-width="1.5"/>
+          <g class="rose-star">
+            <path class="a" d="M200,200 L196.6,178.3 L200.0,52.0 Z"/>
+            <path class="b" d="M200,200 L200.0,52.0 L203.4,178.3 Z"/>
+            <path class="a" d="M200,200 L221.7,196.6 L348.0,200.0 Z"/>
+            <path class="b" d="M200,200 L348.0,200.0 L221.7,203.4 Z"/>
+            <path class="a" d="M200,200 L203.4,221.7 L200.0,348.0 Z"/>
+            <path class="b" d="M200,200 L200.0,348.0 L196.6,221.7 Z"/>
+            <path class="a" d="M200,200 L178.3,203.4 L52.0,200.0 Z"/>
+            <path class="b" d="M200,200 L52.0,200.0 L178.3,196.6 Z"/>
+            <path class="c" d="M200,200 L212.9,182.2 L263.6,136.4 Z"/>
+            <path class="d" d="M200,200 L263.6,136.4 L217.8,187.1 Z"/>
+            <path class="c" d="M200,200 L217.8,212.9 L263.6,263.6 Z"/>
+            <path class="d" d="M200,200 L263.6,263.6 L212.9,217.8 Z"/>
+            <path class="c" d="M200,200 L187.1,217.8 L136.4,263.6 Z"/>
+            <path class="d" d="M200,200 L136.4,263.6 L182.2,212.9 Z"/>
+            <path class="c" d="M200,200 L182.2,187.1 L136.4,136.4 Z"/>
+            <path class="d" d="M200,200 L136.4,136.4 L187.1,182.2 Z"/>
+          </g>
+
+          <circle cx="200" cy="200" r="60" class="rose-ring-thin"/>
+
+          <g class="rose-labels" font-family="Georgia, 'Times New Roman', serif" text-anchor="middle">
+            <text x="200" y="44" font-size="17" font-style="italic" font-weight="700">Denken</text>
+            <text x="200" y="370" font-size="17" font-style="italic" font-weight="700">Fühlen</text>
+            <text x="60" y="205" font-size="16" font-style="italic" font-weight="700">Anspannung</text>
+            <text x="340" y="205" font-size="16" font-style="italic" font-weight="700">Entspannung</text>
+          </g>
+
+          <line id="needleLine2" x1="200" y1="200" x2="200" y2="200" class="rose-needle" stroke-linecap="round" filter="url(#compassSvg2Shadow)"/>
+          <circle id="needleTip2" cx="200" cy="200" r="9" class="rose-needle-tip" style="cursor:grab;" filter="url(#compassSvg2Shadow)"/>
+          <circle cx="200" cy="200" r="7" class="rose-hub"/>
         </svg>
       </div>
 
