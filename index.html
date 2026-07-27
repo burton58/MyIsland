@@ -1249,7 +1249,10 @@
         var d = dirs[i % 4];
         var theme = THEMES[d][themeIdx[d] % THEMES[d].length];
         themeIdx[d]++;
-        var dur = info.durations[Math.floor(i / 4) % info.durations.length];
+        // Richtungs-Offset dazu, sonst erreicht bei 5 Dauerstufen (tief)
+        // die laengste (30 Min) rechnerisch nie einen Eintrag: bei 13
+        // Elementen kommt Math.floor(i/4) nie ueber 3.
+        var dur = info.durations[(Math.floor(i / 4) + (i % 4)) % info.durations.length];
         var desc = cat === "mini" ? (theme + " – churz für zwüschedure.") :
                    cat === "mittel" ? (theme + " i Rueh vertüüfe.") :
                    ("Tüüfi Reis: " + theme + ".");
@@ -1680,8 +1683,18 @@
       "<strong>Dein Kompass zeigt Richtung " + DIRS[dir].label + ".</strong><br>" + DIRS[dir].note;
 
     if (chosenMedIds.length === 0){
-      var recommended = MEDITATIONS.filter(function(m){ return m.dir === dir && istFrei(m.id); })
-        .sort(function(a,b){ return a.min - b.min; }); // prefer shorter ones first to fit the budget
+      var recommended = MEDITATIONS.filter(function(m){ return m.dir === dir && istFrei(m.id); });
+      if (maxDuration >= 99){
+        // "egal" - keine Zieldauer, dann reicht kuerzeste zuerst als einfache Regel
+        recommended.sort(function(a,b){ return a.min - b.min; });
+      } else {
+        // Wer "30 Min" waehlt, will eine ~30-Min-Uebung sehen - nicht die
+        // kuerzeste, die zufaellig ins Budget passt. Also nach Naehe zur
+        // Zieldauer je Slot sortieren (Budget geteilt durch Anzahl),
+        // nicht nach kuerzester Dauer.
+        var ziel = maxDuration / desiredCount;
+        recommended.sort(function(a,b){ return Math.abs(a.min - ziel) - Math.abs(b.min - ziel); });
+      }
       var pick = [];
       for (var i = 0; i < recommended.length && pick.length < desiredCount; i++){
         if (totalMinutes(pick.concat(recommended[i].id)) <= maxDuration || pick.length === 0){
