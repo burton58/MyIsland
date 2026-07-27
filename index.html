@@ -492,6 +492,11 @@
      Titel. */
   body:not(.entered)[data-step="compass"] .topbar,
   body:not(.entered)[data-step="compass"] .stepper{ display:none; }
+  /* Abschluss-Karte bringt mit "Zurueck von der Insel" ebenfalls ihre
+     eigene Ueberschrift mit - "Gestalte deine Inselreise" waere hier ein
+     zweiter Titel. */
+  body:not(.entered)[data-step="outro"] .topbar,
+  body:not(.entered)[data-step="outro"] .stepper{ display:none; }
   body[data-step="home"]:not(.entered){ padding-bottom:0; }
 
   /* dvh zuletzt, damit es gewinnt: 100vh rechnet auf dem Handy die
@@ -1001,8 +1006,8 @@
         <h4>Brauchst du noch etwas?</h4>
         <div class="need-more-actions">
           <button class="mini-btn" id="needMoreMedBtn">🧘 Noch eine Meditation</button>
-          <button class="mini-btn" id="needMudraBtn">🤲 3 Mudras für mich</button>
-          <button class="mini-btn" id="needMantraBtn">✨ 3 Mantras für mich</button>
+          <button class="mini-btn" id="needMudraBtn">🤲 Ein Mudra für mich</button>
+          <button class="mini-btn" id="needMantraBtn">✨ Ein Mantra für mich</button>
         </div>
         <div id="mudraBox"></div>
         <div id="mantraBox"></div>
@@ -2162,14 +2167,14 @@
     }
     return kopie;
   }
-  function empfehle3(liste, dir){
+  function empfehleN(liste, dir, anzahl){
     var passend = mische(liste.filter(function(e){ return e.dir === dir; }));
     var rest = mische(liste.filter(function(e){ return e.dir !== dir; }));
-    return passend.concat(rest).slice(0, 3);
+    return passend.concat(rest).slice(0, anzahl);
   }
 
   function zeigeMudra(){
-    var auswahl = empfehle3(MUDRAS, dirFromCompass(compassAfter));
+    var auswahl = empfehleN(MUDRAS, dirFromCompass(compassAfter), 1);
     document.getElementById("mudraBox").innerHTML = auswahl.map(function(m){
       return '<div class="mudra-card">' +
         '<h5>🤲 ' + m.name + '</h5>' +
@@ -2179,7 +2184,7 @@
     }).join("");
   }
   function zeigeMantra(){
-    var auswahl = empfehle3(MANTRAS, dirFromCompass(compassAfter));
+    var auswahl = empfehleN(MANTRAS, dirFromCompass(compassAfter), 1);
     document.getElementById("mantraBox").innerHTML = auswahl.map(function(m){
       return '<div class="mantra-card">' +
         '<h5>✨ ' + m.text + '</h5>' +
