@@ -1,0 +1,28 @@
+{
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash \"${CLAUDE_PROJECT_DIR}/.claude/hooks/session-start.sh\"",
+            "timeout": 60,
+            "statusMessage": "Hole den aktuellen Stand …"
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash \"${CLAUDE_PROJECT_DIR}/.claude/hooks/auto-save.sh\"",
+            "timeout": 180,
+            "statusMessage": "Speichere deine Änderungen …"
+          }
+        ]
+      }
+    ]
+  }
+}
