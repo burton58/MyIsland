@@ -1060,12 +1060,12 @@
       <button class="plan best" id="planJahr">
         <span class="plan-badge">Am günstigsten</span>
         <span class="plan-name">Jahr</span>
-        <span class="plan-price">CHF 49</span>
-        <span class="plan-note">Entspricht CHF 4.10 pro Monat – du sparst 18 % gegenüber dem Monatsabo.</span>
+        <span class="plan-price">CHF 39</span>
+        <span class="plan-note">Entspricht CHF 3.25 pro Monat – du sparst 19 % gegenüber dem Monatsabo.</span>
       </button>
       <button class="plan" id="planMonat">
         <span class="plan-name">Monat</span>
-        <span class="plan-price">CHF 5</span>
+        <span class="plan-price">CHF 4</span>
         <span class="plan-note">Monatlich kündbar.</span>
       </button>
 
@@ -2354,16 +2354,16 @@
     if (state === "active"){
       icon = "✅";
       title = (abo.plan === "jahr" ? "Jahresabo" : "Monatsabo") + " aktiv";
-      detail = (abo.plan === "jahr" ? "CHF 49 pro Jahr" : "CHF 5 pro Monat") + " · ganze Bibliothek offen";
+      detail = (abo.plan === "jahr" ? "CHF 39 pro Jahr" : "CHF 4 pro Monat") + " · ganze Bibliothek offen";
     } else if (state === "test"){
       icon = "⏳";
       title = "Test läuft · noch " + tageWort(testTageUebrig());
-      detail = GRATIS_IDS.length + " Meditationen offen · danach Monatsabo CHF 5 oder Jahresabo CHF 49";
+      detail = GRATIS_IDS.length + " Meditationen offen · danach Monatsabo CHF 4 oder Jahresabo CHF 39";
       zeigeCta = true;
     } else {
       icon = "🔒";
       title = "Test beendet";
-      detail = "Mit einem Abo öffnest du die ganze Bibliothek · Monatsabo CHF 5 oder Jahresabo CHF 49";
+      detail = "Mit einem Abo öffnest du die ganze Bibliothek · Monatsabo CHF 4 oder Jahresabo CHF 39";
       zeigeCta = true;
     }
 
@@ -2407,7 +2407,7 @@
   // Es ist bewusst KEINE Bezahlung angeschlossen. Der Knopf erklaert das
   // ehrlich und bietet daneben eine Freischaltung zum Ausprobieren an.
   function planGewaehlt(plan){
-    var preis = plan === "jahr" ? "CHF 49 pro Jahr" : "CHF 5 pro Monat";
+    var preis = plan === "jahr" ? "CHF 39 pro Jahr" : "CHF 4 pro Monat";
     document.getElementById("payNote").innerHTML =
       '<strong>' + preis + ' – noch nicht bezahlbar.</strong><br>' +
       'Für eine echte Zahlung braucht es einen Zahlungsanbieter; das ist noch nicht angeschlossen. ' +
