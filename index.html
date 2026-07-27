@@ -1614,7 +1614,7 @@
       if (onChange) onChange();
     }
     function update(){
-      readout.innerHTML = compassWords(target) +
+      readout.innerHTML = moodHtml(target) +
         '<span class="sub">Ziehe den Punkt, um es anzupassen</span>';
     }
     svg.addEventListener("pointerdown", function(e){
@@ -1637,33 +1637,6 @@
     var v = vert >= 50 ? ("Fühlen " + vert + "%") : ("Denken " + (100 - vert) + "%");
     var h = horiz >= 50 ? ("Entspannung " + horiz + "%") : ("Anspannung " + (100 - horiz) + "%");
     return v + " &amp; " + h;
-  }
-
-  var COMPASS_COMBOS = {
-    "Denken_Anspannung":   { leicht:"Du bist gerade ein bisschen im Kopf unterwegs, mit etwas Anspannung dabei.",
-                              klar:"Du bist gerade spürbar im Kopf unterwegs, mit einer klaren Anspannung.",
-                              stark:"Du bist gerade sehr im Kopf, mit deutlicher Anspannung im Körper." },
-    "Denken_Entspannung":  { leicht:"Du denkst gerade ein bisschen viel nach, wirkst dabei aber schon entspannt.",
-                              klar:"Du denkst gerade spürbar viel nach, bist dabei aber recht entspannt.",
-                              stark:"Du bist sehr im Kopf unterwegs, wirkst dabei aber angenehm entspannt." },
-    "Fühlen_Anspannung":   { leicht:"Du bist gerade ein bisschen bei deinen Gefühlen, mit leichter Anspannung.",
-                              klar:"Du bist gerade spürbar bei deinen Gefühlen, mit einer klaren Anspannung.",
-                              stark:"Du bist gerade ganz bei deinen Gefühlen, mit deutlicher Anspannung." },
-    "Fühlen_Entspannung":  { leicht:"Du bist gerade ein bisschen bei deinen Gefühlen und wirkst dabei entspannt.",
-                              klar:"Du bist gerade spürbar bei deinen Gefühlen und wirkst dabei entspannt.",
-                              stark:"Du bist gerade ganz bei deinen Gefühlen und wirkst dabei sehr entspannt." }
-  };
-
-  function compassWords(c){
-    var vMag = Math.abs(c.y), hMag = Math.abs(c.x);
-    var overall = (vMag + hMag) / 2;
-    if (overall < 0.15){
-      return "Du bist gerade schön ausgeglichen – zwischen Denken und Fühlen, zwischen Anspannung und Entspannung.";
-    }
-    var vSide = c.y < 0 ? "Denken" : "Fühlen";
-    var hSide = c.x < 0 ? "Anspannung" : "Entspannung";
-    var level = overall < 0.4 ? "leicht" : (overall < 0.7 ? "klar" : "stark");
-    return COMPASS_COMBOS[vSide + "_" + hSide][level];
   }
 
   // ---- meditation list (multi-select) ----
@@ -1909,7 +1882,7 @@
     document.getElementById("needleTip2").setAttribute("cx", mx);
     document.getElementById("needleTip2").setAttribute("cy", my);
     document.getElementById("compassReadout2").innerHTML =
-      compassWords(compassAfter) +
+      moodHtml(compassAfter) +
       '<span class="sub">Ziehe den Punkt, um es anzupassen</span>';
     recordSession();
     renderRecap();
@@ -2212,8 +2185,8 @@
       : "–";
     document.getElementById("recapBox").innerHTML =
       '<h4>Dein Rückblick</h4>' +
-      row("Vorher", compassWords(compassBefore)) +
-      row("Jetzt", compassWords(compassAfter)) +
+      row("Vorher", moodHtml(compassBefore)) +
+      row("Jetzt", moodHtml(compassAfter)) +
       row("Meditationen", medSummary);
     updateShift();
     updateCurrentEntry();
