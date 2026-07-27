@@ -86,7 +86,7 @@ Der frühere Insel-Konfigurator-Schritt (`island`) existiert im Code noch (SVG-I
 - Zweiter Kompass (gleiche Optik/Bedienung), Frage "Wie fühlst du dich jetzt?" → `compassAfter`
 - Rückblick: **nur noch** Vorher/Jetzt (in Worten) + Liste der gemachten Meditationen mit Dauer — **keine** Insel-Details mehr (Größe/Palmen/Wetter wurden bewusst entfernt)
 - Ein Satz zur Veränderung (`updateShift()`, vergleicht Vorher/Jetzt)
-- "Brauchst du noch etwas?": Buttons **"Noch eine Meditation"** (zurück zur Auswahl, neue Empfehlung basiert auf dem *neuen* Kompassstand), **"Ein Mudra für mich"** und **"Ein Mantra für mich"** — beide zeigen je 1 Karte aus einer fest hinterlegten Bibliothek, ausgewählt passend zur aktuellen Kompass-Richtung (siehe §5, `MUDRAS`/`MANTRAS`/`empfehleN()`). Die beiden Buttons sind unabhängig: man kann keins, eins oder beide antippen.
+- "Brauchst du noch etwas?": Buttons **"Noch eine Meditation"** (zurück zur Auswahl, neue Empfehlung basiert auf dem *neuen* Kompassstand), **"Ein Mudra für mich"** und **"Ein Mantra für mich"** — beide zeigen je 1 Karte aus einer fest hinterlegten Bibliothek, ausgewählt passend zur aktuellen Kompass-Richtung (siehe §5, `MUDRAS`/`MANTRAS`/`waehlePassend()`). Die Auswahl ist **deterministisch** aus der genauen Nadel-Position berechnet, nicht zufällig — mehrfaches Antippen desselben Buttons zeigt darum immer dasselbe Ergebnis, solange sich der Kompass nicht verändert. Die beiden Buttons sind unabhängig: man kann keins, eins oder beide antippen.
 - Begleiter-Chat (zweite Instanz, ohne Empfehlungs-Tag-Parsing)
 - "Neu beginnen" / "Fertig →" — beide beenden die Sitzung gleich (Auswahl/Verlauf-Zwischenstand zurücksetzen, zurück zu Home). Der frühere Button "Zurück auf die Insel" (→ Vollbild-Ansicht der SVG-Insel-Szene) wurde entfernt: unnötiger Zwischenschritt mit einem Bild, das nicht zum Rest der App passte (echtes Foto überall sonst, hier eine gezeichnete Szene).
 - Eigene Karten-Überschrift **"🌅 Zurück von der Insel"** — der allgemeine Seitenkopf (Topbar/Stepper, "Gestalte deine Inselreise") ist auf diesem Schritt bewusst ausgeblendet, sonst gäbe es zwei Titel übereinander (gleiches Prinzip wie beim Kompass-Schritt, siehe §3.2)
@@ -136,10 +136,10 @@ MEDITATIONS[] = {
 MUDRAS[]  = { dir, name, how, why }   // 20 Eintraege, 5 je Richtung, Erklaerung auf Hochdeutsch
 MANTRAS[] = { dir, text, why }        // 20 Eintraege, 5 je Richtung, auf Hochdeutsch
 
-empfehleN(liste, dir, anzahl)  // mischt die zur Richtung passenden Eintraege nach vorne, fuellt bei Bedarf
-                        // mit den restlichen auf, gibt `anzahl` zurueck — bei jedem Antippen eine neue
-                        // Zufallsauswahl. zeigeMudra()/zeigeMantra() rufen sie je mit anzahl=1 auf.
-zeigeMudra()/zeigeMantra()  // rendern die Karte(n) in #mudraBox/#mantraBox, Richtung kommt aus compassAfter
+waehlePassend(liste, c)  // filtert auf die zu c passende Richtung, waehlt daraus DETERMINISTISCH
+                          // (aus c.x/c.y berechneter Index, kein Math.random()) genau 1 Eintrag -
+                          // dieselbe Nadel-Position liefert also immer dasselbe Ergebnis
+zeigeMudra()/zeigeMantra()  // rendern die Karte in #mudraBox/#mantraBox, Richtung/Position kommt aus compassAfter
 ```
 
 ## 5a. Themenvielfalt (umgesetzt)

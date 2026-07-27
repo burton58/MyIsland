@@ -2155,42 +2155,34 @@
     { dir:"ost", text:"Om Mani Padme Hum.", why:"Bekanntes buddhistisches Mitgefühls-Mantra für inneren Frieden." }
   ];
 
-  // Aus einer Liste 3 Eintraege passend zur Kompass-Richtung waehlen -
-  // gemischt, damit es bei mehrmaligem Antippen abwechslungsreich bleibt.
-  // Reicht die eigene Richtung nicht (kommt bei 5 Eintraegen/Richtung nicht
-  // vor, ist aber eine sinnvolle Absicherung), wird mit den anderen aufgefuellt.
-  function mische(liste){
-    var kopie = liste.slice();
-    for (var i = kopie.length - 1; i > 0; i--){
-      var j = Math.floor(Math.random() * (i + 1));
-      var tmp = kopie[i]; kopie[i] = kopie[j]; kopie[j] = tmp;
-    }
-    return kopie;
-  }
-  function empfehleN(liste, dir, anzahl){
-    var passend = mische(liste.filter(function(e){ return e.dir === dir; }));
-    var rest = mische(liste.filter(function(e){ return e.dir !== dir; }));
-    return passend.concat(rest).slice(0, anzahl);
+  // Aus einer Liste den zur Kompass-Richtung passenden Eintrag waehlen -
+  // deterministisch aus der genauen Nadel-Position berechnet, NICHT
+  // zufaellig. Dieselbe Kompass-Position zeigt darum immer denselben
+  // Eintrag; nur eine Verschiebung der Nadel aendert das Ergebnis.
+  function waehlePassend(liste, c){
+    var dir = dirFromCompass(c);
+    var pool = liste.filter(function(e){ return e.dir === dir; });
+    if (!pool.length) pool = liste; // Absicherung, falls eine Richtung leer waere
+    var idx = Math.floor(Math.abs(c.x * 1000 + c.y * 137)) % pool.length;
+    return pool[idx];
   }
 
   function zeigeMudra(){
-    var auswahl = empfehleN(MUDRAS, dirFromCompass(compassAfter), 1);
-    document.getElementById("mudraBox").innerHTML = auswahl.map(function(m){
-      return '<div class="mudra-card">' +
+    var m = waehlePassend(MUDRAS, compassAfter);
+    document.getElementById("mudraBox").innerHTML =
+      '<div class="mudra-card">' +
         '<h5>🤲 ' + m.name + '</h5>' +
         '<p class="how">' + m.how + '</p>' +
         '<p class="why">' + m.why + '</p>' +
       '</div>';
-    }).join("");
   }
   function zeigeMantra(){
-    var auswahl = empfehleN(MANTRAS, dirFromCompass(compassAfter), 1);
-    document.getElementById("mantraBox").innerHTML = auswahl.map(function(m){
-      return '<div class="mantra-card">' +
+    var m = waehlePassend(MANTRAS, compassAfter);
+    document.getElementById("mantraBox").innerHTML =
+      '<div class="mantra-card">' +
         '<h5>✨ ' + m.text + '</h5>' +
         '<p class="why">' + m.why + '</p>' +
       '</div>';
-    }).join("");
   }
 
   // ---- Verlauf ----
