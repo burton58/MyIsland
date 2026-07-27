@@ -514,6 +514,30 @@
   .home-compass.gross{
     width:82vw; top:44%;
   }
+  /* Folgt der Groesse des Kompasses automatisch (top:100% = seine eigene
+     Unterkante), egal ob klein oder gewachsen - keine feste Pixelzahl
+     noetig. Erst sichtbar, sobald der Kompass gewachsen ist. */
+  .home-continue-btn{
+    position:absolute; left:50%; top:100%; transform:translate(-50%,14px);
+    white-space:nowrap; border:none; cursor:pointer; z-index:3;
+    background:linear-gradient(135deg,var(--sage),var(--sage-deep)); color:#fff;
+    font-weight:700; font-size:.85rem; padding:11px 20px; border-radius:24px;
+    box-shadow:0 10px 22px rgba(4,20,22,.35);
+    opacity:0; pointer-events:none; transition:opacity .3s ease .15s, transform .3s ease .15s;
+  }
+  .home-compass.gross .home-continue-btn{
+    opacity:1; pointer-events:auto;
+  }
+  /* Sobald der Kompass im Fokus ist, verschwindet der Marketing-Text und
+     der urspruengliche "Los geht's"/"Anmelden"-Knopf - der neue Knopf
+     direkt am Kompass macht beides ueberfluessig, und zwei fast gleiche
+     Knoepfe uebereinander waeren nur verwirrend. */
+  .home-full.kompass-fokus .overlay-title,
+  .home-full.kompass-fokus .price-line,
+  .home-full.kompass-fokus .cta-pill,
+  .home-full.kompass-fokus .ghost-link{
+    display:none;
+  }
   @media (min-width:1000px){
     /* Auf sehr breiten Schirmen zeigt das Foto einen anderen Ausschnitt
        (das Boot ruecht in die Bildmitte) - dort wuerde die Kompass-Rose
@@ -602,6 +626,8 @@
           <circle id="needleTipHome" cx="200" cy="200" r="9" class="rose-needle-tip" style="cursor:grab;" filter="url(#compassSvgHomeShadow)"/>
           <circle cx="200" cy="200" r="7" class="rose-hub"/>
         </svg>
+
+        <button class="home-continue-btn" id="homeContinueBtn">Weiter zu deinem Kompass →</button>
       </div>
 
       <div class="home-full-bottom">
@@ -2382,10 +2408,14 @@
   document.getElementById("homeLoginBtn").addEventListener("click", function(){ goToStep("compass"); });
 
   // Kompass auf der Startseite: klein, damit Insel und Boot sichtbar bleiben.
-  // Erste Beruehrung laesst ihn auf die echte Groesse aufwachsen.
+  // Erste Beruehrung laesst ihn auf die echte Groesse aufwachsen und
+  // blendet den Marketing-Text gegen einen "Weiter"-Knopf direkt am
+  // Kompass ein - kein automatischer Sprung, das bleibt ein bewusster Tipp.
   document.getElementById("compassWrapHome").addEventListener("pointerdown", function(){
     this.classList.add("gross");
+    document.querySelector(".home-full").classList.add("kompass-fokus");
   }, { once: true });
+  document.getElementById("homeContinueBtn").addEventListener("click", function(){ goToStep("compass"); });
 
   document.getElementById("needMudraBtn").addEventListener("click", zeigeMudra);
 
