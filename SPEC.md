@@ -80,6 +80,16 @@ Der frühere Insel-Konfigurator-Schritt (`island`) existiert im Code noch (SVG-I
 - KI-Begleiter-Chat (kontextbewusst, kann per `[EMPFEHLUNG: <Name>]`-Tag eine Übung zur Auswahl hinzufügen)
 - "Insel betreten & starten →" → Vollbild-Session
 
+### 3.3a Meditationsauswahl — Variante 2 (`data-step="meditation2"`, Experiment zum Vergleichen)
+
+Über den Link "🗂️ Variante 2 ansehen" auf der normalen Meditationsauswahl erreichbar (`#toV2Btn`), rein zum Vergleichen gedacht — ersetzt Variante 1 nicht, beide Flüsse bestehen parallel und teilen sich dieselbe Session-Wiedergabe.
+
+- **Kategorie-Kacheln statt Akkordeon:** 2×2-Raster (`.catv2-grid`) mit einer Kachel je Kompass-Richtung, jede mit passendem Symbol: 🧠 Denken, ❤️ Fühlen, 🌪️ Anspannung, 🌊 Entspannung. Antippen zeigt alle Meditationen dieser Richtung (nicht nach mini/mittel/tief unterteilt, einfach die volle Liste).
+- **Dauer statt Anzahl:** Statt "Wie viele Meditationen?" (1/2/3) gibt es hier nur eine Frage — "Wie lange?" mit festen Werten **5/10/15/20/30 Minuten**. Die Anzahl der ausgewählten Übungen ergibt sich automatisch aus der Zieldauer, keine separate Eingabe nötig.
+- **Gleiche Auswahl-Logik wie Variante 1:** `autoFillV2()` füllt gierig auf — wählt aus der Kategorie immer die Übung, deren Dauer der *verbleibenden* Zieldauer am nächsten kommt, bis das Ziel erreicht oder leicht überschritten ist (Toleranz +4 Min, wie der bestehende "das ist okay"-Hinweis bei Variante 1). Mindestens eine Übung wird immer gewählt, auch wenn sie allein schon über dem Ziel liegt.
+- Einzelne Übungen bleiben antippbar (an-/abwählen), genau wie bei Variante 1 — `chosenMedIdsV2` ist ein eigener, separater Auswahl-Zustand.
+- "Insel betreten & starten →" kopiert `chosenMedIdsV2` nach `chosenMedIds` und startet dieselbe Session-Wiedergabe wie Variante 1 — Session-Player, Playlist-Logik und Abschluss sind identisch, nur der Auswahl-Bildschirm unterscheidet sich.
+
 ### 3.4 Session (Vollbild, `body.entered.in-session`)
 - Hintergrund: **aktuell überall dasselbe Titel-Foto** (nicht die animierte SVG-Insel), scharf statt verwischt gezeigt
 - Unteres Panel: Name + Position ("Meditation 2 von 3"), Fortschritts-Punkte für die Playlist, Anleitungstext (wandert mit der Zeit durch die `steps[]`), Fortschrittsbalken, Timer, Pause/Vorspulen/Fertig

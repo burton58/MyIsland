@@ -193,6 +193,7 @@
   .page{ display:none; padding:6px 14px 60px; max-width:640px; margin:0 auto; }
   body:not(.entered)[data-step="compass"] .compass-page,
   body:not(.entered)[data-step="meditation"] .med-page,
+  body:not(.entered)[data-step="meditation2"] .medv2-page,
   body:not(.entered)[data-step="outro"] .outro-page,
   body:not(.entered)[data-step="profil"] .profil-page,
   body:not(.entered)[data-step="abo"] .abo-page{ display:block; }
@@ -209,7 +210,8 @@
      Hintergrund mit und bleiben deshalb ohne Weiteres lesbar; nur der lose
      Text bekommt einen leichten hellen Schein fuers Auge. */
   body[data-step="compass"] .compass-card,
-  body[data-step="meditation"] .compass-card{
+  body[data-step="meditation"] .compass-card,
+  body[data-step="meditation2"] .compass-card{
     /* Ganz ohne Flaeche: jede Fuellfarbe erzeugt an der Kante einen
        sichtbaren Sprung gegenueber dem Foto dahinter - also wieder ein
        Rechteck, nur heller. Der lose Text bekommt stattdessen einen
@@ -223,7 +225,10 @@
   body[data-step="compass"] .compass-card .compass-readout,
   body[data-step="meditation"] .compass-card h2, body[data-step="meditation"] .compass-card .lead,
   body[data-step="meditation"] .compass-card .pref-group h3, body[data-step="meditation"] .compass-card .pref-status,
-  body[data-step="meditation"] .compass-card .companion h4, body[data-step="meditation"] .compass-card .companion .intro{
+  body[data-step="meditation"] .compass-card .companion h4, body[data-step="meditation"] .compass-card .companion .intro,
+  body[data-step="meditation2"] .compass-card h2, body[data-step="meditation2"] .compass-card .lead,
+  body[data-step="meditation2"] .compass-card .pref-group h3, body[data-step="meditation2"] .compass-card .pref-status,
+  body[data-step="meditation2"] .compass-card .catv2-title{
     text-shadow:0 1px 3px rgba(255,255,255,.9), 0 1px 10px rgba(255,255,255,.7);
   }
   .compass-card h2{ margin:2px 0 6px; font-size:1.2rem; font-family:var(--serif); color:var(--forest); }
@@ -449,6 +454,21 @@
   }
   .med-card.locked{ opacity:.55; }
   .med-lock{ font-size:.9rem; margin-left:6px; }
+  /* ---------- Meditationsauswahl Variante 2: Kategorie-Kacheln ---------- */
+  .catv2-grid{ display:grid; grid-template-columns:1fr 1fr; gap:12px; margin:0 0 6px; }
+  .catv2-tile{
+    background:#eef6f2; border-radius:18px; padding:24px 10px; text-align:center; cursor:pointer;
+    border:none; font-family:inherit;
+  }
+  .catv2-tile .catv2-icon{ display:block; font-size:2.1rem; margin-bottom:8px; }
+  .catv2-tile .catv2-label{ display:block; font-weight:700; color:var(--forest); font-size:.95rem; }
+  .catv2-title{ font-family:var(--serif); font-size:1.15rem; color:var(--forest); margin:0 0 10px; text-align:left; }
+  #catV2Detail .back-link-btn{ margin-bottom:14px; }
+  /* Testlink zur Variante 2, nur zum Vergleichen gedacht */
+  .v2-try-link{
+    display:block; width:100%; margin:10px 0 0; border:none; border-radius:12px; cursor:pointer;
+    background:#eef6f2; color:var(--forest); font-weight:700; font-size:.82rem; padding:9px 10px; font-family:inherit;
+  }
   .mudra-card, .mantra-card{
     text-align:left; background:#f7fbfa; border-radius:18px; padding:16px 18px; margin-top:12px;
   }
@@ -543,7 +563,9 @@
      eigene Ueberschrift mit - die Seite soll direkt damit beginnen statt
      mit einem zweiten, allgemeinen Titel davor. */
   body:not(.entered)[data-step="meditation"] .topbar,
-  body:not(.entered)[data-step="meditation"] .stepper{ display:none; }
+  body:not(.entered)[data-step="meditation"] .stepper,
+  body:not(.entered)[data-step="meditation2"] .topbar,
+  body:not(.entered)[data-step="meditation2"] .stepper{ display:none; }
   body[data-step="home"]:not(.entered){ padding-bottom:0; }
 
   /* dvh zuletzt, damit es gewinnt: 100vh rechnet auf dem Handy die
@@ -985,6 +1007,7 @@
       <h2>🧘 Deine Meditationen</h2>
       <p class="lead">Passend zu deinem Kompass – du kannst aber frei wählen.</p>
       <p class="dialect-chip">🇨🇭 Die Anleitungen sind auf Schweizerdeutsch</p>
+      <button class="v2-try-link" id="toV2Btn">🗂️ Variante 2 ansehen: nach Kategorien sortiert →</button>
 
       <div class="pref-row">
         <div class="pref-group">
@@ -1023,6 +1046,52 @@
       <div class="compass-actions">
         <button class="back-link-btn" id="backToCompassBtn">← Zurück</button>
         <button class="enter-btn" id="enterBtn">Insel betreten &amp; starten →</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="page medv2-page" id="medV2Page">
+    <div class="compass-card">
+      <h2>🗂️ Nach Kategorie wählen</h2>
+      <p class="lead">Variante 2 – zum Ausprobieren: Meditationen nach Themen sortiert.</p>
+
+      <div class="catv2-grid" id="catV2Grid">
+        <button class="catv2-tile" data-dir="nord">
+          <span class="catv2-icon">🧠</span><span class="catv2-label">Denken</span>
+        </button>
+        <button class="catv2-tile" data-dir="sued">
+          <span class="catv2-icon">❤️</span><span class="catv2-label">Fühlen</span>
+        </button>
+        <button class="catv2-tile" data-dir="west">
+          <span class="catv2-icon">🌪️</span><span class="catv2-label">Anspannung</span>
+        </button>
+        <button class="catv2-tile" data-dir="ost">
+          <span class="catv2-icon">🌊</span><span class="catv2-label">Entspannung</span>
+        </button>
+      </div>
+
+      <div id="catV2Detail" style="display:none">
+        <button class="back-link-btn" id="catV2BackBtn">← Kategorien</button>
+        <h3 class="catv2-title" id="catV2Title"></h3>
+
+        <div class="pref-group" style="text-align:left; margin-bottom:12px;">
+          <h3>Wie lange?</h3>
+          <div class="pref-opts" data-field="durationV2" id="durationOptsV2">
+            <div class="opt" data-value="5">5 Min</div>
+            <div class="opt" data-value="10">10 Min</div>
+            <div class="opt" data-value="15">15 Min</div>
+            <div class="opt" data-value="20">20 Min</div>
+            <div class="opt" data-value="30">30 Min</div>
+          </div>
+        </div>
+        <div class="pref-status" id="prefStatusV2"></div>
+
+        <div class="med-list" id="medListV2"></div>
+
+        <div class="compass-actions">
+          <button class="back-link-btn" id="backToMedBtnV2">← Zurück</button>
+          <button class="enter-btn" id="enterBtnV2">Insel betreten &amp; starten →</button>
+        </div>
       </div>
     </div>
   </div>
@@ -1793,11 +1862,12 @@
     island:     { label:"Insel gestalten · optional",   sub:"Wähle, wie deine Insel aussieht." },
     compass:    { label:"Schritt 1 von 3 · Kompass",    sub:"Stell den Zeiger auf deine Richtung." },
     meditation: { label:"Schritt 2 von 3 · Meditation", sub:"Wähle eine Übung – oder nimm die Empfehlung." },
+    meditation2:{ label:"Meditation · Variante 2",      sub:"Nach Kategorie und Dauer wählen." },
     outro:      { label:"Schritt 3 von 3 · Abschluss",  sub:"Schau, was sich verändert hat." },
     profil:     { label:"Profil",                      sub:"Deine Inselreise und dein Zugang." },
     abo:        { label:"Zugang",                      sub:"Die ganze Bibliothek freischalten." }
   };
-  var TAB_FOR_STEP = { home:"home", compass:"kompass", meditation:"meditation", profil:"profil" };
+  var TAB_FOR_STEP = { home:"home", compass:"kompass", meditation:"meditation", meditation2:"meditation", profil:"profil" };
 
   function goToStep(step){
     if (step === "home"){
@@ -2017,6 +2087,109 @@
     document.querySelector('.pref-opts[data-field="medCount"] [data-value="' + desiredCount + '"]').classList.add("active");
     document.querySelector('.pref-opts[data-field="maxDuration"] [data-value="' + maxDuration + '"]').classList.add("active");
   })();
+
+  // ---- Meditationsauswahl Variante 2: nach Kategorie (Kompass-Richtung)
+  // durchklicken, dann nur noch eine Zieldauer statt Anzahl+Dauer waehlen.
+  // Auswahl-Logik bleibt dieselbe (naehester Treffer zur Zieldauer) -
+  // nur ohne separate "wie viele"-Frage, die Anzahl ergibt sich automatisch. ----
+  var chosenMedIdsV2 = [];
+  var currentCatV2 = null;
+  var durationV2 = 10;
+
+  function autoFillV2(){
+    var pool = MEDITATIONS.filter(function(m){ return m.dir === currentCatV2 && istFrei(m.id); });
+    var rest = pool.slice();
+    var picked = [];
+    var sum = 0;
+    while (rest.length){
+      var remaining = durationV2 - sum;
+      if (remaining <= 0 && picked.length) break;
+      rest.sort(function(a,b){ return Math.abs(a.min - remaining) - Math.abs(b.min - remaining); });
+      var next = rest[0];
+      if (picked.length === 0 || sum + next.min <= durationV2 + 4){
+        picked.push(next);
+        sum += next.min;
+        rest.splice(rest.indexOf(next), 1);
+      } else break;
+    }
+    chosenMedIdsV2 = picked.map(function(m){ return m.id; });
+  }
+
+  function renderMedListV2(){
+    if (chosenMedIdsV2.length === 0) autoFillV2();
+    var pool = MEDITATIONS.filter(function(m){ return m.dir === currentCatV2; });
+    var host = document.getElementById("medListV2");
+    host.innerHTML = pool.map(function(m){
+      var pos = chosenMedIdsV2.indexOf(m.id);
+      var active = pos !== -1;
+      var frei = istFrei(m.id);
+      return '<div class="med-card' + (active ? ' active' : '') + (frei ? '' : ' locked') + '" data-med="' + m.id + '">' +
+        '<div class="med-check">' + (active ? (pos + 1) : "") + '</div>' +
+        '<div class="med-body">' +
+          '<div class="title">' + m.name + (frei ? '' : '<span class="med-lock">🔒</span>') + '</div>' +
+          '<div class="meta">' + m.min + ' Min · ' + m.desc + '</div>' +
+        '</div>' +
+      '</div>';
+    }).join("");
+
+    Array.prototype.forEach.call(host.querySelectorAll(".med-card"), function(card){
+      card.addEventListener("click", function(){
+        var id = card.getAttribute("data-med");
+        if (!istFrei(id)){ renderAbo(); goToStep("abo"); return; }
+        var pos = chosenMedIdsV2.indexOf(id);
+        if (pos !== -1) chosenMedIdsV2.splice(pos, 1); else chosenMedIdsV2.push(id);
+        renderMedListV2();
+      });
+    });
+
+    var mins = totalMinutes(chosenMedIdsV2);
+    var status = document.getElementById("prefStatusV2");
+    var over = mins > durationV2;
+    status.classList.toggle("over", over);
+    status.textContent = chosenMedIdsV2.length + " ausgewählt · " + mins + " Min gesamt (Ziel: " + durationV2 + " Min)" +
+      (over ? " – etwas mehr als geplant, das ist okay" : "");
+  }
+
+  function openCatV2(dir){
+    currentCatV2 = dir;
+    chosenMedIdsV2 = [];
+    document.getElementById("catV2Title").textContent = DIRS[dir].label;
+    document.getElementById("catV2Grid").style.display = "none";
+    document.getElementById("catV2Detail").style.display = "block";
+    renderMedListV2();
+  }
+  function closeCatV2(){
+    document.getElementById("catV2Grid").style.display = "grid";
+    document.getElementById("catV2Detail").style.display = "none";
+  }
+
+  Array.prototype.forEach.call(document.querySelectorAll(".catv2-tile"), function(tile){
+    tile.addEventListener("click", function(){ openCatV2(tile.getAttribute("data-dir")); });
+  });
+  document.getElementById("catV2BackBtn").addEventListener("click", closeCatV2);
+  document.getElementById("backToMedBtnV2").addEventListener("click", closeCatV2);
+  document.getElementById("durationOptsV2").addEventListener("click", function(e){
+    var target = e.target.closest("[data-value]");
+    if (!target) return;
+    Array.prototype.forEach.call(this.children, function(el){ el.classList.toggle("active", el === target); });
+    durationV2 = parseInt(target.getAttribute("data-value"), 10);
+    chosenMedIdsV2 = [];
+    renderMedListV2();
+  });
+  document.querySelector('#durationOptsV2 [data-value="' + durationV2 + '"]').classList.add("active");
+
+  document.getElementById("toV2Btn").addEventListener("click", function(){
+    closeCatV2();
+    goToStep("meditation2");
+  });
+
+  document.getElementById("enterBtnV2").addEventListener("click", function(){
+    if (!chosenMedIdsV2.length){ renderAbo(); goToStep("abo"); return; }
+    chosenMedIds = chosenMedIdsV2.slice();
+    document.body.classList.add("entered", "in-session");
+    render({ animateBoatIn: state.arrival === "boat" });
+    startSession();
+  });
 
   function selectedMeds(){
     return chosenMedIds.map(function(id){
