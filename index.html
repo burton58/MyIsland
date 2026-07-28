@@ -233,7 +233,7 @@
     touch-action:none; cursor:grab; filter:drop-shadow(0 10px 22px rgba(20,30,15,.25));
   }
   .compass-wrap:active{ cursor:grabbing; }
-  .compass-wrap svg{ position:absolute; inset:0; width:100%; height:100%; display:block; }
+  .compass-wrap svg{ position:absolute; inset:0; width:100%; height:100%; display:block; clip-path:circle(50%); pointer-events:auto; }
   .compass-readout{ margin-top:16px; font-size:.95rem; font-weight:700; color:#3a2a20; }
 
   /* ---------- Kompass-Rose: das Originalfoto, nicht nachgebaut ----------
@@ -528,6 +528,13 @@
     position:absolute; left:50%; top:30%; transform:translate(-50%,-50%);
     width:118px; z-index:2; cursor:pointer;
     transition:width .38s cubic-bezier(.25,1,.4,1), top .38s cubic-bezier(.25,1,.4,1);
+    /* Das Element selbst ist ein Quadrat, sichtbar ist aber nur die runde
+       Scheibe darin (Foto + SVG sind per clip-path/border-radius rund
+       zugeschnitten). Ohne pointer-events:none wuerden Taps in den vier
+       "leeren" Ecken - die optisch daneben liegen - trotzdem als Tap AUF
+       den Kompass zaehlen und ihn nie schrumpfen lassen. Die runde Scheibe
+       und der "Weiter"-Knopf setzen pointer-events:auto explizit wieder. */
+    pointer-events:none;
   }
   .home-compass.gross{
     width:82vw; top:44%;
