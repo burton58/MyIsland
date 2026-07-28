@@ -220,6 +220,7 @@
     box-shadow:none;
   }
   body[data-step="compass"] .compass-card h2, body[data-step="compass"] .compass-card .lead,
+  body[data-step="compass"] .compass-card .compass-explain,
   body[data-step="compass"] .compass-card .compass-readout,
   body[data-step="meditation"] .compass-card h2, body[data-step="meditation"] .compass-card .lead,
   body[data-step="meditation"] .compass-card .pref-group h3, body[data-step="meditation"] .compass-card .pref-status,
@@ -228,6 +229,21 @@
   }
   .compass-card h2{ margin:2px 0 6px; font-size:1.2rem; font-family:var(--serif); color:var(--forest); }
   .compass-card .lead{ margin:0 0 18px; opacity:.62; font-size:.88rem; }
+  .compass-explain{ text-align:left; margin:0 0 18px; padding:0; list-style:none; font-size:.85rem; opacity:.75; }
+  .compass-explain li{ margin:0 0 6px; padding-left:16px; position:relative; }
+  .compass-explain li::before{ content:"•"; position:absolute; left:2px; color:var(--sage-deep); }
+  .compass-explain strong{ color:var(--forest); }
+  /* Die Kompass-Erklaerung mit Bulletliste ist deutlich laenger als der
+     alte Einzeiler - auf kleinen Handys (z. B. iPhone SE) wuerde die Seite
+     sonst unter die Tab-Leiste rutschen und scrollen. Hier gezielt enger
+     stellen statt am Kompass selbst etwas zu aendern. */
+  #compassPage .compass-card{ padding-top:16px; padding-bottom:18px; }
+  #compassPage .compass-card h2{ margin-bottom:4px; }
+  #compassPage .compass-card .lead{ margin-bottom:8px; font-size:.84rem; }
+  #compassPage .compass-explain{ margin-bottom:8px; font-size:.79rem; }
+  #compassPage .compass-explain li{ margin-bottom:3px; }
+  #compassPage .compass-wrap{ max-width:248px; }
+  #compassPage .compass-readout{ margin-top:10px; }
   .compass-wrap{
     position:relative; max-width:320px; aspect-ratio:1/1; margin:0 auto;
     touch-action:none; cursor:grab; filter:drop-shadow(0 10px 22px rgba(20,30,15,.25));
@@ -896,8 +912,15 @@
 
   <div class="page compass-page" id="compassPage">
     <div class="compass-card">
-      <h2>🧭 Wie fühlst du dich gerade?</h2>
-      <p class="lead">Sag uns kurz, wie es dir geht. So empfehlen wir dir die passende Meditation als Hilfsmittel, damit du auf deiner Insel richtig entspannen kannst.</p>
+      <h2>🧭 Der Kompass</h2>
+      <p class="lead">Setze die Nadel dahin, wo du gerade stehst: zwischen Denken und Fühlen, und zwischen angespannt und entspannt.</p>
+      <ul class="compass-explain">
+        <li><strong>Mehr Denken:</strong> Kopf aktiv, viele Gedanken.</li>
+        <li><strong>Mehr Fühlen:</strong> du bist nah bei deinen Gefühlen.</li>
+        <li><strong>Angespannt:</strong> Körper spürt Spannung.</li>
+        <li><strong>Entspannt:</strong> Körper ist locker.</li>
+      </ul>
+      <p class="lead">Daraus finden wir deine passende Meditation.</p>
 
       <div class="compass-wrap" id="compassWrap">
         <div class="compass-photo"></div>
