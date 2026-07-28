@@ -227,34 +227,43 @@
     text-shadow:0 1px 3px rgba(255,255,255,.9), 0 1px 10px rgba(255,255,255,.7);
   }
   .compass-card h2{ margin:2px 0 6px; font-size:1.2rem; font-family:var(--serif); color:var(--forest); }
-  .compass-card .lead{ margin:0 0 14px; opacity:.62; font-size:.88rem; }
+  .compass-card .lead{ margin:0 0 12px; opacity:.62; font-size:.88rem; }
   /* Vier kurze Erklaer-Karten im 2x2-Raster - spiegelt die zwei Achsen des
      Kompasses selbst. Leicht/glasig statt einer soliden Flaeche, damit es
      sich in die Optik der Karte einfuegt statt wie eine separate Notiz zu
      wirken. */
   .compass-explain-grid{
-    display:grid; grid-template-columns:1fr 1fr; gap:8px; margin:0 0 14px; text-align:left;
+    display:grid; grid-template-columns:1fr 1fr; gap:8px; margin:0 0 12px; text-align:left;
   }
   .compass-explain-grid div{
-    background:rgba(255,255,255,.55); border-radius:12px; padding:9px 10px;
-    font-size:.78rem; line-height:1.35; color:var(--ink);
-    backdrop-filter:blur(4px); -webkit-backdrop-filter:blur(4px);
+    /* Volle Deckkraft statt durchscheinend - sonst variiert die Lesbarkeit
+       je nachdem, was auf dem Foto dahinter gerade drunter liegt. Gleicher
+       Ton wie .trial-box, nur als vier kleine Karten statt einer grossen. */
+    background:#eef6f2; border-radius:12px; padding:9px 10px;
+    font-size:.8rem; line-height:1.4; color:var(--ink);
   }
-  .compass-explain-grid strong{ display:block; color:var(--forest); font-size:.8rem; margin-bottom:1px; }
+  .compass-explain-grid strong{ display:block; color:var(--forest); font-size:.84rem; font-weight:700; margin-bottom:2px; }
   .compass-explain-outro{ margin-top:-4px; }
+  /* Der Titel ging bisher im hellen, unscharfen Foto unter - deutlich
+     groesser/fetter und mit staerkerem Schein dagegen. */
+  #compassPage .compass-card h2{
+    font-size:1.55rem; font-weight:700; margin-bottom:10px;
+    text-shadow:0 1px 4px rgba(255,255,255,.95), 0 2px 14px rgba(255,255,255,.85);
+  }
   /* Etwas mehr Inhalt als vorher - auf den meisten Handys (auch iPhone 14/
      Pro Max) ist trotzdem genug Platz fuer den vollen, grosszuegigen
      Kompass. Nur auf kurzen Bildschirmen (iPhone SE & Co., <=700px hoch)
      wird gezielt enger gestellt, damit es dort nicht unter die Tab-Leiste
      rutscht - der Kompass bleibt ueberall sonst in voller Groesse. */
   @media (max-height:700px){
-    #compassPage .compass-card{ padding-top:14px; padding-bottom:12px; }
-    #compassPage .compass-card .lead{ margin-bottom:8px; }
-    #compassPage .compass-explain-grid{ margin-bottom:8px; gap:6px; }
+    #compassPage .compass-card{ padding-top:12px; padding-bottom:10px; }
+    #compassPage .compass-card h2{ font-size:1.4rem; margin-bottom:6px; }
+    #compassPage .compass-card .lead{ margin-bottom:6px; }
+    #compassPage .compass-explain-grid{ margin-bottom:6px; gap:6px; }
     #compassPage .compass-explain-grid div{ padding:6px 9px; }
-    #compassPage .compass-wrap{ max-width:220px; }
-    #compassPage .compass-readout{ margin-top:6px; }
-    #compassPage .compass-actions{ margin-top:6px; }
+    #compassPage .compass-wrap{ max-width:200px; }
+    #compassPage .compass-readout{ margin-top:4px; }
+    #compassPage .compass-actions{ margin-top:4px; }
   }
   .compass-wrap{
     position:relative; max-width:320px; aspect-ratio:1/1; margin:0 auto;
