@@ -1,10 +1,10 @@
-# My Island — App-Spezifikation
+# My Meditation Island — App-Spezifikation
 
 Meditations-App rund um die eigene "Insel": Nutzer:innen richten sich über einen Kompass aus, wählen passende geführte Meditationen aus einer kategorisierten Bibliothek und bekommen am Ende einen Rückblick, was sich verändert hat.
 
 **Wichtig fürs Verständnis der Marke:** Die Insel ist eine **Metapher**, kein Themenzwang. Sie steht für den Kraftort in einem selbst — den Ort, an den man sich zurückzieht, um anzukommen, durchzuatmen und bei sich zu sein. Das heisst: Die *Insel* ist der Rahmen (Startseite, Kompass, Abschluss, Bildsprache), die *Meditationen darin* müssen inhaltlich nicht bei "Strand und Palmen" bleiben — genau wie ein Rückzugsort auch nicht bedeutet, dass jedes Gespräch darin vom Rückzugsort handeln muss. Siehe §5a für die daraus folgende Themenvielfalt.
 
-Titel/Überschriften wurden entsprechend angepasst: Browser-Tab und Home-Bildschirm-Symbol heissen weiterhin **"My Island"**, die Kopfzeile auf Kompass-/Meditations-/Abschluss-Seite heisst **"Gestalte deine Inselreise"** (vorher "Gestalte deine Trauminsel") — man *reist*, man baut keine Insel mehr zusammen (der alte Insel-Konfigurator ist ohnehin nicht im Hauptfluss, siehe §4). Der Text unten auf der Startseite benennt die Metapher jetzt direkt: "Deine Insel ist dein Kraftort in dir – der Ort, an den du dich zurückziehst, um bei dir anzukommen."
+Titel/Überschriften wurden entsprechend angepasst: Browser-Tab und Home-Bildschirm-Symbol heissen jetzt **"My Meditation Island"** (vorher "My Island"), die Kopfzeile auf Kompass-/Meditations-/Abschluss-Seite heisst **"Gestalte deine Inselreise"** (vorher "Gestalte deine Trauminsel") — man *reist*, man baut keine Insel mehr zusammen (der alte Insel-Konfigurator ist ohnehin nicht im Hauptfluss, siehe §4). Der Text unten auf der Startseite benennt die Metapher jetzt direkt: "Deine Insel ist dein Kraftort in dir – der Ort, an den du dich zurückziehst, um bei dir anzukommen."
 
 Aktueller Stand ist ein **einzelnes, selbstständiges HTML-File** (`index.html`) — kein Build-Step, keine externen Abhängigkeiten außer einem Fetch-Call an die Anthropic API für den Chat-Begleiter. Dieses Dokument beschreibt den Ist-Zustand, damit er 1:1 in ein neues Repo übersetzt werden kann (z. B. als React/Next-App mit echten Routen statt CSS-Step-Umschaltung).
 
@@ -57,8 +57,8 @@ Der frühere Insel-Konfigurator-Schritt (`island`) existiert im Code noch (SVG-I
 
 ### 3.1 Home (`data-step="home"`)
 - Vollflächiges Foto (Boot + Insel, Sonnenuntergang), edge-to-edge, keine Karte/Rand
-- Oben auf dem Foto: Titel "My Island" (Serif, weiß) + Tagline "Eine Insel für dich. Zeit zum Ankommen."
-- Unten auf dem Foto: Text "Deine Insel im Alltag – ein Moment zum Ankommen, Durchatmen und einfach Sein." + CTA-Pille "Los geht's" (→ Kompass) + Textlink "Anmelden" (→ ebenfalls Kompass, kein echtes Auth)
+- Oben auf dem Foto: Titel "My Meditation Island" (Serif, weiß, einzeilig) + Untertitel "Geführte Meditationen auf Schweizerdeutsch" + Hinweis "🇨🇭 Von 3 Minuten bis zur halben Stunde"
+- Unten auf dem Foto: Text "Kurz durchatmen: Meditation, die sich anfühlt wie Ferien auf deiner Insel." + CTA-Pille "Los geht's" (→ Kompass) + Textlink "Anmelden" (→ ebenfalls Kompass, kein echtes Auth — siehe §7 für die Frage, ob der Knopf überhaupt gebraucht wird)
 - Dunkler Verlauf oben *und* unten fürs Lesen, sonst ist die Mitte des Fotos frei sichtbar
 
 ### 3.2 Kompass ("Wie fühlst du dich gerade?")
@@ -68,7 +68,8 @@ Der frühere Insel-Konfigurator-Schritt (`island`) existiert im Code noch (SVG-I
 - Ergebnis wird **nicht in Prozent**, sondern als kurzes Wort ausgegeben (`moodOf()`/`moodHtml()`, siehe §5) — dabei zählt **nur der Winkel**, nicht wie weit gezogen wird: welcher der beiden Pole eines Quadranten (z. B. Fühlen oder Entspannung) näher an der Nadel liegt, bestimmt das Wort
 - Speichert `compassBefore = {x, y}` (jeweils −1…1)
 
-### 3.3 Meditationsauswahl
+### 3.3 Meditationsauswahl ("Deine Meditationen")
+- Eigene Karten-Überschrift **"🧘 Deine Meditationen"** — der allgemeine Seitenkopf (Topbar/Stepper) ist auf diesem Schritt bewusst ausgeblendet, sonst gäbe es zwei Titel übereinander (gleiches Prinzip wie beim Kompass-, Abschluss- und Profil-Schritt, siehe §3.2/§3.5)
 - Zwei Präferenz-Fragen oben: "Wie viele Meditationen?" (1/2/3) und "Maximale Dauer insgesamt?" (10/20/30 Min/egal)
 - Live-Status: "2 von 3 ausgewählt · 15 Min gesamt (Ziel: 20 Min)"
 - Bibliothek in **3 aufklappbaren Kategorien** (siehe §5), Mehrfachauswahl mit nummerierten Checkboxen (①②③…)

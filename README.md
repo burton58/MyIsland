@@ -1,4 +1,4 @@
-# My Island
+# My Meditation Island
 
 Meditations-App rund um eine persönliche "Trauminsel": Man richtet sich über einen
 Kompass aus, wählt passende geführte Meditationen aus einer kategorisierten Bibliothek
