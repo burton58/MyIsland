@@ -261,19 +261,23 @@
      Seite (Los geht's, Fertig, ...) - unterschiedliche Knopfgroessen je
      Seite wirkten optisch inkonsistent. Stattdessen wird die noetige
      Hoehe beim Kompass selbst eingespart, das faellt visuell kaum auf. */
-  #compassPage .compass-wrap{ max-width:250px; }
+  #compassPage .compass-wrap{ max-width:200px; }
+  #compassPage .compass-readout{ margin-top:8px; }
+  #compassPage .compass-actions{ margin-top:12px; }
   /* Auf kurzen Bildschirmen (iPhone SE & Co., <=700px hoch) reicht das
      allein nicht - hier zusaetzlich zum kleineren Kompass auch die Texte/
      Karten etwas naeher zusammenruecken, damit Zurueck/Weiter ohne
      Scrollen sichtbar bleiben. Die Buttons selbst bleiben unveraendert. */
   @media (max-height:700px){
-    #compassPage .compass-wrap{ max-width:160px; }
+    #compassPage .compass-wrap{ max-width:150px; }
     #compassPage .compass-card h2{ margin-bottom:8px; }
     #compassPage .compass-card .lead{ margin-bottom:8px; }
     #compassPage .compass-explain-grid{ margin-bottom:8px; gap:5px; }
     #compassPage .compass-explain-grid div{ padding:6px 8px; }
     #compassPage .compass-readout{ margin-top:6px; }
-    #compassPage .compass-actions{ margin-top:10px; }
+    #compassPage #durationGroupCompass{ margin-top:8px !important; }
+    #compassPage #durationGroupCompass h3{ margin-bottom:5px; }
+    #compassPage .compass-actions{ margin-top:8px; }
   }
   .compass-wrap{
     position:relative; max-width:320px; aspect-ratio:1/1; margin:0 auto;
@@ -995,6 +999,17 @@
 
       <div class="compass-readout" id="compassReadout"></div>
 
+      <div class="pref-group" id="durationGroupCompass" style="text-align:left; margin:12px 0 0;">
+        <h3>Wie lange möchtest du meditieren?</h3>
+        <div class="pref-opts" data-field="durationV2" id="durationOptsV2">
+          <div class="opt" data-value="5">5 Min</div>
+          <div class="opt" data-value="10">10 Min</div>
+          <div class="opt" data-value="15">15 Min</div>
+          <div class="opt" data-value="20">20 Min</div>
+          <div class="opt" data-value="30">30 Min</div>
+        </div>
+      </div>
+
       <div class="compass-actions">
         <button class="back-link-btn" id="backToIslandBtn">← Zurück</button>
         <button class="enter-btn" id="toMedBtn">Weiter zu den Meditationen →</button>
@@ -1073,17 +1088,6 @@
       <div id="catV2Detail" style="display:none">
         <button class="back-link-btn" id="catV2BackBtn">← Kategorien</button>
         <h3 class="catv2-title" id="catV2Title"></h3>
-
-        <div class="pref-group" style="text-align:left; margin-bottom:12px;">
-          <h3>Wie lange?</h3>
-          <div class="pref-opts" data-field="durationV2" id="durationOptsV2">
-            <div class="opt" data-value="5">5 Min</div>
-            <div class="opt" data-value="10">10 Min</div>
-            <div class="opt" data-value="15">15 Min</div>
-            <div class="opt" data-value="20">20 Min</div>
-            <div class="opt" data-value="30">30 Min</div>
-          </div>
-        </div>
         <div class="pref-status" id="prefStatusV2"></div>
 
         <div class="med-list" id="medListV2"></div>
@@ -2168,13 +2172,17 @@
   });
   document.getElementById("catV2BackBtn").addEventListener("click", closeCatV2);
   document.getElementById("backToMedBtnV2").addEventListener("click", closeCatV2);
+  // Die Dauer wird jetzt schon auf der Kompass-Seite gewaehlt (nicht mehr
+  // auf der Kategorie-Seite von Variante 2) - hier nur den Wert merken und
+  // die Auswahl zuruecksetzen, damit die naechste geoeffnete Kategorie mit
+  // der neuen Zieldauer neu auffuellt.
   document.getElementById("durationOptsV2").addEventListener("click", function(e){
     var target = e.target.closest("[data-value]");
     if (!target) return;
     Array.prototype.forEach.call(this.children, function(el){ el.classList.toggle("active", el === target); });
     durationV2 = parseInt(target.getAttribute("data-value"), 10);
     chosenMedIdsV2 = [];
-    renderMedListV2();
+    if (currentCatV2) renderMedListV2();
   });
   document.querySelector('#durationOptsV2 [data-value="' + durationV2 + '"]').classList.add("active");
 
