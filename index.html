@@ -2677,7 +2677,10 @@
   // Tippt man neben den gross gewordenen Kompass (statt drauf), soll er
   // wieder klein werden - ein zweiter Tipp daneben macht das Aufwachsen
   // rueckgaengig, ohne die Seite verlassen zu muessen.
-  document.querySelector(".home-full").addEventListener("click", function(e){
+  // Bewusst "pointerdown" statt "click": auf iOS Safari feuern Klicks auf
+  // ein einfaches <img>/<div> ohne eigenen Handler nicht zuverlaessig -
+  // "pointerdown" (wie schon beim Aufwachsen selbst) funktioniert dort sicher.
+  document.querySelector(".home-full").addEventListener("pointerdown", function(e){
     var wrap = document.getElementById("compassWrapHome");
     if (wrap.classList.contains("gross") && !e.target.closest("#compassWrapHome")){
       wrap.classList.remove("gross");
