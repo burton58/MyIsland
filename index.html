@@ -227,35 +227,35 @@
     text-shadow:0 1px 3px rgba(255,255,255,.9), 0 1px 10px rgba(255,255,255,.7);
   }
   .compass-card h2{ margin:2px 0 6px; font-size:1.2rem; font-family:var(--serif); color:var(--forest); }
-  .compass-card .lead{ margin:0 0 18px; opacity:.62; font-size:.88rem; }
-  /* Feste, helle Kartenflaeche statt loser Text auf dem unscharfen Foto -
-     bessere Lesbarkeit als der text-shadow-Trick, gleiches Muster wie
-     .trial-box/.pay-note anderswo in der App. */
-  .compass-explain-box{
-    text-align:left; background:#eef6f2; border-radius:16px; padding:14px 16px; margin:0 0 16px;
-    font-size:.85rem; line-height:1.5; color:var(--ink);
+  .compass-card .lead{ margin:0 0 14px; opacity:.62; font-size:.88rem; }
+  /* Vier kurze Erklaer-Karten im 2x2-Raster - spiegelt die zwei Achsen des
+     Kompasses selbst. Leicht/glasig statt einer soliden Flaeche, damit es
+     sich in die Optik der Karte einfuegt statt wie eine separate Notiz zu
+     wirken. */
+  .compass-explain-grid{
+    display:grid; grid-template-columns:1fr 1fr; gap:8px; margin:0 0 14px; text-align:left;
   }
-  .compass-explain-box p{ margin:0 0 8px; }
-  .compass-explain-box p:last-child{ margin-bottom:0; }
-  .compass-explain-box ul{ margin:0 0 8px; padding:0; list-style:none; }
-  .compass-explain-box li{ margin:0 0 4px; padding-left:15px; position:relative; }
-  .compass-explain-box li::before{ content:"•"; position:absolute; left:1px; color:var(--sage-deep); }
-  .compass-explain-box strong{ color:var(--forest); }
-  /* Die Kompass-Erklaerung ist deutlich laenger als der alte Einzeiler -
-     auf kleinen Handys (z. B. iPhone SE) wuerde die Seite sonst unter die
-     Tab-Leiste rutschen und scrollen. Hier gezielt enger stellen statt am
-     Kompass selbst etwas zu aendern. */
-  #compassPage .compass-card{ padding-top:14px; padding-bottom:12px; }
-  #compassPage .compass-card h2{ margin-bottom:4px; }
-  #compassPage .compass-explain-box{
-    padding:8px 12px; font-size:.8rem; line-height:1.35; margin-bottom:12px;
+  .compass-explain-grid div{
+    background:rgba(255,255,255,.55); border-radius:12px; padding:9px 10px;
+    font-size:.78rem; line-height:1.35; color:var(--ink);
+    backdrop-filter:blur(4px); -webkit-backdrop-filter:blur(4px);
   }
-  #compassPage .compass-explain-box p{ margin-bottom:4px; }
-  #compassPage .compass-explain-box ul{ margin-bottom:4px; }
-  #compassPage .compass-explain-box li{ margin-bottom:1px; }
-  #compassPage .compass-wrap{ max-width:222px; }
-  #compassPage .compass-readout{ margin-top:6px; }
-  #compassPage .compass-actions{ margin-top:10px; }
+  .compass-explain-grid strong{ display:block; color:var(--forest); font-size:.8rem; margin-bottom:1px; }
+  .compass-explain-outro{ margin-top:-4px; }
+  /* Etwas mehr Inhalt als vorher - auf den meisten Handys (auch iPhone 14/
+     Pro Max) ist trotzdem genug Platz fuer den vollen, grosszuegigen
+     Kompass. Nur auf kurzen Bildschirmen (iPhone SE & Co., <=700px hoch)
+     wird gezielt enger gestellt, damit es dort nicht unter die Tab-Leiste
+     rutscht - der Kompass bleibt ueberall sonst in voller Groesse. */
+  @media (max-height:700px){
+    #compassPage .compass-card{ padding-top:14px; padding-bottom:12px; }
+    #compassPage .compass-card .lead{ margin-bottom:8px; }
+    #compassPage .compass-explain-grid{ margin-bottom:8px; gap:6px; }
+    #compassPage .compass-explain-grid div{ padding:6px 9px; }
+    #compassPage .compass-wrap{ max-width:220px; }
+    #compassPage .compass-readout{ margin-top:6px; }
+    #compassPage .compass-actions{ margin-top:6px; }
+  }
   .compass-wrap{
     position:relative; max-width:320px; aspect-ratio:1/1; margin:0 auto;
     touch-action:none; cursor:grab; filter:drop-shadow(0 10px 22px rgba(20,30,15,.25));
@@ -925,16 +925,14 @@
   <div class="page compass-page" id="compassPage">
     <div class="compass-card">
       <h2>🧭 Der Kompass</h2>
-      <div class="compass-explain-box">
-        <p>Setze die Nadel dahin, wo du gerade stehst: zwischen Denken und Fühlen, und zwischen angespannt und entspannt.</p>
-        <ul>
-          <li><strong>Mehr Denken:</strong> Kopf aktiv, viele Gedanken.</li>
-          <li><strong>Mehr Fühlen:</strong> du bist nah bei deinen Gefühlen.</li>
-          <li><strong>Angespannt:</strong> Körper spürt Spannung.</li>
-          <li><strong>Entspannt:</strong> Körper ist locker.</li>
-        </ul>
-        <p>Daraus finden wir deine passende Meditation.</p>
+      <p class="lead">Setze die Nadel dahin, wo du gerade stehst: zwischen Denken und Fühlen, und zwischen angespannt und entspannt.</p>
+      <div class="compass-explain-grid">
+        <div><strong>Mehr Denken</strong>Kopf aktiv, viele Gedanken.</div>
+        <div><strong>Mehr Fühlen</strong>du bist nah bei deinen Gefühlen.</div>
+        <div><strong>Angespannt</strong>Körper spürt Spannung.</div>
+        <div><strong>Entspannt</strong>Körper ist locker.</div>
       </div>
+      <p class="lead compass-explain-outro">Daraus finden wir deine passende Meditation.</p>
 
       <div class="compass-wrap" id="compassWrap">
         <div class="compass-photo"></div>
