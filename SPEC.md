@@ -60,6 +60,7 @@ Der frühere Insel-Konfigurator-Schritt (`island`) existiert im Code noch (SVG-I
 - Oben auf dem Foto: Titel "My Meditation Island" (Serif, weiß, einzeilig) + Untertitel "Geführte Meditationen auf Schweizerdeutsch" + Hinweis "🇨🇭 Von 3 Minuten bis zur halben Stunde"
 - Unten auf dem Foto: Text "Kurz durchatmen: Meditation, die sich anfühlt wie Ferien auf deiner Insel." + CTA-Pille "Los geht's" (→ Kompass) + Textlink "Anmelden" (→ ebenfalls Kompass, kein echtes Auth — siehe §7 für die Frage, ob der Knopf überhaupt gebraucht wird)
 - Dunkler Verlauf oben *und* unten fürs Lesen, sonst ist die Mitte des Fotos frei sichtbar
+- Kleiner, interaktiver Kompass mittig im Foto (`#compassWrapHome`, teilt sich `compassBefore` mit dem echten Kompass auf Schritt 1): Antippen lässt ihn auf volle Grösse aufwachsen, blendet den Marketing-Text/CTA gegen einen "Weiter"-Knopf direkt am Kompass ein. Tippt man daneben (statt drauf), während er gross ist, schrumpft er wieder auf die Ausgangsgrösse — ein zweites Antippen macht das Aufwachsen rückgängig, ohne die Seite zu verlassen. Beim Verlassen der Startseite (egal über welchen Weg) wird er beim nächsten Aufruf immer wieder klein zurückgesetzt.
 
 ### 3.2 Kompass ("Wie fühlst du dich gerade?")
 - Fotobasierter Nautik-Kompass (echtes Kompass-Foto, kreisförmig zugeschnitten) mit transparentem SVG-Overlay: Vier Wörter statt Himmelsrichtungen: **oben Denken, unten Fühlen, links Anspannung, rechts Entspannung**

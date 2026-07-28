@@ -2667,6 +2667,17 @@
   });
   document.getElementById("homeContinueBtn").addEventListener("click", function(){ goToStep("compass"); });
 
+  // Tippt man neben den gross gewordenen Kompass (statt drauf), soll er
+  // wieder klein werden - ein zweiter Tipp daneben macht das Aufwachsen
+  // rueckgaengig, ohne die Seite verlassen zu muessen.
+  document.querySelector(".home-full").addEventListener("click", function(e){
+    var wrap = document.getElementById("compassWrapHome");
+    if (wrap.classList.contains("gross") && !e.target.closest("#compassWrapHome")){
+      wrap.classList.remove("gross");
+      this.classList.remove("kompass-fokus");
+    }
+  });
+
   document.getElementById("needMudraBtn").addEventListener("click", zeigeMudra);
   document.getElementById("needMantraBtn").addEventListener("click", zeigeMantra);
 
