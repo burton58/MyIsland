@@ -429,11 +429,6 @@
   .catv2-tile .catv2-label{ display:block; font-weight:700; color:var(--forest); font-size:.95rem; }
   .catv2-title{ font-family:var(--serif); font-size:1.15rem; color:var(--forest); margin:0 0 10px; text-align:left; }
   #catV1Detail .back-link-btn, #catV2Detail .back-link-btn{ margin-bottom:14px; }
-  /* Testlink zur Variante 2, nur zum Vergleichen gedacht */
-  .v2-try-link{
-    display:block; width:100%; margin:10px 0 0; border:none; border-radius:12px; cursor:pointer;
-    background:#eef6f2; color:var(--forest); font-weight:700; font-size:.82rem; padding:9px 10px; font-family:inherit;
-  }
   .mudra-card, .mantra-card{
     text-align:left; background:#f7fbfa; border-radius:18px; padding:16px 18px; margin-top:12px;
   }
@@ -710,7 +705,11 @@
     </button>
     <button class="tab-item" data-tab="meditation">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 8c0 4.5-3 8-5 12-2-4-5-7.5-5-12a5 5 0 0110 0z"/></svg>
-      <span>Meditationen</span>
+      <span>Meditation 1</span>
+    </button>
+    <button class="tab-item" data-tab="meditation2">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 8c0 4.5-3 8-5 12-2-4-5-7.5-5-12a5 5 0 0110 0z"/></svg>
+      <span>Meditation 2</span>
     </button>
     <button class="tab-item" data-tab="profil">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg>
@@ -977,7 +976,6 @@
       <h2>🧘 Deine Meditationen</h2>
       <p class="lead">Wähle eine Kategorie – dort findest du alle passenden Meditationen.</p>
       <p class="dialect-chip">🇨🇭 Die Anleitungen sind auf Schweizerdeutsch</p>
-      <button class="v2-try-link" id="toV2Btn">🗂️ Variante 2 ansehen: nach Kategorien sortiert →</button>
 
       <div class="catv2-grid" id="catV1Grid">
         <button class="catv2-tile" data-dir="nord">
@@ -1020,8 +1018,8 @@
 
   <div class="page medv2-page" id="medV2Page">
     <div class="compass-card">
-      <h2>🗂️ Nach Kategorie wählen</h2>
-      <p class="lead">Variante 2 – zum Ausprobieren: Meditationen nach Themen sortiert.</p>
+      <h2>🗂️ Meditation 2</h2>
+      <p class="lead">Wähle eine Kategorie – dort findest du alle passenden Meditationen.</p>
 
       <div class="catv2-grid" id="catV2Grid">
         <button class="catv2-tile" data-dir="nord">
@@ -1810,13 +1808,13 @@
     home:       { label:"", sub:"" },
     island:     { label:"Insel gestalten · optional",   sub:"Wähle, wie deine Insel aussieht." },
     compass:    { label:"Schritt 1 von 3 · Kompass",    sub:"Stell den Zeiger auf deine Richtung." },
-    meditation: { label:"Schritt 2 von 3 · Meditation", sub:"Wähle eine Übung – oder nimm die Empfehlung." },
-    meditation2:{ label:"Meditation · Variante 2",      sub:"Nach Kategorie und Dauer wählen." },
+    meditation: { label:"Schritt 2 von 3 · Meditation 1", sub:"Wähle eine Kategorie, dann eine Übung." },
+    meditation2:{ label:"Schritt 2 von 3 · Meditation 2", sub:"Nach Kategorie und Dauer wählen." },
     outro:      { label:"Schritt 3 von 3 · Abschluss",  sub:"Schau, was sich verändert hat." },
     profil:     { label:"Profil",                      sub:"Deine Inselreise und dein Zugang." },
     abo:        { label:"Zugang",                      sub:"Die ganze Bibliothek freischalten." }
   };
-  var TAB_FOR_STEP = { home:"home", compass:"kompass", meditation:"meditation", meditation2:"meditation", profil:"profil" };
+  var TAB_FOR_STEP = { home:"home", compass:"kompass", meditation:"meditation", meditation2:"meditation2", profil:"profil" };
 
   function goToStep(step){
     if (step === "home"){
@@ -2058,11 +2056,6 @@
     if (currentCatV2) renderMedListV2();
   });
   document.querySelector('#durationOptsV2 [data-value="' + durationV2 + '"]').classList.add("active");
-
-  document.getElementById("toV2Btn").addEventListener("click", function(){
-    closeCatV2();
-    goToStep("meditation2");
-  });
 
   document.getElementById("enterBtnV2").addEventListener("click", function(){
     if (!chosenMedIdsV2.length){ renderAbo(); goToStep("abo"); return; }
@@ -2813,6 +2806,7 @@
       if (tab === "home"){ goToStep("home"); return; }
       if (tab === "kompass"){ goToStep("compass"); return; }
       if (tab === "meditation"){ closeCatV1(); goToStep("meditation"); return; }
+      if (tab === "meditation2"){ closeCatV2(); goToStep("meditation2"); return; }
       if (tab === "profil"){ renderProfil(); goToStep("profil"); return; }
     });
   });

@@ -40,7 +40,7 @@ Aktueller Stand ist ein **einzelnes, selbstständiges HTML-File** (`index.html`)
 ### Wiederkehrende Muster
 - **Matte Foto-Hintergründe**: Auf Kompass-, Meditations- und Abschlussseite liegt das Titel-Foto (Insel + Boot, Sonnenuntergang) als `body`-Hintergrund, abgedunkelt mit `linear-gradient(rgba(8,28,25,.82…86))` — bewusst "matt", nicht das helle Originalfoto.
 - **Frosted Cards**: `.compass-card` = `rgba(251,250,246,.94)` + `backdrop-filter: blur(14px)`
-- **Persistente Tab-Bar** unten (`.tabbar`, 70px hoch, dunkel/transparent): Home, Meditation (aktiv/klickbar), Schlaf, Profil (beide Letzteren zeigen nur ein "bald"-Badge — keine echte Funktion).
+- **Persistente Tab-Bar** unten (`.tabbar`, 70px hoch, dunkel/transparent, während der Session ausgeblendet): 5 Tabs, alle aktiv/klickbar — Home, Insel-Kompass, Meditation 1, Meditation 2, Profil. Meditation 1/2 führen zu den beiden parallelen Auswahl-Varianten (siehe §3.3/§3.3a).
 
 ---
 
@@ -72,18 +72,19 @@ Der frühere Insel-Konfigurator-Schritt (`island`) existiert im Code noch (SVG-I
 - Ergebnis wird **nicht in Prozent**, sondern als kurzes Wort ausgegeben (`moodOf()`/`moodHtml()`, siehe §5) — dabei zählt **nur der Winkel**, nicht wie weit gezogen wird: welcher der beiden Pole eines Quadranten (z. B. Fühlen oder Entspannung) näher an der Nadel liegt, bestimmt das Wort
 - Speichert `compassBefore = {x, y}` (jeweils −1…1)
 
-### 3.3 Meditationsauswahl ("Deine Meditationen")
+### 3.3 Meditationsauswahl 1 (`data-step="meditation"`, Tab "Meditation 1")
 - Eigene Karten-Überschrift **"🧘 Deine Meditationen"** — der allgemeine Seitenkopf (Topbar/Stepper) ist auf diesem Schritt bewusst ausgeblendet, sonst gäbe es zwei Titel übereinander (gleiches Prinzip wie beim Kompass-, Abschluss- und Profil-Schritt, siehe §3.2/§3.5)
 - **Kategorie-Kacheln:** 2×2-Raster (`.catv2-grid`/`#catV1Grid`) mit einer Kachel je Kompass-Richtung, jede mit passendem Symbol: 🧠 Denken, ❤️ Fühlen, 🌪️ Anspannung, 🌊 Entspannung. Antippen zeigt alle Meditationen dieser Richtung (`#catV1Detail`) mit einem **"← Kategorien"-Knopf** (`#catV1BackBtn`) zurück zur Kachel-Ansicht.
 - Keine Anzahl- oder Dauer-Vorgabe mehr — innerhalb der gewählten Kategorie wird frei per Antippen ausgewählt (Mehrfachauswahl mit nummerierten Checkboxen ①②③…), Live-Status: "2 ausgewählt · 13 Min gesamt"
 - KI-Begleiter-Chat (kontextbewusst, kann per `[EMPFEHLUNG: <Name>]`-Tag eine Übung zur Auswahl hinzufügen — öffnet dafür bei Bedarf automatisch die passende Kategorie)
 - "Insel betreten & starten →" → Vollbild-Session
+- **Offen:** Die Symbole der 4 Kacheln sind aktuell Emoji (🧠❤️🌪️🌊), keine echten Yoga-Icons — Christine sucht dafür passende Yoga-Symbole/-Referenzen und liefert sie nach. Ausserdem soll hier wieder eine Kompass-basierte Empfehlungslogik rein (welche Übung(en) zur aktuellen Kompass-Richtung passen) — die genaue Logik dafür kommt noch von ihr, aktuell ist die Auswahl in Meditation 1 komplett manuell ohne Empfehlung.
 
-### 3.3a Meditationsauswahl — Variante 2 (`data-step="meditation2"`, Experiment zum Vergleichen)
+### 3.3a Meditationsauswahl 2 (`data-step="meditation2"`, Tab "Meditation 2")
 
-Über den Link "🗂️ Variante 2 ansehen" auf der normalen Meditationsauswahl erreichbar (`#toV2Btn`), rein zum Vergleichen gedacht — ersetzt Variante 1 nicht, beide Flüsse bestehen parallel und teilen sich dieselbe Session-Wiedergabe. Seit der Umstellung von Variante 1 auf Kategorie-Kacheln (siehe §3.3) sind sich beide Varianten strukturell sehr ähnlich; der verbleibende Unterschied ist die **Dauer-Zielwahl mit automatischem Auffüllen** in Variante 2, während Variante 1 komplett ohne Zielvorgabe rein manuell auswählen lässt.
+Eigener Tab in der Tab-Bar (`data-tab="meditation2"`), gleichberechtigt neben Meditation 1 — kein Unterschied mehr in "Haupt-" vs. "Experiment"-Variante, beide sind parallele Optionen, die Christine gegeneinander ausprobieren und sich dann für eine entscheiden kann. Beide Flüsse teilen sich dieselbe Session-Wiedergabe. Strukturell sind sich beide Varianten sehr ähnlich; der Unterschied ist die **Dauer-Zielwahl mit automatischem Auffüllen** in Meditation 2, während Meditation 1 komplett ohne Zielvorgabe rein manuell auswählen lässt.
 
-- **Kategorie-Kacheln:** 2×2-Raster (`.catv2-grid`) mit einer Kachel je Kompass-Richtung, jede mit passendem Symbol: 🧠 Denken, ❤️ Fühlen, 🌪️ Anspannung, 🌊 Entspannung. Antippen zeigt alle Meditationen dieser Richtung (nicht nach mini/mittel/tief unterteilt, einfach die volle Liste).
+- **Kategorie-Kacheln:** 2×2-Raster (`.catv2-grid`) mit einer Kachel je Kompass-Richtung, jede mit passendem Symbol: 🧠 Denken, ❤️ Fühlen, 🌪️ Anspannung, 🌊 Entspannung (dieselben Emoji-Platzhalter wie bei Meditation 1, siehe §3.3 "Offen"). Antippen zeigt alle Meditationen dieser Richtung (nicht nach mini/mittel/tief unterteilt, einfach die volle Liste).
 - **Dauer, schon auf der Kompass-Seite gewählt:** "Wie lange möchtest du meditieren?" mit festen Werten **5/10/15/20/30 Minuten**. Dieser Picker sitzt auf der **Kompass-Seite** (`#durationOptsV2`, direkt vor "Weiter zu den Meditationen"), nicht auf der Kategorie-Seite von Variante 2 selbst — beim Öffnen einer Kategorie ist die Zieldauer also schon gesetzt. Die Anzahl der ausgewählten Übungen ergibt sich automatisch aus der Zieldauer, keine separate Eingabe nötig.
 - **Auto-Auswahl:** `autoFillV2()` füllt gierig auf — wählt aus der Kategorie immer die Übung, deren Dauer der *verbleibenden* Zieldauer am nächsten kommt, bis das Ziel erreicht oder leicht überschritten ist (Toleranz +4 Min). Mindestens eine Übung wird immer gewählt, auch wenn sie allein schon über dem Ziel liegt.
 - Einzelne Übungen bleiben antippbar (an-/abwählen) — `chosenMedIdsV2` ist ein eigener, separater Auswahl-Zustand.
@@ -242,8 +243,9 @@ session = { timer, elapsed, total, paused, queue: MeditationObjekt[], index }
 
 ### Steps
 ```
-STEPS = { home, island (optional, nicht im Fluss), compass, meditation, outro }
-TAB_FOR_STEP = { home:"home", meditation:"meditation" }  // andere Steps haben keinen Tab
+STEPS = { home, island (optional, nicht im Fluss), compass, meditation, meditation2, outro, profil, abo }
+TAB_FOR_STEP = { home:"home", compass:"kompass", meditation:"meditation", meditation2:"meditation2", profil:"profil" }
+// "outro"/"abo"/"island" haben keinen eigenen Tab
 ```
 
 ---
