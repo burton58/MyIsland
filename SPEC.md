@@ -78,7 +78,7 @@ Der frühere Insel-Konfigurator-Schritt (`island`) existiert im Code noch (SVG-I
 - Keine Anzahl- oder Dauer-Vorgabe mehr — innerhalb der gewählten Kategorie wird frei per Antippen ausgewählt (Mehrfachauswahl mit nummerierten Checkboxen ①②③…), Live-Status: "2 ausgewählt · 13 Min gesamt"
 - KI-Begleiter-Chat (kontextbewusst, kann per `[EMPFEHLUNG: <Name>]`-Tag eine Übung zur Auswahl hinzufügen — öffnet dafür bei Bedarf automatisch die passende Kategorie)
 - "Insel betreten & starten →" → Vollbild-Session
-- **Offen:** Die Symbole der 4 Kacheln sind aktuell Emoji (🧠❤️🌪️🌊), keine echten Yoga-Icons — Christine sucht dafür passende Yoga-Symbole/-Referenzen und liefert sie nach. Ausserdem soll hier wieder eine Kompass-basierte Empfehlungslogik rein (welche Übung(en) zur aktuellen Kompass-Richtung passen) — die genaue Logik dafür kommt noch von ihr, aktuell ist die Auswahl in Meditation 1 komplett manuell ohne Empfehlung.
+- **Offen:** Die Symbole der 4 Kacheln sind aktuell Emoji (🧠❤️🌪️🌊), keine echten Yoga-Icons — Christine sucht dafür passende Yoga-Symbole/-Referenzen und liefert sie nach. Ausserdem soll hier wieder eine Kompass-basierte Empfehlungslogik rein — Entwurf dafür (Quadranten, Empfehlungsrichtung, Intensitäts-Konzept) siehe §5 "Geplant: Intensität + Empfehlungslogik". Umsetzung wartet noch auf die Meditations-Klassifizierung von Christine; aktuell ist die Auswahl in Meditation 1 komplett manuell ohne Empfehlung.
 
 ### 3.3a Meditationsauswahl 2 (`data-step="meditation2"`, Tab "Meditation 2")
 
@@ -127,6 +127,24 @@ moodOf(c)/moodHtml(c) // → kurzes Wort + Emoji (siehe MOODS: 4 Richtungspaare 
                         //   (Laenge) spielt bewusst keine Rolle.
 compassText(c)      // Prozent-Variante — nur noch intern für den KI-Kontext genutzt, NICHT mehr im UI
 ```
+
+#### Geplant (Entwurf von Christine, noch nicht umgesetzt): Intensität + Empfehlungslogik
+
+Christine hat die Quadranten-Logik bestätigt/vorgegeben und eine Empfehlungsrichtung je Quadrant sowie ein neues Intensitäts-Konzept beschrieben. Die vier Stimmungswort-Paare entsprechen bereits genau `MOODS` oben — nur die Empfehlungsrichtung und die Intensität sind neu und **noch nicht implementiert**:
+
+| Quadrant | Stimmungswörter (`MOODS`, bereits umgesetzt) | Empfehlungsrichtung (Entwurf, offen) |
+|---|---|---|
+| Denken + Anspannung | grüblerisch / angespannt | mehr Entspannung und Gleichgewicht beim Denken |
+| Fühlen + Anspannung | aufgewühlt / unruhig | mehr Entspannung und Gleichgewicht beim Fühlen |
+| Fühlen + Entspannung | geborgen / entspannt | (schon entspannt) nur Gleichgewicht beim Fühlen |
+| Denken + Entspannung | gedankenvoll / gelassen | (schon entspannt) nur Gleichgewicht beim Denken |
+
+**Neues Konzept "Intensität":** Aktuell zählt beim Kompass bewusst nur der Winkel, nicht die Distanz vom Zentrum (siehe Kommentar bei `moodOf()` oben). Christine möchte das um eine Intensitäts-Achse pro Pol erweitern:
+- Gedanken-Achse (Richtung Denken): aussen = sehr viele/rasende Gedanken, Richtung Mitte = ruhige, klare Gedanken.
+- Gefühle-Achse (Richtung Fühlen): aussen = sehr belastende/intensive Gefühle, Richtung Mitte = ausgeglichene Gefühle.
+- Anspannungs-Achse: Anspannung ↔ Entspannung bleibt wie gehabt ein Pol-zu-Pol-Gegensatz (kein Zentrum-Konzept nötig).
+
+**Warum noch nicht umgesetzt:** Die eigentliche Empfehlungslogik für die Meditationsauswahl (Meditation 1 & 2, §3.3/§3.3a) braucht dafür eine Klassifizierung, welche der 40 Meditationen zu welchem Quadranten *und* welcher Intensitätsstufe passt — diese Klassifizierung liefert Christine noch nach. Bis dahin bleibt die Auswahl in beiden Varianten manuell/kategoriebasiert ohne automatische Empfehlung.
 
 ### Meditationen
 ```js
@@ -271,3 +289,4 @@ TAB_FOR_STEP = { home:"home", compass:"kompass", meditation:"meditation", medita
 7. **Mehrsprachigkeit**: Oberfläche Hochdeutsch, Meditationen Schweizerdeutsch, beides hart codiert.
 8. **Themenvielfalt** (siehe §5a): Titelliste und Texte sind umgesetzt. Offen: passende Fotos je Thema beschaffen und `bg`-Feld je Meditation einführen.
 9. **Bezahlung**: Testphase/Abo-Zustand ist reine Anzeige-Logik ohne echten Zahlungsanbieter — siehe Hinweis auf der Abo-Seite in der App ("noch nicht bezahlbar"). Solange das so ist, steht in `index.html` der Schalter `var ABO_LIVE = false;` — damit bleibt die ganze Bibliothek für alle offen (keine gesperrten Übungen, keine Testphasen-/Ablauf-Anzeige in Profil und Abo-Seite). Die Test-/Abo-Logik (`hatAbo()`, `imTest()`, `GRATIS_IDS`, Plan-Auswahl) bleibt vollständig im Code erhalten und lässt sich mit `ABO_LIVE = true` jederzeit wieder scharf schalten, sobald eine echte Bezahlung angeschlossen wird.
+10. **Kompass-Empfehlungslogik (Meditation 1 & 2)**: Entwurf von Christine liegt vor — Quadranten-Stimmungswörter (bereits umgesetzt, siehe §5 "Kompass"), Empfehlungsrichtung je Quadrant und ein neues Intensitäts-Konzept (Distanz vom Zentrum soll künftig mitzählen, siehe §5 "Geplant: Intensität + Empfehlungslogik"). Umsetzung wartet auf die Meditations-Klassifizierung (welche der 40 Übungen zu welchem Quadranten/welcher Intensität passt) — liefert Christine noch nach. Gleiches offen für die Yoga-Icons der Kategorie-Kacheln (siehe §3.3).
