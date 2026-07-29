@@ -67,7 +67,7 @@ Der frühere Insel-Konfigurator-Schritt (`island`) existiert im Code noch (SVG-I
 - Eigene Karten-Überschrift **"🧭 Der Kompass"** — der allgemeine Seitenkopf (Topbar/Stepper) ist auf diesem Schritt bewusst ausgeblendet, sonst gäbe es zwei Titel übereinander (gleiches Prinzip wie schon beim Profil-Tab)
 - Karten-Überschrift **"🧭 Der Kompass"** als kleine, volldeckende Plakette (`#eef6f2`-Hintergrund, Pill-Form, fett) statt loser Text mit text-shadow-Schein — Text-Shadow allein ging auf dem hellen Foto optisch unter, egal wie groß/fett; erst der feste Hintergrund (gleicher Ton wie die Erklär-Karten und `.trial-box`) macht den Titel zuverlässig lesbar.
 - Kurzer Einleitungssatz ("Setze die Nadel dahin, wo du gerade stehst: zwischen Denken und Fühlen, und zwischen angespannt und entspannt.") und ein Abschlusssatz ("Daraus finden wir deine passende Meditation."), beide als normaler `.lead`-Text — die frühere 2×2-Erklär-Karten-Box (`.compass-explain-grid`, je eine Karte für Denken/Fühlen/Angespannt/Entspannt) wurde entfernt, die beiden Sätze reichen als Einordnung. "Zurück"/"Weiter" sind bewusst **nicht** anders gestylt als auf jeder anderen Seite (unterschiedliche Knopfgrössen je Seite wirkten inkonsistent) — die nötige Höhe wird stattdessen beim Kompass eingespart: 240px auf normalen Handys (iPhone 14, Pro Max) statt dem App-Standard 320px, auf kurzen Bildschirmen (`@media (max-height:700px)`, z. B. iPhone SE) ein deutlich kleinerer Kompass (145px). Ziel und aktueller Stand: **alles inklusive der Buttons ganz unten bleibt ohne Scrollen sichtbar**, auf allen drei getesteten Bildschirmgrössen — kein Scrollen wird hier bewusst in Kauf genommen, auch wenn der Kompass auf sehr kleinen Bildschirmen dafür deutlich kleiner ausfällt.
-- **Dauer-Picker für Variante 2** (`#durationOptsV2`, direkt vor "Weiter zu den Meditationen"): "Wie lange möchtest du meditieren?" mit 5/10/15/20/30 Min zur Auswahl. Setzt die globale `durationV2`, die Variante 2 (§3.3a) beim Öffnen einer Kategorie zum automatischen Auffüllen verwendet — die Frage kommt dadurch schon hier statt erst auf der Kategorie-Seite.
+- **Anzahl- und Dauer-Picker für Meditation 2** (`#durationGroupCompass`, zweispaltige `.pref-row` direkt vor "Weiter zu den Meditationen"): "Wie viele Meditationen?" (1/2/3, `#countOptsV2`) und "Wie lange möchtest du meditieren?" (5/10/15/20/30 Min, `#durationOptsV2`). Setzen die globalen `desiredCountV2`/`durationV2`, die Meditation 2 (§3.3a) beim Öffnen einer Kategorie zum automatischen Auffüllen verwendet — beide Fragen kommen dadurch schon hier statt erst auf der Kategorie-Seite.
 - Ein roter Punkt/Zeiger, **frei innerhalb der Scheibe verschiebbar** (nicht nur am Rand!) — wichtig: die beiden Achsen (Denken↔Fühlen, Anspannung↔Entspannung) sind **unabhängig voneinander** wählbar
 - Ergebnis wird **nicht in Prozent**, sondern als kurzes Wort ausgegeben (`moodOf()`/`moodHtml()`, siehe §5) — dabei zählt **nur der Winkel**, nicht wie weit gezogen wird: welcher der beiden Pole eines Quadranten (z. B. Fühlen oder Entspannung) näher an der Nadel liegt, bestimmt das Wort
 - Speichert `compassBefore = {x, y}` (jeweils −1…1)
@@ -88,13 +88,14 @@ Die Bibliothek nach Dauerstufe gegliedert (Kurze/Mittlere/Tiefe Inselreisen) —
 
 ### 3.3a Meditationsauswahl 2 ("Nach Kategorie wählen", `data-step="meditation2"`, Tab "Meditation 2")
 
-Eigener Tab in der Tab-Bar (`data-tab="meditation2"`), gleichberechtigt neben Meditation 1 — beide sind parallele Optionen, die Christine gegeneinander ausprobieren und sich dann für eine entscheiden kann. Beide Flüsse teilen sich dieselbe Session-Wiedergabe. Der Unterschied zu Meditation 1: Kategorie-Kacheln statt Akkordeon, und Dauer-Zielwahl mit automatischem Auffüllen statt Anzahl+Dauer-Präferenz mit Empfehlung.
+Eigener Tab in der Tab-Bar (`data-tab="meditation2"`), gleichberechtigt neben Meditation 1 — beide sind parallele Optionen, die Christine gegeneinander ausprobieren und sich dann für eine entscheiden kann. Beide Flüsse teilen sich dieselbe Session-Wiedergabe. Der Unterschied zu Meditation 1: Kategorie-Kacheln statt Akkordeon; Anzahl und Dauer werden schon auf der Kompass-Seite gewählt und automatisch aufgefüllt statt manuell aus dem Akkordeon ausgewählt.
 
 - **Kategorie-Kacheln:** 2×2-Raster (`.catv2-grid`) mit einer Kachel je Kompass-Richtung, jede mit passendem Symbol: 🧠 Denken, ❤️ Fühlen, 🌪️ Anspannung, 🌊 Entspannung — aktuell Emoji-Platzhalter, keine echten Yoga-Icons; Christine sucht dafür passende Yoga-Symbole/-Referenzen und liefert sie nach. Antippen zeigt alle Meditationen dieser Richtung (nicht nach mini/mittel/tief unterteilt, einfach die volle Liste).
-- **Dauer, schon auf der Kompass-Seite gewählt:** "Wie lange möchtest du meditieren?" mit festen Werten **5/10/15/20/30 Minuten**. Dieser Picker sitzt auf der **Kompass-Seite** (`#durationOptsV2`, direkt vor "Weiter zu den Meditationen"), nicht auf der Kategorie-Seite von Variante 2 selbst — beim Öffnen einer Kategorie ist die Zieldauer also schon gesetzt. Die Anzahl der ausgewählten Übungen ergibt sich automatisch aus der Zieldauer, keine separate Eingabe nötig.
-- **Auto-Auswahl:** `autoFillV2()` füllt gierig auf — wählt aus der Kategorie immer die Übung, deren Dauer der *verbleibenden* Zieldauer am nächsten kommt, bis das Ziel erreicht oder leicht überschritten ist (Toleranz +4 Min). Mindestens eine Übung wird immer gewählt, auch wenn sie allein schon über dem Ziel liegt.
-- Einzelne Übungen bleiben antippbar (an-/abwählen) — `chosenMedIdsV2` ist ein eigener, separater Auswahl-Zustand.
-- "Insel betreten & starten →" kopiert `chosenMedIdsV2` nach `chosenMedIds` und startet dieselbe Session-Wiedergabe wie Variante 1 — Session-Player, Playlist-Logik und Abschluss sind identisch, nur der Auswahl-Bildschirm unterscheidet sich.
+- **Anzahl und Dauer, schon auf der Kompass-Seite gewählt:** "Wie viele Meditationen?" (1/2/3, `#countOptsV2`) und "Wie lange möchtest du meditieren?" (5/10/15/20/30 Min, `#durationOptsV2`). Beide Picker sitzen auf der **Kompass-Seite** (§3.2), nicht auf der Kategorie-Seite von Meditation 2 selbst — beim Öffnen einer Kategorie sind Anzahl und Zieldauer also schon gesetzt.
+- **Auto-Auswahl:** `autoFillV2()` sucht je Slot (Zieldauer geteilt durch Anzahl) die Übung, die dieser Grösse am nächsten kommt — dieselbe Logik wie früher bei Meditation 1 (§5, Auswahl-Logik), nur mit `desiredCountV2`/`durationV2` statt `desiredCount`/`maxDuration`.
+- Einzelne Übungen bleiben antippbar (an-/abwählen), begrenzt auf die gewählte Anzahl (älteste fliegt raus, wenn eine neue dazukommt) — `chosenMedIdsV2` ist ein eigener, separater Auswahl-Zustand.
+- Live-Status: "2 von 3 ausgewählt · 15 Min gesamt (Ziel: 20 Min)"
+- "Insel betreten & starten →" kopiert `chosenMedIdsV2` nach `chosenMedIds` und startet dieselbe Session-Wiedergabe wie Meditation 1 — Session-Player, Playlist-Logik und Abschluss sind identisch, nur der Auswahl-Bildschirm unterscheidet sich.
 
 ### 3.4 Session (Vollbild, `body.entered.in-session`)
 - Hintergrund: **aktuell überall dasselbe Titel-Foto** (nicht die animierte SVG-Insel), scharf statt verwischt gezeigt
@@ -253,11 +254,12 @@ chosenMedIds = []        // Reihenfolge = Playlist-Reihenfolge (Meditation 1), k
 catOpenState = { mini:false, mittel:false, tief:false }  // Accordion-Zustand (Meditation 1)
 completedLog = []        // [{name, min, seconds}], während der Session befüllt
 
-chosenMedIdsV2 = []      // eigener Auswahl-Zustand für Meditation 2
-currentCatV2   = null    // gewählte Kompass-Richtung/Kategorie in Meditation 2
-durationV2     = 10      // Minuten, auf der Kompass-Seite gewählt
+chosenMedIdsV2  = []     // eigener Auswahl-Zustand für Meditation 2
+currentCatV2    = null   // gewählte Kompass-Richtung/Kategorie in Meditation 2
+durationV2      = 10     // Minuten, auf der Kompass-Seite gewählt
+desiredCountV2  = 2      // 1..3, auf der Kompass-Seite gewählt
 ```
-Meditation 1 hat seit dem Entfernen der Anzahl-/Dauer-Frage **keinen Auswahl-Zustand für Präferenzen mehr** (`desiredCount`/`maxDuration` sind ersatzlos raus): Vorausgewählt wird genau eine Übung — die kürzeste zur Kompass-Richtung passende — danach ist die Auswahl frei und unbegrenzt (siehe §3.3). Meditation 2: `autoFillV2()` füllt beim Öffnen einer Kategorie automatisch bis nahe an `durationV2` auf (siehe §3.3a).
+Meditation 1 hat seit dem Entfernen der Anzahl-/Dauer-Frage **keinen Auswahl-Zustand für Präferenzen mehr** (`desiredCount`/`maxDuration` sind ersatzlos raus): Vorausgewählt wird genau eine Übung — die kürzeste zur Kompass-Richtung passende — danach ist die Auswahl frei und unbegrenzt (siehe §3.3). Meditation 2 hat Anzahl+Dauer weiterhin (auf der Kompass-Seite statt auf der Auswahl-Seite selbst): `autoFillV2()` sortiert die Kategorie nach Nähe zur Zieldauer je Slot (`durationV2 / desiredCountV2`) und füllt bis `desiredCountV2` erreicht oder `durationV2` überschritten würde — dieselbe Rechenregel, die früher bei Meditation 1 galt (siehe §3.3a).
 
 ### Session/Playlist
 ```js
