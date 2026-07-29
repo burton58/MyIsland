@@ -72,6 +72,20 @@
   body[data-step="compass"]::after{
     background:linear-gradient(180deg, rgba(16,42,38,.26) 0%, rgba(16,42,38,.18) 42%, rgba(24,48,40,.3) 100%);
   }
+  /* "Für dich" bekommt eine ruhige, helle Flaeche statt des Fotos: dunkler
+     Text auf Creme ist deutlich besser lesbar als auf dem hellblauen Bild,
+     und die Seite wirkt dadurch aufgeraeumter und wertiger. */
+  body[data-step="meditation"], body[data-step="meditation2"]{ background-color:#f6f3ec; }
+  body[data-step="meditation"]::before,  body[data-step="meditation"]::after,
+  body[data-step="meditation2"]::before, body[data-step="meditation2"]::after{ display:none; }
+  /* Auf der hellen Flaeche braucht der Text keinen weissen Schein mehr. */
+  body[data-step="meditation2"] .compass-card h2{ color:var(--ink); }
+  body[data-step="meditation2"] .compass-card h2,
+  body[data-step="meditation2"] .compass-card .lead,
+  body[data-step="meditation2"] .compass-card .pref-group h3,
+  body[data-step="meditation2"] .compass-card .pref-status,
+  body[data-step="meditation2"] .compass-card .catv2-title{ text-shadow:none; }
+  body[data-step="meditation2"] .catv2-tile{ background:var(--card); border:1px solid #eaf0ee; box-shadow:0 1px 8px rgba(11,43,51,.05); }
   /* Startseite bringt ihr eigenes, scharfes Vollbild mit; der Insel-Screen
      ist eine gezeichnete Szene. Beide brauchen den Foto-Hintergrund nicht. */
   body[data-step="home"]::before,      body[data-step="home"]::after,
@@ -222,7 +236,6 @@
      Hintergrund mit und bleiben deshalb ohne Weiteres lesbar; nur der lose
      Text bekommt einen leichten hellen Schein fuers Auge. */
   body[data-step="compass"] .compass-card,
-  body[data-step="meditation"] .compass-card,
   body[data-step="meditation2"] .compass-card{
     /* Ganz ohne Flaeche: jede Fuellfarbe erzeugt an der Kante einen
        sichtbaren Sprung gegenueber dem Foto dahinter - also wieder ein
@@ -235,9 +248,6 @@
   }
   /* Die Kompass-Seite braucht keinen Text-Schein mehr: Titel, Hinweis und
      Badge liegen dort auf der hellen .compass-stage-Flaeche. */
-  body[data-step="meditation"] .compass-card h2, body[data-step="meditation"] .compass-card .lead,
-  body[data-step="meditation"] .compass-card .pref-status,
-  body[data-step="meditation"] .compass-card .companion h4, body[data-step="meditation"] .compass-card .companion .intro,
   body[data-step="meditation2"] .compass-card h2, body[data-step="meditation2"] .compass-card .lead,
   body[data-step="meditation2"] .compass-card .pref-group h3, body[data-step="meditation2"] .compass-card .pref-status,
   body[data-step="meditation2"] .compass-card .catv2-title{
@@ -451,28 +461,129 @@
   .med-card .title{ font-weight:700; font-size:.95rem; display:flex; align-items:center; gap:7px; }
   .med-card .meta{ font-size:.78rem; opacity:.62; margin-top:3px; }
   .med-card .why{ font-size:.78rem; margin-top:6px; color:#0b6b60; }
-  .rec-badge{
-    display:inline-block; background:linear-gradient(135deg,var(--sun),var(--sun-deep)); color:#3a2400;
-    font-size:.62rem; font-weight:800; letter-spacing:.06em; text-transform:uppercase;
-    padding:3px 8px; border-radius:8px; margin-left:auto;
+  /* ---------- "Für dich": persoenliche Empfehlungen ----------
+     Ruhige, helle Flaeche statt Foto-Hintergrund: dunkler Text auf Creme
+     liest sich deutlich besser als auf dem hellblauen Bild, und die Seite
+     wirkt dadurch wertiger und weniger unruhig. Abstaende im 8-pt-Raster. */
+  .fd-shell{ max-width:520px; margin:0 auto; text-align:left; padding:8px 4px 0; }
+
+  .fd-head{ margin-bottom:24px; }
+  .fd-greeting{ margin:0 0 4px; font-size:.9rem; font-weight:600; color:rgba(11,43,51,.5); }
+  .fd-head h2{
+    margin:0 0 12px; font-family:var(--serif); font-size:1.72rem; line-height:1.2;
+    font-weight:700; color:var(--ink); letter-spacing:-.2px;
   }
-  .rec-note{
-    background:#fff8e6; border:1px solid #f4dfa8; border-radius:14px; padding:12px 14px;
-    font-size:.85rem; line-height:1.5; text-align:left; margin-bottom:14px;
+  .fd-badge{
+    display:inline-block; background:#eef4f0; color:rgba(11,43,51,.62);
+    font-size:.72rem; font-weight:600; padding:5px 11px; border-radius:999px;
   }
 
-  .cat-block{ border:1px solid #e6efee; border-radius:16px; overflow:hidden; margin-bottom:10px; background:#fff; }
-  .cat-header{
-    width:100%; border:none; background:#f7fbfa; cursor:pointer; padding:13px 14px;
-    display:flex; align-items:center; gap:8px; text-align:left; font-family:inherit;
+  /* Kompass-Auswertung: der emotionale Anker der Seite */
+  .fd-state{
+    background:var(--card); border-radius:22px; padding:20px;
+    box-shadow:0 2px 14px rgba(11,43,51,.07); margin-bottom:24px;
   }
-  .cat-block.open .cat-header{ background:#eaf6f3; }
-  .cat-name{ font-weight:700; font-size:.9rem; display:flex; align-items:center; gap:6px; }
-  .cat-rec-dot{ width:7px; height:7px; border-radius:50%; background:var(--sun-deep); display:inline-block; }
-  .cat-meta{ margin-left:auto; font-size:.72rem; opacity:.55; white-space:nowrap; }
-  .cat-arrow{ opacity:.5; font-size:.8rem; }
-  .cat-body{ display:none; padding:10px; flex-direction:column; gap:8px; }
-  .cat-block.open .cat-body{ display:flex; }
+  .fd-state-top{ display:flex; align-items:center; gap:12px; margin-bottom:14px; }
+  .fd-state-emoji{ font-size:2rem; line-height:1; }
+  .fd-state-label{ font-size:.7rem; text-transform:uppercase; letter-spacing:.09em; font-weight:700; color:rgba(11,43,51,.42); }
+  .fd-state-word{ font-family:var(--serif); font-size:1.32rem; font-weight:700; color:var(--ink); line-height:1.2; }
+  .fd-state ul{ margin:0; padding:0; list-style:none; }
+  .fd-state li{
+    position:relative; padding-left:18px; margin-bottom:6px;
+    font-size:.92rem; line-height:1.45; color:rgba(11,43,51,.72);
+  }
+  .fd-state li::before{
+    content:""; position:absolute; left:2px; top:.62em;
+    width:5px; height:5px; border-radius:50%; background:var(--sage-deep);
+  }
+  .fd-why{
+    margin:14px 0 0; padding-top:14px; border-top:1px solid #eef1f0;
+    font-size:.95rem; line-height:1.55; color:var(--ink);
+  }
+
+  .fd-section-label{
+    display:flex; align-items:baseline; justify-content:space-between; gap:12px;
+    margin:0 0 12px;
+  }
+  .fd-section-label h3{
+    margin:0; font-size:.72rem; text-transform:uppercase; letter-spacing:.1em;
+    font-weight:800; color:rgba(11,43,51,.45);
+  }
+  .fd-section-note{ font-size:.75rem; font-weight:600; color:rgba(11,43,51,.4); white-space:nowrap; }
+
+  /* Top-Empfehlung: bewusst gross, mit direktem Start - ein Tipp, ein Start */
+  .fd-hero{ margin-bottom:24px; }
+  .fd-hero-card{
+    background:linear-gradient(160deg,#f2f9f5,#e6f2ec);
+    border:1px solid rgba(90,147,112,.24); border-radius:24px; padding:22px 20px;
+    box-shadow:0 6px 22px rgba(20,60,45,.1);
+  }
+  .fd-hero-tag{
+    display:inline-flex; align-items:center; gap:6px;
+    background:var(--forest); color:#fff; font-size:.68rem; font-weight:800;
+    text-transform:uppercase; letter-spacing:.07em; padding:5px 11px; border-radius:999px;
+  }
+  .fd-hero-name{
+    margin:14px 0 6px; font-family:var(--serif); font-size:1.5rem; line-height:1.2;
+    font-weight:700; color:var(--ink);
+  }
+  .fd-hero-meta{ font-size:.85rem; font-weight:600; color:rgba(11,43,51,.55); }
+  .fd-reasons{ list-style:none; margin:14px 0 0; padding:0; }
+  .fd-reasons li{
+    display:flex; gap:8px; align-items:flex-start;
+    font-size:.88rem; line-height:1.4; color:rgba(11,43,51,.78); margin-bottom:6px;
+  }
+  .fd-reasons li::before{ content:"✓"; color:var(--sage-deep); font-weight:800; flex:0 0 auto; }
+  .fd-hero-btn{
+    width:100%; margin-top:18px; border:none; cursor:pointer; font-family:inherit;
+    background:linear-gradient(135deg,var(--sage),var(--sage-deep)); color:#fff;
+    font-weight:700; font-size:1rem; padding:15px; border-radius:26px;
+    box-shadow:0 8px 20px rgba(90,147,112,.34);
+  }
+  .fd-hero-btn:active{ transform:translateY(1px); }
+
+  /* Weitere Empfehlungen: gleiche Sprache, kleiner */
+  .fd-more{ margin-bottom:28px; }
+  .fd-card{
+    display:flex; align-items:center; gap:14px; width:100%; text-align:left;
+    background:var(--card); border:1px solid #eaf0ee; border-radius:18px;
+    padding:14px 16px; margin-bottom:10px; cursor:pointer; font-family:inherit;
+    box-shadow:0 1px 8px rgba(11,43,51,.05); transition:.15s ease;
+  }
+  .fd-card:hover{ background:#f7fbf9; }
+  .fd-card:active{ transform:scale(.99); }
+  .fd-card-body{ flex:1; min-width:0; display:flex; flex-direction:column; }
+  .fd-card-name{ display:block; font-weight:700; font-size:1rem; color:var(--ink); line-height:1.25; }
+  .fd-card-meta{ display:block; font-size:.8rem; color:rgba(11,43,51,.5); margin-top:2px; }
+  .fd-card-reason{ display:block; font-size:.82rem; color:var(--sage-deep); font-weight:600; margin-top:5px; }
+  .fd-card-play{
+    flex:0 0 auto; width:38px; height:38px; border-radius:50%;
+    background:#eaf4ef; color:var(--forest); display:flex; align-items:center;
+    justify-content:center; font-size:.9rem; font-weight:800;
+  }
+  .fd-card.locked{ opacity:.55; }
+
+  /* Kategorien ganz unten - vorhanden, aber nicht mehr die Hauptsache */
+  .fd-explore{ margin-bottom:28px; }
+  .fd-explore h3{
+    margin:0 0 12px; font-size:.72rem; text-transform:uppercase; letter-spacing:.1em;
+    font-weight:800; color:rgba(11,43,51,.45);
+  }
+  .fd-cats{ display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+  .fd-cat{
+    display:flex; align-items:center; gap:10px; text-align:left; cursor:pointer;
+    background:var(--card); border:1px solid #eaf0ee; border-radius:16px;
+    padding:14px 14px; font-family:inherit; box-shadow:0 1px 8px rgba(11,43,51,.05);
+  }
+  .fd-cat:active{ transform:scale(.99); }
+  .fd-cat-icon{ font-size:1.25rem; line-height:1; flex:0 0 auto; }
+  .fd-cat-name{ font-size:.84rem; font-weight:700; color:var(--ink); line-height:1.25; }
+  .fd-all-btn{
+    width:100%; margin-top:12px; border:1px solid #dfe8e5; background:var(--card);
+    border-radius:16px; padding:14px; cursor:pointer; font-family:inherit;
+    font-size:.9rem; font-weight:700; color:var(--forest);
+  }
+  .fd-back{ display:block; width:100%; padding:14px; margin-bottom:8px; }
 
   /* ---------- AI companion ---------- */
   .companion{ margin-top:18px; border-top:1px solid #eaf1f0; padding-top:16px; text-align:left; }
@@ -855,7 +966,7 @@
   <nav class="tabbar" id="tabbar">
     <button class="tab-item" data-tab="home">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/></svg>
-      <span>Home</span>
+      <span>Start</span>
     </button>
     <button class="tab-item" data-tab="kompass">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M15.5 8.5l-2 5-5 2 2-5z"/></svg>
@@ -865,12 +976,12 @@
          "Bibliothek" = alle Uebungen nach Laenge durchstoebern,
          "Für dich" = passend zum Kompass automatisch zusammengestellt. -->
     <button class="tab-item" data-tab="meditation">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5.5A1.5 1.5 0 015.5 4H10v16H5.5A1.5 1.5 0 014 18.5z"/><path d="M20 5.5A1.5 1.5 0 0018.5 4H14v16h4.5a1.5 1.5 0 001.5-1.5z"/></svg>
-      <span>Bibliothek</span>
-    </button>
-    <button class="tab-item" data-tab="meditation2">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20s-7-4.3-7-9.2A3.9 3.9 0 0112 8.6a3.9 3.9 0 017 2.2c0 4.9-7 9.2-7 9.2z"/></svg>
       <span>Für dich</span>
+    </button>
+    <button class="tab-item" data-tab="meditation2">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5.5A1.5 1.5 0 015.5 4H10v16H5.5A1.5 1.5 0 014 18.5z"/><path d="M20 5.5A1.5 1.5 0 0018.5 4H14v16h4.5a1.5 1.5 0 001.5-1.5z"/></svg>
+      <span>Alle Übungen</span>
     </button>
     <button class="tab-item" data-tab="profil">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg>
@@ -1152,16 +1263,34 @@
     </div>
   </div>
 
+  <!-- "Für dich": kein Katalog, sondern eine persoenliche Auswertung.
+       Reihenfolge bewusst: Begruessung → Kompass-Auswertung → Begruendung
+       → Top-Empfehlung → weitere Empfehlungen → erst ganz zum Schluss die
+       Kategorien. -->
   <div class="page med-page" id="medPage">
-    <div class="compass-card">
-      <h2>🧘 Deine Meditationen</h2>
-      <p class="lead">Passend zu deinem Kompass – du kannst aber frei wählen.</p>
-      <p class="dialect-chip">🇨🇭 Die Anleitungen sind auf Schweizerdeutsch</p>
+    <div class="fd-shell">
 
-      <div class="pref-status" id="prefStatus"></div>
+      <header class="fd-head">
+        <p class="fd-greeting" id="fdGreeting">Schön, dass du da bist</p>
+        <h2>Das habe ich heute für dich</h2>
+        <span class="fd-badge">🇨🇭 Schweizerdeutsch</span>
+      </header>
 
-      <div class="rec-note" id="recNote"></div>
-      <div class="med-list" id="medList"></div>
+      <!-- Kompass-Auswertung: Zustand + was ihn ausmacht + warum diese Übungen -->
+      <section class="fd-state" id="fdState"></section>
+
+      <!-- Top-Empfehlung, bewusst gross und mit direktem Start -->
+      <section class="fd-hero" id="fdHero"></section>
+
+      <!-- Weitere Empfehlungen, kleiner -->
+      <section class="fd-more" id="fdMore"></section>
+
+      <!-- Erst danach: alles Übrige -->
+      <section class="fd-explore">
+        <h3>Alle Meditationen entdecken</h3>
+        <div class="fd-cats" id="fdCats"></div>
+        <button class="fd-all-btn" id="fdAllBtn">Ganze Bibliothek ansehen →</button>
+      </section>
 
       <div class="companion">
         <h4>Dein Begleiter</h4>
@@ -1173,30 +1302,27 @@
         </div>
       </div>
 
-      <div class="compass-actions">
-        <button class="back-link-btn" id="backToCompassBtn">← Zurück</button>
-        <button class="enter-btn" id="enterBtn">Insel betreten &amp; starten →</button>
-      </div>
+      <button class="back-link-btn fd-back" id="backToCompassBtn">← Zurück zum Kompass</button>
     </div>
   </div>
 
   <div class="page medv2-page" id="medV2Page">
     <div class="compass-card">
-      <h2>🗂️ Meditation 2</h2>
-      <p class="lead">Wähle eine Kategorie – dort findest du alle passenden Meditationen.</p>
+      <h2>📚 Alle Meditationen</h2>
+      <p class="lead">Stöbere frei – oder wähle einen Bereich, der zu dir passt.</p>
 
       <div class="catv2-grid" id="catV2Grid">
         <button class="catv2-tile" data-dir="nord">
-          <span class="catv2-icon">🧠</span><span class="catv2-label">Denken</span>
+          <span class="catv2-icon">🧠</span><span class="catv2-label">Gedanken beruhigen</span>
         </button>
         <button class="catv2-tile" data-dir="sued">
-          <span class="catv2-icon">❤️</span><span class="catv2-label">Fühlen</span>
+          <span class="catv2-icon">❤️</span><span class="catv2-label">Gefühle verstehen</span>
         </button>
         <button class="catv2-tile" data-dir="west">
-          <span class="catv2-icon">🌪️</span><span class="catv2-label">Anspannung</span>
+          <span class="catv2-icon">💪</span><span class="catv2-label">Stress lösen</span>
         </button>
         <button class="catv2-tile" data-dir="ost">
-          <span class="catv2-icon">🌊</span><span class="catv2-label">Entspannung</span>
+          <span class="catv2-icon">🌿</span><span class="catv2-label">Entspannen</span>
         </button>
       </div>
 
@@ -1420,12 +1546,6 @@
              "Nimm das Gfühl mit zrugg."] }
   ];
 
-  var CAT_INFO = {
-    mini:   { name:"Kurze Meditationen",    range:"3–6 Min" },
-    mittel: { name:"Mittlere Meditationen", range:"7–14 Min" },
-    tief:   { name:"Tiefe Meditationen",    range:"15–30 Min" }
-  };
-  var CAT_ORDER = ["mini","mittel","tief"];
 
   // Themenvielfalt: nicht mehr nur Insel-Stimmung, sondern klassische
   // Achtsamkeits-, Körperarbeit- und Alltagsthemen. Siehe SPEC.md §5a.
@@ -1985,8 +2105,8 @@
     home:       { label:"", sub:"" },
     island:     { label:"Insel gestalten · optional",   sub:"Wähle, wie deine Insel aussieht." },
     compass:    { label:"Schritt 1 von 3 · Kompass",    sub:"Stell den Zeiger auf deine Richtung." },
-    meditation: { label:"Schritt 2 von 3 · Meditation 1", sub:"Wähle eine Übung – oder nimm die Empfehlung." },
-    meditation2:{ label:"Schritt 2 von 3 · Meditation 2", sub:"Nach Kategorie und Dauer wählen." },
+    meditation: { label:"Schritt 2 von 3 · Für dich", sub:"Deine persönlichen Empfehlungen." },
+    meditation2:{ label:"Alle Meditationen",            sub:"Die ganze Bibliothek zum Stöbern." },
     outro:      { label:"Schritt 3 von 3 · Abschluss",  sub:"Schau, was sich verändert hat." },
     profil:     { label:"Profil",                      sub:"Deine Inselreise und dein Zugang." },
     abo:        { label:"Zugang",                      sub:"Die ganze Bibliothek freischalten." }
@@ -2097,96 +2217,149 @@
     }, 0);
   }
 
-  var catOpenState = { mini:false, mittel:false, tief:false };
+  // ---- "Für dich": persoenliche Empfehlungen aus dem Kompass ----------
+  // Grundlage bleibt die Kompass-Richtung. Neu kommt die Intensitaet dazu:
+  // wer sehr angespannt ist, bekommt zuerst kurze, erdende Uebungen (laenger
+  // stillsitzen faellt dann schwer); wer schon ruhig ist, bekommt zuerst
+  // laengere zum Vertiefen. Dadurch sieht jeder Zustand eine andere Liste,
+  // nicht nur eine andere Ueberschrift.
+  var empfohlenVomChat = null;   // vom Begleiter vorgeschlagene Uebung
 
-  function renderMedList(){
+  function empfehlungen(){
     var dir = dirFromCompass(compassBefore);
-    var host = document.getElementById("medList");
-    // Nicht die grobe Richtung nennen ("Kompass zeigt Fühlen") - stattdessen
-    // das tatsaechliche Stimmungswort (moodOf, feiner als die 4 Richtungen)
-    // und dazu, wohin diese Uebungen von genau da aus fuehren.
-    var mood = moodOf(compassBefore);
-    var moodWort = mood.word.charAt(0).toUpperCase() + mood.word.slice(1);
-    document.getElementById("recNote").innerHTML =
-      "<strong>" + mood.emoji + " Dein Kompass zeigt: " + moodWort + ".</strong><br>" + mood.next;
-
-    // Ohne Anzahl-/Dauer-Frage gibt es kein Budget mehr, das die Empfehlung
-    // ausrechnen muesste: vorgeschlagen wird genau EINE Uebung zur Kompass-
-    // Richtung (die kuerzeste als sanfter Einstieg). Alles Weitere waehlt die
-    // Person frei dazu - beliebig viele, beliebig lang.
-    if (chosenMedIds.length === 0){
-      var recommended = MEDITATIONS.filter(function(m){ return m.dir === dir && istFrei(m.id); });
-      recommended.sort(function(a,b){ return a.min - b.min; });
-      chosenMedIds = recommended.length ? [recommended[0].id] : [];
+    // Wer angespannt ist, kann schlecht lange stillsitzen - da kommen kurze,
+    // erdende Uebungen zuerst. Wer schon ruhig ist, hat Kapazitaet fuers
+    // Vertiefen und bekommt die laengeren zuerst. Dadurch bekommen auch
+    // Zustaende aus demselben Bereich (z. B. gruebelrisch und gedankenvoll)
+    // unterschiedliche Listen, nicht nur unterschiedliche Ueberschriften.
+    var angespannt = compassBefore.x < 0;
+    var pool = MEDITATIONS.filter(function(m){ return m.dir === dir && istFrei(m.id); });
+    var rang = { mini:0, mittel:1, tief:2 };
+    pool.sort(function(a,b){
+      // Die auf dem Kompass gewaehlte Zeit ist eine bewusste Ansage - was
+      // dazu passt, kommt zuerst. Innerhalb davon entscheidet die Anspannung.
+      // Alles Uebrige danach nach Naehe zur Zeit, damit die Liste nicht
+      // zwischen 30 und 4 Minuten hin und her springt.
+      var da = Math.abs(a.min - durationV2), db = Math.abs(b.min - durationV2);
+      var pa = da <= 4 ? 0 : 1, pb = db <= 4 ? 0 : 1;
+      if (pa !== pb) return pa - pb;
+      if (pa === 0){
+        var ra = rang[a.cat], rb = rang[b.cat];
+        if (ra !== rb) return angespannt ? ra - rb : rb - ra;
+      }
+      return da - db;
+    });
+    // Was der Begleiter vorgeschlagen hat, steht ganz oben - auch wenn es
+    // nicht zur Kompass-Richtung gehoert.
+    if (empfohlenVomChat){
+      var extra = MEDITATIONS.filter(function(m){ return m.id === empfohlenVomChat; })[0];
+      if (extra){
+        pool = pool.filter(function(m){ return m.id !== extra.id; });
+        pool.unshift(extra);
+      }
     }
-
-    // auto-expand any category that currently holds a chosen meditation
-    chosenMedIds.forEach(function(id){
-      var m = MEDITATIONS.filter(function(x){ return x.id === id; })[0];
-      if (m) catOpenState[m.cat] = true;
-    });
-
-    host.innerHTML = CAT_ORDER.map(function(cat){
-      var info = CAT_INFO[cat];
-      var items = MEDITATIONS.filter(function(m){ return m.cat === cat; });
-      var recCount = items.filter(function(m){ return m.dir === dir && chosenMedIds.indexOf(m.id) !== -1; }).length;
-      var open = !!catOpenState[cat];
-
-      var cardsHtml = items.map(function(m){
-        var rec = m.dir === dir;
-        var pos = chosenMedIds.indexOf(m.id);
-        var active = pos !== -1;
-        var frei = istFrei(m.id);
-        return '<div class="med-card' + (active ? ' active' : '') + (frei ? '' : ' locked') + '" data-med="' + m.id + '">' +
-          '<div class="med-check">' + (active ? (pos + 1) : "") + '</div>' +
-          '<div class="med-body">' +
-            '<div class="title">' + m.name +
-              (frei ? '' : '<span class="med-lock">🔒</span>') +
-              (rec && frei ? '<span class="rec-badge">Empfohlen</span>' : '') + '</div>' +
-            '<div class="meta">' + m.min + ' Min · ' + m.desc + '</div>' +
-            (rec ? '<div class="why">Passt zu ' + DIRS[dir].label + '</div>' : '') +
-          '</div>' +
-        '</div>';
-      }).join("");
-
-      return '' +
-        '<div class="cat-block' + (open ? ' open' : '') + '">' +
-          '<button class="cat-header" data-cat="' + cat + '">' +
-            '<span class="cat-name">' + info.name + (recCount ? ' <span class="cat-rec-dot"></span>' : '') + '</span>' +
-            '<span class="cat-meta">' + items.length + ' Übungen · ' + info.range + '</span>' +
-            '<span class="cat-arrow">' + (open ? "▾" : "▸") + '</span>' +
-          '</button>' +
-          '<div class="cat-body">' + cardsHtml + '</div>' +
-        '</div>';
-    }).join("");
-
-    Array.prototype.forEach.call(host.querySelectorAll(".cat-header"), function(btn){
-      btn.addEventListener("click", function(){
-        var cat = btn.getAttribute("data-cat");
-        catOpenState[cat] = !catOpenState[cat];
-        renderMedList();
-      });
-    });
-
-    Array.prototype.forEach.call(host.querySelectorAll(".med-card"), function(card){
-      card.addEventListener("click", function(e){
-        e.stopPropagation();
-        var id = card.getAttribute("data-med");
-        if (!istFrei(id)){ renderAbo(); goToStep("abo"); return; }
-        var pos = chosenMedIds.indexOf(id);
-        if (pos !== -1) chosenMedIds.splice(pos, 1); else chosenMedIds.push(id);
-        renderMedList();
-      });
-    });
-
-    updatePrefStatus();
+    return pool.slice(0, 4);
   }
 
-  function updatePrefStatus(){
-    var mins = totalMinutes(chosenMedIds);
-    var status = document.getElementById("prefStatus");
-    status.classList.remove("over");
-    status.textContent = chosenMedIds.length + " ausgewählt · " + mins + " Min gesamt";
+  function begruessung(){
+    var h = new Date().getHours();
+    if (h < 11) return "Guten Morgen";
+    if (h < 17) return "Schön, dass du da bist";
+    if (h < 22) return "Guten Abend";
+    return "Schön, dass du noch da bist";
+  }
+
+  function gruende(m){
+    return [NUTZEN[m.dir], TIEFE[m.cat]];
+  }
+
+  // Eine Uebung direkt starten - ein Tipp, ein Start. Das ist der Kern des
+  // Coach-Gefuehls: nicht erst auswaehlen, haken setzen und bestaetigen.
+  function starteMeditation(id){
+    if (!istFrei(id)){ renderAbo(); goToStep("abo"); return; }
+    chosenMedIds = [id];
+    document.body.classList.add("entered", "in-session");
+    render({ animateBoatIn: state.arrival === "boat" });
+    startSession();
+  }
+
+  function renderMedList(){
+    var mood = moodOf(compassBefore);
+    var liste = empfehlungen();
+
+    document.getElementById("fdGreeting").textContent = begruessung();
+
+    // 1) Kompass-Auswertung
+    var wort = mood.word.charAt(0).toUpperCase() + mood.word.slice(1);
+    document.getElementById("fdState").innerHTML =
+      '<div class="fd-state-top">' +
+        '<span class="fd-state-emoji">' + mood.emoji + '</span>' +
+        '<span><span class="fd-state-label">Dein Kompass zeigt</span>' +
+        '<div class="fd-state-word">' + wort + '</div></span>' +
+      '</div>' +
+      '<ul>' + mood.bullets.map(function(b){ return '<li>' + b + '</li>'; }).join("") + '</ul>' +
+      '<p class="fd-why">' + mood.next + '</p>';
+
+    // 2) Top-Empfehlung
+    var hero = document.getElementById("fdHero");
+    if (!liste.length){
+      hero.innerHTML = "";
+      document.getElementById("fdMore").innerHTML = "";
+    } else {
+      var top = liste[0];
+      hero.innerHTML =
+        '<div class="fd-section-label"><h3>Unsere Empfehlung für dich</h3>' +
+          '<span class="fd-section-note">für ' + durationV2 + ' Min</span></div>' +
+        '<div class="fd-hero-card">' +
+          '<span class="fd-hero-tag">⭐ Passt zu dir</span>' +
+          '<h4 class="fd-hero-name">' + top.name + '</h4>' +
+          '<div class="fd-hero-meta">' + top.min + ' Minuten</div>' +
+          '<ul class="fd-reasons">' +
+            gruende(top).map(function(g){ return '<li>' + g + '</li>'; }).join("") +
+          '</ul>' +
+          '<button class="fd-hero-btn" data-med="' + top.id + '">Jetzt starten</button>' +
+        '</div>';
+      hero.querySelector(".fd-hero-btn").addEventListener("click", function(){
+        starteMeditation(top.id);
+      });
+
+      // 3) Weitere Empfehlungen
+      var rest = liste.slice(1);
+      var more = document.getElementById("fdMore");
+      more.innerHTML = rest.length
+        ? '<div class="fd-section-label"><h3>Auch gut für dich</h3></div>' +
+          rest.map(function(m){
+            return '<button class="fd-card" data-med="' + m.id + '">' +
+              '<span class="fd-card-body">' +
+                '<span class="fd-card-name">' + m.name + '</span>' +
+                '<span class="fd-card-meta">' + m.min + ' Minuten</span>' +
+                '<span class="fd-card-reason">' + NUTZEN[m.dir] + '</span>' +
+              '</span>' +
+              '<span class="fd-card-play">▶</span>' +
+            '</button>';
+          }).join("")
+        : "";
+      Array.prototype.forEach.call(more.querySelectorAll(".fd-card"), function(btn){
+        btn.addEventListener("click", function(){ starteMeditation(btn.getAttribute("data-med")); });
+      });
+    }
+  }
+
+  // Kategorien ganz unten: fuehren in die Bibliothek, direkt in die passende
+  // Kategorie - so gibt es die Auswahl weiterhin, nur nicht mehr als Erstes.
+  function initKategorien(){
+    var host = document.getElementById("fdCats");
+    host.innerHTML = KATEGORIEN.map(function(k){
+      return '<button class="fd-cat" data-dir="' + k.dir + '">' +
+        '<span class="fd-cat-icon">' + k.icon + '</span>' +
+        '<span class="fd-cat-name">' + k.name + '</span></button>';
+    }).join("");
+    Array.prototype.forEach.call(host.querySelectorAll(".fd-cat"), function(btn){
+      btn.addEventListener("click", function(){
+        goToStep("meditation2");
+        openCatV2(btn.getAttribute("data-dir"));
+      });
+    });
   }
 
   // ---- Meditationsauswahl Variante 2: nach Kategorie (Kompass-Richtung)
@@ -2255,7 +2428,8 @@
   function openCatV2(dir){
     currentCatV2 = dir;
     chosenMedIdsV2 = [];
-    document.getElementById("catV2Title").textContent = DIRS[dir].label;
+    var kat = KATEGORIEN.filter(function(k){ return k.dir === dir; })[0];
+    document.getElementById("catV2Title").textContent = kat ? kat.name : DIRS[dir].label;
     document.getElementById("catV2Grid").style.display = "none";
     document.getElementById("catV2Detail").style.display = "block";
     renderMedListV2();
@@ -2580,25 +2754,70 @@
   // "next": kurzer Satz, was diese \u00DCbungen f\u00fcr GENAU dieses Wort bewirken -
   // bei angespannten/aufgewuehlten Woertern geht's Richtung Ruhe/Ausgleich,
   // bei schon entspannten Woertern darum, das gute Gefuehl zu vertiefen.
-  var MOOD_BALANCED = { emoji:"\uD83D\uDE0A", word:"ausgeglichen", next:"Diese \u00DCbungen helfen dir, dieses Gleichgewicht zu halten." };
+  // "bullets": zwei kurze Beobachtungen, die den Zustand greifbar machen -
+  // damit die Auswertung nicht nur ein Wort ist, sondern sich anfuehlt, als
+  // haette jemand hingeschaut. "next" bleibt die Begruendung, wohin die
+  // Uebungen von hier aus fuehren.
+  var MOOD_BALANCED = { emoji:"😊", word:"ausgeglichen",
+    bullets:["Kopf und Gefühl im Gleichgewicht", "nichts drängt gerade"],
+    next:"Diese Übungen helfen dir, dieses Gleichgewicht zu halten." };
   var MOODS = {
     "Denken_Anspannung":  {
-      vert:{emoji:"\uD83E\uDD14",word:"gr\u00fcblerisch", next:"Diese \u00DCbungen f\u00fchren dich zu ruhigeren, klareren Gedanken."},
-      horiz:{emoji:"\uD83D\uDE30",word:"angespannt", next:"Diese \u00DCbungen bringen dir mehr Entspannung."}
+      vert:{emoji:"🤔",word:"grüblerisch",
+        bullets:["viele kreisende Gedanken", "innerlich unruhig"],
+        next:"Diese Übungen führen dich zu ruhigeren, klareren Gedanken."},
+      horiz:{emoji:"😰",word:"angespannt",
+        bullets:["Spannung sitzt im Körper", "schwer abzuschalten"],
+        next:"Diese Übungen bringen dir mehr Entspannung."}
     },
     "Denken_Entspannung": {
-      vert:{emoji:"\uD83D\uDCAD",word:"gedankenvoll", next:"Diese \u00DCbungen f\u00fchren zu weniger, daf\u00fcr klareren und ruhigeren Gedanken."},
-      horiz:{emoji:"\uD83E\uDDE0",word:"gelassen", next:"Diese \u00DCbungen machen dich noch gelassener und zufriedener."}
+      vert:{emoji:"💭",word:"gedankenvoll",
+        bullets:["viel im Kopf, aber ruhig", "nachdenklich gestimmt"],
+        next:"Diese Übungen führen zu weniger, dafür klareren und ruhigeren Gedanken."},
+      horiz:{emoji:"🧠",word:"gelassen",
+        bullets:["klarer Kopf", "ruhige Gedanken"],
+        next:"Diese Übungen machen dich noch gelassener und zufriedener."}
     },
-    "F\u00fchlen_Anspannung": {
-      vert:{emoji:"\uD83D\uDE14",word:"aufgew\u00fchlt", next:"Diese \u00DCbungen helfen dir zu ausgeglichenen, entspannten Gef\u00fchlen."},
-      horiz:{emoji:"\uD83D\uDE1F",word:"unruhig", next:"Diese \u00DCbungen bringen dich zur\u00fcck zur Ruhe."}
+    "Fühlen_Anspannung": {
+      vert:{emoji:"😔",word:"aufgewühlt",
+        bullets:["starke Gefühle nah an der Oberfläche", "innerlich in Bewegung"],
+        next:"Diese Übungen helfen dir zu ausgeglichenen, entspannten Gefühlen."},
+      horiz:{emoji:"😟",word:"unruhig",
+        bullets:["schwer zur Ruhe zu kommen", "innerlich rastlos"],
+        next:"Diese Übungen bringen dich zurück zur Ruhe."}
     },
-    "F\u00fchlen_Entspannung": {
-      vert:{emoji:"\uD83D\uDC9A",word:"geborgen", next:"Diese \u00DCbungen vertiefen diese Ruhe noch mehr."},
-      horiz:{emoji:"\uD83D\uDE0C",word:"entspannt", next:"Diese \u00DCbungen bauen dieses gute Gef\u00fchl weiter aus."}
+    "Fühlen_Entspannung": {
+      vert:{emoji:"💚",word:"geborgen",
+        bullets:["bei dir angekommen", "warm und ruhig"],
+        next:"Diese Übungen vertiefen diese Ruhe noch mehr."},
+      horiz:{emoji:"😌",word:"entspannt",
+        bullets:["der Körper ist locker", "der Atem geht ruhig"],
+        next:"Diese Übungen bauen dieses gute Gefühl weiter aus."}
     }
   };
+
+  // Warum eine Uebung empfohlen wird - abgeleitet aus dem, was schon in den
+  // Daten steht (Richtung + Dauerstufe), statt 40 Texte von Hand zu pflegen.
+  var NUTZEN = {
+    nord: "Beruhigt kreisende Gedanken",
+    sued: "Hilft dir, Gefühle zu ordnen",
+    west: "Löst Anspannung im Körper",
+    ost:  "Vertieft deine Ruhe"
+  };
+  var TIEFE = {
+    mini:   "Kurz und sofort spürbar",
+    mittel: "Genug Zeit, um anzukommen",
+    tief:   "Zum richtigen Eintauchen"
+  };
+  // Kategorien nach Nutzen benannt statt nach Kompass-Achse - "Gedanken
+  // beruhigen" sagt mehr als "Denken".
+  var KATEGORIEN = [
+    { dir:"nord", icon:"🧠", name:"Gedanken beruhigen" },
+    { dir:"sued", icon:"❤️", name:"Gefühle verstehen" },
+    { dir:"west", icon:"💪", name:"Stress lösen" },
+    { dir:"ost",  icon:"🌿", name:"Entspannen" }
+  ];
+
   function moodOf(c){
     // Wie weit man zieht (Laenge) spielt keine Rolle - nur der Winkel:
     // welcher der beiden Pole (z. B. Fuehlen oder Entspannung) naeher an
@@ -2952,9 +3171,11 @@
         return m.name.toLowerCase() === name.trim().toLowerCase();
       })[0];
       if (!match) return false;
-      if (chosenMedIds.indexOf(match.id) === -1) chosenMedIds.push(match.id);
+      // Die Empfehlung als eigene Karte oben einsetzen, statt sie irgendwo
+      // in einer Liste anzuhaken - so bleibt der Weg "ein Tipp, ein Start".
+      empfohlenVomChat = match.id;
       renderMedList();
-      var el = document.querySelector('.med-card[data-med="' + match.id + '"]');
+      var el = document.getElementById("fdHero");
       if (el) el.scrollIntoView({ behavior:"smooth", block:"nearest" });
       return true;
     }
@@ -3003,7 +3224,7 @@
           note.className = "bubble ai";
           note.style.opacity = ".75";
           note.style.fontSize = ".78rem";
-          note.textContent = "→ „" + tagMatch[1].trim() + "“ ist unten ausgewählt.";
+          note.textContent = "→ „" + tagMatch[1].trim() + "“ steht jetzt oben als Empfehlung.";
           box.appendChild(note);
           box.scrollTop = box.scrollHeight;
         }
@@ -3028,15 +3249,11 @@
     goToStep("meditation");
   });
   document.getElementById("backToCompassBtn").addEventListener("click", function(){ goToStep("compass"); });
-
-  document.getElementById("enterBtn").addEventListener("click", function(){
-    // Ohne Auswahl gaebe es eine leere Session, aus der man kaum wieder
-    // rauskommt. Passiert, wenn der Test abgelaufen ist und alles zu ist.
-    if (!chosenMedIds.length){ renderAbo(); goToStep("abo"); return; }
-    document.body.classList.add("entered", "in-session");
-    render({ animateBoatIn: state.arrival === "boat" });
-    startSession();
+  document.getElementById("fdAllBtn").addEventListener("click", function(){
+    closeCatV2();
+    goToStep("meditation2");
   });
+
   document.getElementById("backBtn").addEventListener("click", function(){
     stopSession();
     document.body.classList.remove("entered", "in-session");
@@ -3059,6 +3276,8 @@
     renderMedList();
     goToStep("meditation");
   });
+
+  initKategorien();
 
   initCompass("compassSvg", "needleLine", "needleTip", "compassReadout", compassBefore, null,
     [{ line: document.getElementById("needleLineHome"), tip: document.getElementById("needleTipHome") }]);

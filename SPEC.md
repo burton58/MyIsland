@@ -40,7 +40,7 @@ Aktueller Stand ist ein **einzelnes, selbstständiges HTML-File** (`index.html`)
 ### Wiederkehrende Muster
 - **Matte Foto-Hintergründe**: Auf Kompass-, Meditations- und Abschlussseite liegt das Titel-Foto (Insel + Boot, Sonnenuntergang) als `body`-Hintergrund, abgedunkelt mit `linear-gradient(rgba(8,28,25,.82…86))` — bewusst "matt", nicht das helle Originalfoto.
 - **Frosted Cards**: `.compass-card` = `rgba(251,250,246,.94)` + `backdrop-filter: blur(14px)`
-- **Persistente Tab-Bar** unten (`.tabbar`, 70px hoch, dunkel/transparent, während der Session ausgeblendet): 5 Tabs, alle aktiv/klickbar — **Home · Kompass · Bibliothek · Für dich · Profil**. Die beiden Auswahl-Varianten (§3.3/§3.3a) heissen nicht mehr technisch "Meditation 1/2", sondern nach dem, was sie tun: **Bibliothek** = alle Übungen nach Länge durchstöbern (§3.3), **Für dich** = passend zum Kompass automatisch zusammengestellt (§3.3a). Beide haben jetzt auch eigene Symbole (Buch bzw. Herz) statt zweimal desselben Tropfens. Als A/B-Vergleich bleiben sie unverändert nebeneinander bestehen — nur die Beschriftung ist wärmer und aussagekräftiger.
+- **Persistente Tab-Bar** unten (`.tabbar`, 70px hoch, dunkel/transparent, während der Session ausgeblendet): 5 Tabs — **Start · Kompass · Für dich · Alle Übungen · Profil**. Die frühere Doppelung "Bibliothek"/"Für dich" (beides klang nach demselben) ist damit aufgelöst: **Für dich** (§3.3) ist die persönliche Auswertung mit Empfehlungen, **Alle Übungen** (§3.3a) die Bibliothek zum Stöbern. Eigene Symbole je Tab (Herz bzw. Buch).
 - **Safe-Area:** `--safe-bottom: env(safe-area-inset-bottom)` wird auf `body` (Innenabstand unten) und `.tabbar` (Höhe + Innenabstand) angerechnet. Ohne das verschwanden auf echten iPhones die untersten Buttons hinter der Leiste, obwohl im Test alles passte — der Home-Indikator-Bereich (~34px) fehlte in der Rechnung. Tests können den Wert über `:root{--safe-bottom:34px}` nachstellen.
 
 ---
@@ -85,30 +85,37 @@ Als einziger Screen bewusst nach einer **festen visuellen Hierarchie** aufgebaut
 - Ergebnis wird **nicht in Prozent**, sondern als kurzes Wort ausgegeben (`moodOf()`, siehe §5) — dabei zählt **nur der Winkel**, nicht wie weit gezogen wird: welcher der beiden Pole eines Quadranten (z. B. Fühlen oder Entspannung) näher an der Nadel liegt, bestimmt das Wort
 - Speichert `compassBefore = {x, y}` (jeweils −1…1)
 
-### 3.3 Meditationsauswahl 1 ("Deine Meditationen", `data-step="meditation"`, Tab "Meditation 1")
+### 3.3 "Für dich" — persönliche Empfehlungen (`data-step="meditation"`)
 
-Die Bibliothek nach Dauerstufe gegliedert (Kurze/Mittlere/Tiefe Inselreisen) — auf Christines Wunsch die ursprüngliche Gliederung, nachdem Meditation 1 zwischenzeitlich auf Kategorie-Kacheln umgestellt war und dadurch nicht mehr von Meditation 2 zu unterscheiden war. Beide Varianten sind jetzt wieder klar verschieden und über eigene Tabs erreichbar.
+Der Kern-Screen der App. Er war vorher ein Katalog (Akkordeon nach Dauerstufe) und fühlte sich dadurch wie eine Bibliothek an, obwohl davor ein Assessment steht. Jetzt ist die Reihenfolge umgedreht: **erst die Auswertung, dann die Empfehlung, ganz zum Schluss die Kategorien.**
 
-- Eigene Karten-Überschrift **"🧘 Deine Meditationen"** — der allgemeine Seitenkopf (Topbar/Stepper) ist auf diesem Schritt bewusst ausgeblendet, sonst gäbe es zwei Titel übereinander (gleiches Prinzip wie beim Kompass-, Abschluss- und Profil-Schritt, siehe §3.2/§3.5)
-- **Keine Präferenz-Fragen mehr:** Die früheren Felder "Wie viele Meditationen?" (1/2/3) und "Maximale Dauer insgesamt?" (10/20/30 Min/egal) wurden auf Christines Wunsch entfernt — die Seite beginnt direkt mit Status, Kompass-Hinweis und Bibliothek.
-- Live-Status: "2 ausgewählt · 13 Min gesamt" (ohne Ziel-/Obergrenzen-Vergleich, da es kein Budget mehr gibt)
-- Bibliothek in **3 aufklappbaren Kategorien** nach Dauerstufe — Kurze (mini, 3–6 Min), Mittlere (mittel, 7–14 Min), Tiefe (tief, 15–30 Min) Meditationen/Inselreisen (siehe §5), Mehrfachauswahl mit nummerierten Checkboxen (①②③…), **ohne Obergrenze** — beliebig viele, beliebig lang
-- Kompass-Hinweis (`#recNote`) nennt **nicht** die grobe Richtung ("Kompass zeigt Fühlen"), sondern das tatsächliche Stimmungswort aus `moodOf()` (feiner als die 4 Richtungen, z. B. "grüblerisch"/"unruhig"/"geborgen" statt nur "Denken"/"Fühlen") plus einen dazu passenden Satz, wohin die Übungen von genau da aus führen (`MOODS[...].next`/`MOOD_BALANCED.next`, siehe §5 "Kompass") — z. B. "😔 Dein Kompass zeigt: Aufgewühlt. Diese Übungen helfen dir zu ausgeglichenen, entspannten Gefühlen." Alle Übungen der zugehörigen groben Richtung tragen weiterhin ein **"Empfohlen"-Abzeichen** plus Zeile "Passt zu \<Richtung\>" (Meditationen sind nur nach den 4 groben Richtungen einsortiert, nicht nach den 8 Stimmungswörtern).
-- Vorauswahl: **genau eine** Übung zur Kompass-Richtung (die kürzeste als sanfter Einstieg) ist beim Öffnen schon angehakt, ihre Kategorie **klappt automatisch auf**. Ohne Anzahl-/Dauer-Frage gibt es kein Budget mehr, das eine grössere Vorauswahl rechtfertigen würde — alles Weitere wählt die Person frei dazu.
-- KI-Begleiter-Chat (kontextbewusst, kann per `[EMPFEHLUNG: <Name>]`-Tag eine Übung zur Auswahl hinzufügen)
-- "Insel betreten & starten →" → Vollbild-Session
-- **Offen:** Welche Übung tatsächlich vorgeschlagen wird, richtet sich weiterhin nur nach der groben Richtung (+ kürzeste Dauer für die Vorauswahl) — der Empfehlungs-**Text** ist jetzt fein nach Stimmungswort formuliert, die Empfehlungs-**Logik** (welche Übungen) noch nicht nach dem Intensitäts-Konzept, das Christine beschrieben hat (siehe §5 "Geplant: Intensität + Empfehlungslogik"). Umsetzung wartet noch auf die Meditations-Klassifizierung von Christine (welche Übung zu welcher Intensitätsstufe passt).
+**Aufbau (`.fd-shell`, in genau dieser Reihenfolge):**
+1. **Begrüssung + Titel** — `#fdGreeting` wechselt mit der Tageszeit ("Guten Morgen" / "Schön, dass du da bist" / "Guten Abend"), darunter "Das habe ich heute für dich". Der Schweizerdeutsch-Hinweis ist zu einem kleinen Badge (`.fd-badge`, "🇨🇭 Schweizerdeutsch") geschrumpft — vorher war es eine breite Pille, die mehr Gewicht hatte als der Inhalt.
+2. **Kompass-Auswertung** (`#fdState`) — Emoji, "Dein Kompass zeigt", das Zustandswort gross, darunter **zwei Beobachtungen** aus `MOODS[...].bullets` ("viele kreisende Gedanken", "innerlich unruhig") und abgetrennt die Begründung aus `.next`. Damit beantwortet die Seite die Frage "warum bekomme ich genau diese Übungen?", bevor sie gestellt wird.
+3. **Top-Empfehlung** (`#fdHero`) — eine grosse Karte mit Tag "⭐ Passt zu dir", Name, Dauer, **zwei Gründen mit Häkchen** und einem direkten **"Jetzt starten"**. Ein Tipp, ein Start: kein Auswählen, Anhaken und Bestätigen mehr.
+4. **"Auch gut für dich"** (`#fdMore`) — bis zu drei kleinere Karten, jede mit Name, Dauer, Grund und Play-Symbol; Antippen startet sofort.
+5. **"Alle Meditationen entdecken"** (`.fd-explore`) — erst hier die vier Kategorien, plus "Ganze Bibliothek ansehen →" zur Bibliothek (§3.3a). Eine Kategorie führt direkt in die passende Bibliotheks-Kategorie.
+6. **Begleiter-Chat** und "← Zurück zum Kompass".
 
-### 3.3a Meditationsauswahl 2 ("Nach Kategorie wählen", `data-step="meditation2"`, Tab "Meditation 2")
+**Empfehlungslogik (`empfehlungen()`):** Pool = alle freien Übungen der Kompass-Richtung. Sortiert nach
+1. **Passt zur gewählten Zeit** (`durationV2`, ±4 Min) — die Zeitangabe auf der Kompass-Seite ist eine bewusste Ansage und wird jetzt auch hier eingelöst; vorher wirkte sie nur auf die Bibliothek. Die gewählte Zeit steht als "für 10 Min" neben der Überschrift.
+2. **Anspannung** — wer angespannt ist (`compassBefore.x < 0`), bekommt kurze, erdende Übungen zuerst (lange stillsitzen fällt dann schwer); wer schon ruhig ist, bekommt die längeren zum Vertiefen. Dadurch unterscheiden sich auch Zustände aus derselben Richtung (grüblerisch ↔ gedankenvoll, aufgewühlt ↔ geborgen).
+3. Rest nach Nähe zur Zieldauer, damit die Liste nicht zwischen 30 und 4 Minuten springt.
 
-Eigener Tab in der Tab-Bar (`data-tab="meditation2"`), gleichberechtigt neben Meditation 1 — beide sind parallele Optionen, die Christine gegeneinander ausprobieren und sich dann für eine entscheiden kann. Beide Flüsse teilen sich dieselbe Session-Wiedergabe. Der Unterschied zu Meditation 1: Kategorie-Kacheln statt Akkordeon; Anzahl und Dauer werden schon auf der Kompass-Seite gewählt und automatisch aufgefüllt statt manuell aus dem Akkordeon ausgewählt.
+**Begründungen (`NUTZEN`/`TIEFE`):** abgeleitet aus Richtung und Dauerstufe, die ohnehin an jeder Meditation stehen ("Beruhigt kreisende Gedanken" + "Kurz und sofort spürbar") — statt 40 handgepflegter Texte. Der Begleiter-Chat setzt seine Empfehlung über `empfohlenVomChat` an die erste Stelle.
 
-- **Kategorie-Kacheln:** 2×2-Raster (`.catv2-grid`) mit einer Kachel je Kompass-Richtung, jede mit passendem Symbol: 🧠 Denken, ❤️ Fühlen, 🌪️ Anspannung, 🌊 Entspannung — aktuell Emoji-Platzhalter, keine echten Yoga-Icons; Christine sucht dafür passende Yoga-Symbole/-Referenzen und liefert sie nach. Antippen zeigt alle Meditationen dieser Richtung (nicht nach mini/mittel/tief unterteilt, einfach die volle Liste).
-- **Anzahl und Dauer, schon auf der Kompass-Seite gewählt:** "Wie viele Meditationen?" (1/2/3, `#countOptsV2`) und "Wie lange möchtest du meditieren?" (5/10/15/20/30 Min, `#durationOptsV2`). Beide Picker sitzen auf der **Kompass-Seite** (§3.2), nicht auf der Kategorie-Seite von Meditation 2 selbst — beim Öffnen einer Kategorie sind Anzahl und Zieldauer also schon gesetzt.
-- **Auto-Auswahl:** `autoFillV2()` sucht je Slot (Zieldauer geteilt durch Anzahl) die Übung, die dieser Grösse am nächsten kommt — dieselbe Logik wie früher bei Meditation 1 (§5, Auswahl-Logik), nur mit `desiredCountV2`/`durationV2` statt `desiredCount`/`maxDuration`.
-- Einzelne Übungen bleiben antippbar (an-/abwählen), begrenzt auf die gewählte Anzahl (älteste fliegt raus, wenn eine neue dazukommt) — `chosenMedIdsV2` ist ein eigener, separater Auswahl-Zustand.
-- Live-Status: "2 von 3 ausgewählt · 15 Min gesamt (Ziel: 20 Min)"
-- "Insel betreten & starten →" kopiert `chosenMedIdsV2` nach `chosenMedIds` und startet dieselbe Session-Wiedergabe wie Meditation 1 — Session-Player, Playlist-Logik und Abschluss sind identisch, nur der Auswahl-Bildschirm unterscheidet sich.
+**Optik:** eigene helle Fläche (`#f6f3ec`) statt Foto-Hintergrund — dunkler Text auf Creme ist deutlich besser lesbar als auf dem hellblauen Bild, und die Seite wirkt aufgeräumter. Weisse Karten mit weichem Schatten, grosse Serif-Überschriften, 8-pt-Abstände.
+
+**Offen:** Die Auswahl ist damit auf "eine Übung pro Start" reduziert. Mehrere Übungen hintereinander kombiniert man weiterhin in der Bibliothek (§3.3a) — dort wirkt auch die Anzahl-Einstellung vom Kompass.
+
+### 3.3a "Alle Übungen" — die Bibliothek (`data-step="meditation2"`)
+
+Zum Stöbern, wenn man nicht der Empfehlung folgen will. Titel **"📚 Alle Meditationen"**.
+
+- **Kategorien nach Nutzen benannt** (`KATEGORIEN`): 🧠 Gedanken beruhigen, ❤️ Gefühle verstehen, 💪 Stress lösen, 🌿 Entspannen — statt der Kompass-Achsen "Denken/Fühlen/Anspannung/Entspannung", die nur beschrieben, *wo* man steht, nicht *was die Übung bringt*. Dieselben Namen erscheinen auch unten auf "Für dich" und als Überschrift der geöffneten Kategorie.
+- Antippen zeigt alle Übungen dieser Richtung, vorausgefüllt nach **Anzahl und Zieldauer** von der Kompass-Seite (`autoFillV2()`, `desiredCountV2`/`durationV2`).
+- Mehrfachauswahl bleibt hier erhalten, Status "2 von 2 ausgewählt · 8 Min gesamt (Ziel: 10 Min)", Start über "Insel betreten & starten →".
+- Gleiche helle Fläche wie "Für dich", damit beide Seiten als Paar lesbar sind.
 
 ### 3.4 Session (Vollbild, `body.entered.in-session`)
 - Hintergrund: **aktuell überall dasselbe Titel-Foto** (nicht die animierte SVG-Insel), scharf statt verwischt gezeigt
@@ -151,6 +158,13 @@ moodOf(c)           // → { emoji, word, next } (siehe MOODS: 4 Richtungspaare 
                         //   dafuer, wohin die Uebungen von genau diesem Stimmungswort aus fuehren (siehe
                         //   #recNote in §3.3) - eigenstaendiger Text pro Wort, unabhaengig von dirFromCompass.
 moodHtml(c)         // → "<emoji> wort" - kurze Form fuer Listen/Rueckblick ("Vorher: 😊 ausgeglichen")
+MOODS[...].bullets  // zwei kurze Beobachtungen je Zustand ("viele kreisende Gedanken") - werden
+                        //   auf "Für dich" (§3.3) als Auswertung angezeigt
+NUTZEN[dir]         // "Beruhigt kreisende Gedanken" o.ae. - warum eine Uebung empfohlen wird
+TIEFE[cat]          // "Kurz und sofort spuerbar" o.ae. - zweiter Grund je Uebung
+KATEGORIEN[]        // { dir, icon, name } - Kategorien nach NUTZEN benannt statt nach Kompass-Achse
+empfehlungen()      // Top-4 fuer den aktuellen Zustand: Zieldauer zuerst, dann Anspannung (§3.3)
+starteMeditation(id)// startet EINE Uebung direkt - der Kern des Coach-Gefuehls
 moodStaerke(c)      // → 0..1, wie weit die Nadel vom Zentrum weg liegt (max(|x|,|y|))
 moodSatz(c)         // → "Du wirkst etwas|eher|sehr <wort>" - Schwellen 0.42 / 0.72;
                         //   in der Ruhezone "Du wirkst ausgeglichen"
@@ -183,7 +197,7 @@ Christine hat die Quadranten-Logik bestätigt/vorgegeben und eine Empfehlungsric
 - Gefühle-Achse (Richtung Fühlen): aussen = sehr belastende/intensive Gefühle, Richtung Mitte = ausgeglichene Gefühle.
 - Anspannungs-Achse: Anspannung ↔ Entspannung bleibt ein Pol-zu-Pol-Gegensatz (kein Zentrum-Konzept nötig).
 
-**Noch offen — welche Übung tatsächlich vorgeschlagen wird:** Der `next`-Text beschreibt nur die Richtung in Worten; **welche der 40 Meditationen** dazu passt, hängt weiterhin nur von der groben Richtung (`dirFromCompass`) ab, nicht vom feineren Stimmungswort oder der Intensität. Das braucht eine Klassifizierung, welche Meditation zu welchem Stimmungswort *und* welcher Intensitätsstufe passt — diese liefert Christine noch nach. Bis dahin bleibt die eigentliche Auswahl-Logik in Meditation 1 & 2 (§3.3/§3.3a) unverändert (Richtung + kürzeste/Zieldauer).
+**Teilweise umgesetzt — welche Übung vorgeschlagen wird:** Die Auswahl richtet sich inzwischen nach Kompass-Richtung, gewählter Zeit **und** Anspannungsseite (§3.3, `empfehlungen()`), plus je zwei abgeleiteten Begründungen (`NUTZEN`/`TIEFE`). Damit sieht jeder der acht Zustände eine andere Liste. **Noch offen** bleibt eine echte inhaltliche Klassifizierung je Meditation (welche Übung passt zu welchem Stimmungswort und welcher Intensitätsstufe) — die liefert Christine nach; erst damit liesse sich z. B. "traurig" von "grüblerisch" inhaltlich unterscheiden statt nur über Richtung und Dauer.
 
 ### Meditationen
 ```js
@@ -195,7 +209,7 @@ MEDITATIONS[] = {
 }
 ```
 - **40 handgeschriebene Meditationen insgesamt** (13 mini / 13 mittel / 14 tief) — siehe §5a für die volle Titelliste. Kein Generator mehr: `generateLibrary()`/`THEMES`/`PHRASES` wurden entfernt, jeder Eintrag ist ein einzeln geschriebenes Skript.
-- Das Feld `cat` ("mini"/"mittel"/"tief") gruppiert die Akkordeon-Kategorien in Meditation 1 (siehe §3.3); Meditation 2 gruppiert stattdessen nur nach Kompass-Richtung (`dir`), nicht nach Dauerstufe.
+- Das Feld `cat` ("mini"/"mittel"/"tief") steuert jetzt die Empfehlungs-Reihenfolge auf "Für dich" (§3.3, kurz-zuerst bei Anspannung) und liefert über `TIEFE[cat]` den zweiten Empfehlungsgrund. Als sichtbare Gliederung wird es nicht mehr benutzt — beide Seiten gruppieren nach Kompass-Richtung bzw. Nutzen-Kategorie.
 
 ### Mudras & Mantras (Abschluss-Seite)
 ```js
@@ -282,16 +296,16 @@ zeigeMudra()/zeigeMantra()  // rendern die Karte in #mudraBox/#mantraBox, Richtu
 
 ### Auswahl-Logik
 ```js
-chosenMedIds = []        // Reihenfolge = Playlist-Reihenfolge (Meditation 1), keine Obergrenze
-catOpenState = { mini:false, mittel:false, tief:false }  // Accordion-Zustand (Meditation 1)
+chosenMedIds = []        // Reihenfolge = Playlist-Reihenfolge; auf "Für dich" immer genau eine
+empfohlenVomChat = null  // Vorschlag des Begleiters, rutscht in empfehlungen() nach ganz oben
 completedLog = []        // [{name, min, seconds}], während der Session befüllt
 
-chosenMedIdsV2  = []     // eigener Auswahl-Zustand für Meditation 2
-currentCatV2    = null   // gewählte Kompass-Richtung/Kategorie in Meditation 2
-durationV2      = 10     // Minuten, auf der Kompass-Seite gewählt
-desiredCountV2  = 2      // 1..3, auf der Kompass-Seite gewählt
+chosenMedIdsV2  = []     // eigener Auswahl-Zustand für die Bibliothek
+currentCatV2    = null   // dort gewählte Kategorie
+durationV2      = 10     // Minuten, auf der Kompass-Seite gewählt - wirkt auf BEIDE Seiten
+desiredCountV2  = 2      // 1..3, auf der Kompass-Seite gewählt - wirkt nur auf die Bibliothek
 ```
-Meditation 1 hat seit dem Entfernen der Anzahl-/Dauer-Frage **keinen Auswahl-Zustand für Präferenzen mehr** (`desiredCount`/`maxDuration` sind ersatzlos raus): Vorausgewählt wird genau eine Übung — die kürzeste zur Kompass-Richtung passende — danach ist die Auswahl frei und unbegrenzt (siehe §3.3). Meditation 2 hat Anzahl+Dauer weiterhin (auf der Kompass-Seite statt auf der Auswahl-Seite selbst): `autoFillV2()` sortiert die Kategorie nach Nähe zur Zieldauer je Slot (`durationV2 / desiredCountV2`) und füllt bis `desiredCountV2` erreicht oder `durationV2` überschritten würde — dieselbe Rechenregel, die früher bei Meditation 1 galt (siehe §3.3a).
+**"Für dich"** (§3.3): `empfehlungen()` sortiert die Übungen der Kompass-Richtung nach (1) Nähe zur gewählten Zeit, (2) Anspannung (kurz-zuerst wenn angespannt, tief-zuerst wenn ruhig), (3) Restnähe zur Zeit. Die erste Übung wird als grosse Karte gezeigt, die nächsten drei kleiner; ein Antippen startet direkt (`starteMeditation()`). **Bibliothek** (§3.3a): `autoFillV2()` füllt beim Öffnen einer Kategorie bis `desiredCountV2`/`durationV2` auf, Mehrfachauswahl bleibt möglich.
 
 ### Session/Playlist
 ```js
@@ -329,5 +343,5 @@ TAB_FOR_STEP = { home:"home", compass:"kompass", meditation:"meditation", medita
 7. **Mehrsprachigkeit**: Oberfläche Hochdeutsch, Meditationen Schweizerdeutsch, beides hart codiert.
 8. **Themenvielfalt** (siehe §5a): Titelliste und Texte sind umgesetzt. Offen: passende Fotos je Thema beschaffen und `bg`-Feld je Meditation einführen.
 9. **Bezahlung**: Testphase/Abo-Zustand ist reine Anzeige-Logik ohne echten Zahlungsanbieter — siehe Hinweis auf der Abo-Seite in der App ("noch nicht bezahlbar"). Solange das so ist, steht in `index.html` der Schalter `var ABO_LIVE = false;` — damit bleibt die ganze Bibliothek für alle offen (keine gesperrten Übungen, keine Testphasen-/Ablauf-Anzeige in Profil und Abo-Seite). Die Test-/Abo-Logik (`hatAbo()`, `imTest()`, `GRATIS_IDS`, Plan-Auswahl) bleibt vollständig im Code erhalten und lässt sich mit `ABO_LIVE = true` jederzeit wieder scharf schalten, sobald eine echte Bezahlung angeschlossen wird.
-10. **Kompass-Empfehlungslogik (Bibliothek & Für dich)**: Umgesetzt sind inzwischen die Quadranten-Stimmungswörter, ein eigener Empfehlungs-**Text** je Stimmungswort (`MOODS[...].next`, `#recNote`) und die **Intensitäts-Abstufung in der Anzeige** ("etwas/eher/sehr", `moodSatz()`, siehe §5). Noch offen bleibt die eigentliche Auswahl-**Logik**: welche der 40 Übungen zu welchem Stimmungswort und welcher Intensitätsstufe passt — dafür fehlt die Meditations-Klassifizierung von Christine. Gleiches offen für die Yoga-Icons der Kategorie-Kacheln in "Für dich" (siehe §3.3a); die vier Kompass-Achsen haben inzwischen Symbole (§3.2). Sobald es soweit ist, wird dieser Teil mit dem leistungsfähigeren Opus-5-Modell umgesetzt (Christines Wunsch).
+10. **Kompass-Empfehlungslogik**: Umgesetzt sind Quadranten-Stimmungswörter, Begründungstexte je Zustand (`next`), die Intensitäts-Abstufung in der Anzeige ("etwas/eher/sehr") und seit dem "Für dich"-Umbau eine echte Empfehlungs-Reihenfolge aus Richtung + gewählter Zeit + Anspannungsseite (§3.3). **Offen** bleibt die inhaltliche Klassifizierung je Meditation von Christine — und damit auch die Yoga-Icons für die Kategorien (aktuell Emoji, siehe §3.3a).
 11. **Emotionale Historie ausbauen**: Der Verlauf speichert Vorher/Nachher pro Sitzung bereits (§5, Insel-Woche und Inselreise im Profil), und die Reise einer *einzelnen* Sitzung ist seit dem UX-Durchgang auf dem Abschluss-Kompass sichtbar (§3.5, `zeichneReise()`). Offen: dieselbe Spur-Darstellung auch **über mehrere Sitzungen hinweg** zeigen — z. B. ein kleiner Kompass im Profil, der die letzten Reisen übereinanderlegt. Das war Christines Idee eines "besonderen Features" und ist der nächste sinnvolle Schritt darauf.
