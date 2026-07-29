@@ -80,11 +80,11 @@ Die Bibliothek nach Dauerstufe gegliedert (Kurze/Mittlere/Tiefe Inselreisen) —
 - **Keine Präferenz-Fragen mehr:** Die früheren Felder "Wie viele Meditationen?" (1/2/3) und "Maximale Dauer insgesamt?" (10/20/30 Min/egal) wurden auf Christines Wunsch entfernt — die Seite beginnt direkt mit Status, Kompass-Hinweis und Bibliothek.
 - Live-Status: "2 ausgewählt · 13 Min gesamt" (ohne Ziel-/Obergrenzen-Vergleich, da es kein Budget mehr gibt)
 - Bibliothek in **3 aufklappbaren Kategorien** nach Dauerstufe — Kurze (mini, 3–6 Min), Mittlere (mittel, 7–14 Min), Tiefe (tief, 15–30 Min) Meditationen/Inselreisen (siehe §5), Mehrfachauswahl mit nummerierten Checkboxen (①②③…), **ohne Obergrenze** — beliebig viele, beliebig lang
-- Kompass-Hinweis (`#recNote`) nennt die aktuelle Richtung samt Erklärsatz; alle Übungen dieser Richtung tragen ein **"Empfohlen"-Abzeichen** plus Zeile "Passt zu \<Richtung\>"
+- Kompass-Hinweis (`#recNote`) nennt **nicht** die grobe Richtung ("Kompass zeigt Fühlen"), sondern das tatsächliche Stimmungswort aus `moodOf()` (feiner als die 4 Richtungen, z. B. "grüblerisch"/"unruhig"/"geborgen" statt nur "Denken"/"Fühlen") plus einen dazu passenden Satz, wohin die Übungen von genau da aus führen (`MOODS[...].next`/`MOOD_BALANCED.next`, siehe §5 "Kompass") — z. B. "😔 Dein Kompass zeigt: Aufgewühlt. Diese Übungen helfen dir zu ausgeglichenen, entspannten Gefühlen." Alle Übungen der zugehörigen groben Richtung tragen weiterhin ein **"Empfohlen"-Abzeichen** plus Zeile "Passt zu \<Richtung\>" (Meditationen sind nur nach den 4 groben Richtungen einsortiert, nicht nach den 8 Stimmungswörtern).
 - Vorauswahl: **genau eine** Übung zur Kompass-Richtung (die kürzeste als sanfter Einstieg) ist beim Öffnen schon angehakt, ihre Kategorie **klappt automatisch auf**. Ohne Anzahl-/Dauer-Frage gibt es kein Budget mehr, das eine grössere Vorauswahl rechtfertigen würde — alles Weitere wählt die Person frei dazu.
 - KI-Begleiter-Chat (kontextbewusst, kann per `[EMPFEHLUNG: <Name>]`-Tag eine Übung zur Auswahl hinzufügen)
 - "Insel betreten & starten →" → Vollbild-Session
-- **Offen:** Die Kompass-basierte Empfehlung wählt aktuell nur nach Richtung (+ kürzeste Dauer für die Vorauswahl), nicht nach dem neuen Intensitäts-Konzept, das Christine beschrieben hat — Entwurf dafür (Quadranten, Empfehlungsrichtung, Intensität) siehe §5 "Geplant: Intensität + Empfehlungslogik". Umsetzung wartet noch auf die Meditations-Klassifizierung von Christine (welche Übung zu welcher Intensitätsstufe passt).
+- **Offen:** Welche Übung tatsächlich vorgeschlagen wird, richtet sich weiterhin nur nach der groben Richtung (+ kürzeste Dauer für die Vorauswahl) — der Empfehlungs-**Text** ist jetzt fein nach Stimmungswort formuliert, die Empfehlungs-**Logik** (welche Übungen) noch nicht nach dem Intensitäts-Konzept, das Christine beschrieben hat (siehe §5 "Geplant: Intensität + Empfehlungslogik"). Umsetzung wartet noch auf die Meditations-Klassifizierung von Christine (welche Übung zu welcher Intensitätsstufe passt).
 
 ### 3.3a Meditationsauswahl 2 ("Nach Kategorie wählen", `data-step="meditation2"`, Tab "Meditation 2")
 
@@ -127,31 +127,39 @@ Falls im neuen Repo reaktiviert werden soll: eigener Screen mit Live-Vorschau ob
 compassBefore = { x: -1..1, y: -1..1 }   // x: -1=Anspannung … 1=Entspannung
 compassAfter  = { x: -1..1, y: -1..1 }   // y: -1=Denken     … 1=Fühlen
 
-dirFromCompass(c)   // → "nord"|"sued"|"west"|"ost", dominante Achse gewinnt
-moodOf(c)/moodHtml(c) // → kurzes Wort + Emoji (siehe MOODS: 4 Richtungspaare × 2 Wörter "vert"/"horiz",
-                        //   + Sonderfall "ausgeglichen" bei Betrag < 0.15). Nur der WINKEL entscheidet,
-                        //   welcher der beiden Pole eines Quadranten naeher liegt - wie weit man zieht
-                        //   (Laenge) spielt bewusst keine Rolle.
+dirFromCompass(c)   // → "nord"|"sued"|"west"|"ost", dominante Achse gewinnt - bestimmt WELCHE
+                        //   Uebungen als "Empfohlen" markiert werden (grobe Richtung, siehe §3.3)
+moodOf(c)/moodHtml(c) // → { emoji, word, next } (siehe MOODS: 4 Richtungspaare × 2 Woerter "vert"/"horiz",
+                        //   + Sonderfall MOOD_BALANCED "ausgeglichen" bei Betrag < 0.15). Nur der WINKEL
+                        //   entscheidet, welcher der beiden Pole eines Quadranten naeher liegt - wie weit
+                        //   man zieht (Laenge) spielt bewusst keine Rolle. "next" ist Christines Formulierung
+                        //   dafuer, wohin die Uebungen von genau diesem Stimmungswort aus fuehren (siehe
+                        //   #recNote in §3.3) - eigenstaendiger Text pro Wort, unabhaengig von dirFromCompass.
 compassText(c)      // Prozent-Variante — nur noch intern für den KI-Kontext genutzt, NICHT mehr im UI
 ```
 
-#### Geplant (Entwurf von Christine, noch nicht umgesetzt): Intensität + Empfehlungslogik
+#### Geplant (Entwurf von Christine, teilweise umgesetzt): Intensität + Empfehlungslogik
 
-Christine hat die Quadranten-Logik bestätigt/vorgegeben und eine Empfehlungsrichtung je Quadrant sowie ein neues Intensitäts-Konzept beschrieben. Die vier Stimmungswort-Paare entsprechen bereits genau `MOODS` oben — nur die Empfehlungsrichtung und die Intensität sind neu und **noch nicht implementiert**:
+Christine hat die Quadranten-Logik bestätigt/vorgegeben und eine Empfehlungsrichtung je Quadrant sowie ein neues Intensitäts-Konzept beschrieben. Inzwischen umgesetzt: **jedes der 8 Stimmungswörter hat einen eigenen `next`-Text** (`MOODS[...].next`/`MOOD_BALANCED.next`, siehe oben), der in `#recNote` auf der Meditation-1-Seite erscheint statt der groben Richtung:
 
-| Quadrant | Stimmungswörter (`MOODS`, bereits umgesetzt) | Empfehlungsrichtung (Entwurf, offen) |
-|---|---|---|
-| Denken + Anspannung | grüblerisch / angespannt | mehr Entspannung und Gleichgewicht beim Denken |
-| Fühlen + Anspannung | aufgewühlt / unruhig | mehr Entspannung und Gleichgewicht beim Fühlen |
-| Fühlen + Entspannung | geborgen / entspannt | (schon entspannt) nur Gleichgewicht beim Fühlen |
-| Denken + Entspannung | gedankenvoll / gelassen | (schon entspannt) nur Gleichgewicht beim Denken |
+| Stimmungswort | `next`-Text (umgesetzt) |
+|---|---|
+| grüblerisch | Diese Übungen führen dich zu ruhigeren, klareren Gedanken. |
+| angespannt | Diese Übungen bringen dir mehr Entspannung. |
+| unruhig | Diese Übungen bringen dich zurück zur Ruhe. |
+| aufgewühlt | Diese Übungen helfen dir zu ausgeglichenen, entspannten Gefühlen. |
+| entspannt | Diese Übungen bauen dieses gute Gefühl weiter aus. |
+| geborgen | Diese Übungen vertiefen diese Ruhe noch mehr. |
+| gelassen | Diese Übungen machen dich noch gelassener und zufriedener. |
+| gedankenvoll | Diese Übungen führen zu weniger, dafür klareren und ruhigeren Gedanken. |
+| ausgeglichen (Zentrum) | Diese Übungen helfen dir, dieses Gleichgewicht zu halten. |
 
-**Neues Konzept "Intensität":** Aktuell zählt beim Kompass bewusst nur der Winkel, nicht die Distanz vom Zentrum (siehe Kommentar bei `moodOf()` oben). Christine möchte das um eine Intensitäts-Achse pro Pol erweitern:
+**Noch offen — Intensität:** Aktuell zählt beim Kompass weiterhin nur der Winkel, nicht die Distanz vom Zentrum (siehe Kommentar bei `moodOf()` oben). Christine möchte das um eine Intensitäts-Achse pro Pol erweitern:
 - Gedanken-Achse (Richtung Denken): aussen = sehr viele/rasende Gedanken, Richtung Mitte = ruhige, klare Gedanken.
 - Gefühle-Achse (Richtung Fühlen): aussen = sehr belastende/intensive Gefühle, Richtung Mitte = ausgeglichene Gefühle.
 - Anspannungs-Achse: Anspannung ↔ Entspannung bleibt wie gehabt ein Pol-zu-Pol-Gegensatz (kein Zentrum-Konzept nötig).
 
-**Warum noch nicht umgesetzt:** Die eigentliche Empfehlungslogik für die Meditationsauswahl (Meditation 1 & 2, §3.3/§3.3a) braucht dafür eine Klassifizierung, welche der 40 Meditationen zu welchem Quadranten *und* welcher Intensitätsstufe passt — diese Klassifizierung liefert Christine noch nach. Bis dahin bleibt die Auswahl in beiden Varianten manuell/kategoriebasiert ohne automatische Empfehlung.
+**Noch offen — welche Übung tatsächlich vorgeschlagen wird:** Der `next`-Text beschreibt nur die Richtung in Worten; **welche der 40 Meditationen** dazu passt, hängt weiterhin nur von der groben Richtung (`dirFromCompass`) ab, nicht vom feineren Stimmungswort oder der Intensität. Das braucht eine Klassifizierung, welche Meditation zu welchem Stimmungswort *und* welcher Intensitätsstufe passt — diese liefert Christine noch nach. Bis dahin bleibt die eigentliche Auswahl-Logik in Meditation 1 & 2 (§3.3/§3.3a) unverändert (Richtung + kürzeste/Zieldauer).
 
 ### Meditationen
 ```js
@@ -297,4 +305,4 @@ TAB_FOR_STEP = { home:"home", compass:"kompass", meditation:"meditation", medita
 7. **Mehrsprachigkeit**: Oberfläche Hochdeutsch, Meditationen Schweizerdeutsch, beides hart codiert.
 8. **Themenvielfalt** (siehe §5a): Titelliste und Texte sind umgesetzt. Offen: passende Fotos je Thema beschaffen und `bg`-Feld je Meditation einführen.
 9. **Bezahlung**: Testphase/Abo-Zustand ist reine Anzeige-Logik ohne echten Zahlungsanbieter — siehe Hinweis auf der Abo-Seite in der App ("noch nicht bezahlbar"). Solange das so ist, steht in `index.html` der Schalter `var ABO_LIVE = false;` — damit bleibt die ganze Bibliothek für alle offen (keine gesperrten Übungen, keine Testphasen-/Ablauf-Anzeige in Profil und Abo-Seite). Die Test-/Abo-Logik (`hatAbo()`, `imTest()`, `GRATIS_IDS`, Plan-Auswahl) bleibt vollständig im Code erhalten und lässt sich mit `ABO_LIVE = true` jederzeit wieder scharf schalten, sobald eine echte Bezahlung angeschlossen wird.
-10. **Kompass-Empfehlungslogik (Meditation 1 & 2)**: Entwurf von Christine liegt vor — Quadranten-Stimmungswörter (bereits umgesetzt, siehe §5 "Kompass"), Empfehlungsrichtung je Quadrant und ein neues Intensitäts-Konzept (Distanz vom Zentrum soll künftig mitzählen, siehe §5 "Geplant: Intensität + Empfehlungslogik"). Umsetzung wartet auf die Meditations-Klassifizierung (welche der 40 Übungen zu welchem Quadranten/welcher Intensität passt) — liefert Christine noch nach. Gleiches offen für die Yoga-Icons der Kategorie-Kacheln in Meditation 2 (siehe §3.3a). Sobald es soweit ist, wird dieser Teil mit dem leistungsfähigeren Opus-5-Modell umgesetzt (Christines Wunsch).
+10. **Kompass-Empfehlungslogik (Meditation 1 & 2)**: Entwurf von Christine liegt vor — Quadranten-Stimmungswörter (bereits umgesetzt) und ein eigener Empfehlungs-**Text** je Stimmungswort sind umgesetzt (`MOODS[...].next`, `#recNote` in Meditation 1, siehe §5 "Geplant: Intensität + Empfehlungslogik"). Noch offen: das Intensitäts-Konzept (Distanz vom Zentrum soll künftig mitzählen) und die eigentliche Auswahl-**Logik** (welche der 40 Übungen zu welchem Stimmungswort/welcher Intensität passt) — beides wartet auf die Meditations-Klassifizierung von Christine. Gleiches offen für die Yoga-Icons der Kategorie-Kacheln in Meditation 2 (siehe §3.3a). Sobald es soweit ist, wird dieser Teil mit dem leistungsfähigeren Opus-5-Modell umgesetzt (Christines Wunsch).

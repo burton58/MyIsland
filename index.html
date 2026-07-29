@@ -1936,8 +1936,13 @@
   function renderMedList(){
     var dir = dirFromCompass(compassBefore);
     var host = document.getElementById("medList");
+    // Nicht die grobe Richtung nennen ("Kompass zeigt Fühlen") - stattdessen
+    // das tatsaechliche Stimmungswort (moodOf, feiner als die 4 Richtungen)
+    // und dazu, wohin diese Uebungen von genau da aus fuehren.
+    var mood = moodOf(compassBefore);
+    var moodWort = mood.word.charAt(0).toUpperCase() + mood.word.slice(1);
     document.getElementById("recNote").innerHTML =
-      "<strong>Dein Kompass zeigt Richtung " + DIRS[dir].label + ".</strong><br>" + DIRS[dir].note;
+      "<strong>" + mood.emoji + " Dein Kompass zeigt: " + moodWort + ".</strong><br>" + mood.next;
 
     // Ohne Anzahl-/Dauer-Frage gibt es kein Budget mehr, das die Empfehlung
     // ausrechnen muesste: vorgeschlagen wird genau EINE Uebung zur Kompass-
@@ -2406,12 +2411,27 @@
   }
 
   // ---- Stimmung als Bild und Wort ----
-  var MOOD_BALANCED = { emoji:"\uD83D\uDE0A", word:"ausgeglichen" };
+  // "next": kurzer Satz, was diese \u00DCbungen f\u00fcr GENAU dieses Wort bewirken -
+  // bei angespannten/aufgewuehlten Woertern geht's Richtung Ruhe/Ausgleich,
+  // bei schon entspannten Woertern darum, das gute Gefuehl zu vertiefen.
+  var MOOD_BALANCED = { emoji:"\uD83D\uDE0A", word:"ausgeglichen", next:"Diese \u00DCbungen helfen dir, dieses Gleichgewicht zu halten." };
   var MOODS = {
-    "Denken_Anspannung":  { vert:{emoji:"\uD83E\uDD14",word:"gr\u00fcblerisch"},   horiz:{emoji:"\uD83D\uDE30",word:"angespannt"} },
-    "Denken_Entspannung": { vert:{emoji:"\uD83D\uDCAD",word:"gedankenvoll"},   horiz:{emoji:"\uD83E\uDDE0",word:"gelassen"} },
-    "F\u00fchlen_Anspannung":  { vert:{emoji:"\uD83D\uDE14",word:"aufgew\u00fchlt"},    horiz:{emoji:"\uD83D\uDE1F",word:"unruhig"} },
-    "F\u00fchlen_Entspannung": { vert:{emoji:"\uD83D\uDC9A",word:"geborgen"},      horiz:{emoji:"\uD83D\uDE0C",word:"entspannt"} }
+    "Denken_Anspannung":  {
+      vert:{emoji:"\uD83E\uDD14",word:"gr\u00fcblerisch", next:"Diese \u00DCbungen f\u00fchren dich zu ruhigeren, klareren Gedanken."},
+      horiz:{emoji:"\uD83D\uDE30",word:"angespannt", next:"Diese \u00DCbungen bringen dir mehr Entspannung."}
+    },
+    "Denken_Entspannung": {
+      vert:{emoji:"\uD83D\uDCAD",word:"gedankenvoll", next:"Diese \u00DCbungen f\u00fchren zu weniger, daf\u00fcr klareren und ruhigeren Gedanken."},
+      horiz:{emoji:"\uD83E\uDDE0",word:"gelassen", next:"Diese \u00DCbungen machen dich noch gelassener und zufriedener."}
+    },
+    "F\u00fchlen_Anspannung": {
+      vert:{emoji:"\uD83D\uDE14",word:"aufgew\u00fchlt", next:"Diese \u00DCbungen helfen dir zu ausgeglichenen, entspannten Gef\u00fchlen."},
+      horiz:{emoji:"\uD83D\uDE1F",word:"unruhig", next:"Diese \u00DCbungen bringen dich zur\u00fcck zur Ruhe."}
+    },
+    "F\u00fchlen_Entspannung": {
+      vert:{emoji:"\uD83D\uDC9A",word:"geborgen", next:"Diese \u00DCbungen vertiefen diese Ruhe noch mehr."},
+      horiz:{emoji:"\uD83D\uDE0C",word:"entspannt", next:"Diese \u00DCbungen bauen dieses gute Gef\u00fchl weiter aus."}
+    }
   };
   function moodOf(c){
     // Wie weit man zieht (Laenge) spielt keine Rolle - nur der Winkel:
