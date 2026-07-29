@@ -226,7 +226,6 @@
   body[data-step="meditation"] .compass-card h2, body[data-step="meditation"] .compass-card .lead,
   body[data-step="meditation"] .compass-card .pref-group h3, body[data-step="meditation"] .compass-card .pref-status,
   body[data-step="meditation"] .compass-card .companion h4, body[data-step="meditation"] .compass-card .companion .intro,
-  body[data-step="meditation"] .compass-card .catv2-title,
   body[data-step="meditation2"] .compass-card h2, body[data-step="meditation2"] .compass-card .lead,
   body[data-step="meditation2"] .compass-card .pref-group h3, body[data-step="meditation2"] .compass-card .pref-status,
   body[data-step="meditation2"] .compass-card .catv2-title{
@@ -295,6 +294,7 @@
   }
 
   /* ---------- Meditation choice ---------- */
+  .pref-row{ display:flex; gap:10px; margin:2px 0 12px; }
   .pref-group{ flex:1; text-align:left; }
   .pref-group h3{ margin:0 0 8px; font-size:.66rem; text-transform:uppercase; letter-spacing:.07em; opacity:.55; font-weight:700; }
   .pref-opts{ display:flex; gap:6px; flex-wrap:wrap; }
@@ -318,6 +318,29 @@
   .med-body{ flex:1; min-width:0; }
   .med-card .title{ font-weight:700; font-size:.95rem; display:flex; align-items:center; gap:7px; }
   .med-card .meta{ font-size:.78rem; opacity:.62; margin-top:3px; }
+  .med-card .why{ font-size:.78rem; margin-top:6px; color:#0b6b60; }
+  .rec-badge{
+    display:inline-block; background:linear-gradient(135deg,var(--sun),var(--sun-deep)); color:#3a2400;
+    font-size:.62rem; font-weight:800; letter-spacing:.06em; text-transform:uppercase;
+    padding:3px 8px; border-radius:8px; margin-left:auto;
+  }
+  .rec-note{
+    background:#fff8e6; border:1px solid #f4dfa8; border-radius:14px; padding:12px 14px;
+    font-size:.85rem; line-height:1.5; text-align:left; margin-bottom:14px;
+  }
+
+  .cat-block{ border:1px solid #e6efee; border-radius:16px; overflow:hidden; margin-bottom:10px; background:#fff; }
+  .cat-header{
+    width:100%; border:none; background:#f7fbfa; cursor:pointer; padding:13px 14px;
+    display:flex; align-items:center; gap:8px; text-align:left; font-family:inherit;
+  }
+  .cat-block.open .cat-header{ background:#eaf6f3; }
+  .cat-name{ font-weight:700; font-size:.9rem; display:flex; align-items:center; gap:6px; }
+  .cat-rec-dot{ width:7px; height:7px; border-radius:50%; background:var(--sun-deep); display:inline-block; }
+  .cat-meta{ margin-left:auto; font-size:.72rem; opacity:.55; white-space:nowrap; }
+  .cat-arrow{ opacity:.5; font-size:.8rem; }
+  .cat-body{ display:none; padding:10px; flex-direction:column; gap:8px; }
+  .cat-block.open .cat-body{ display:flex; }
 
   /* ---------- AI companion ---------- */
   .companion{ margin-top:18px; border-top:1px solid #eaf1f0; padding-top:16px; text-align:left; }
@@ -428,7 +451,7 @@
   .catv2-tile .catv2-icon{ display:block; font-size:2.1rem; margin-bottom:8px; }
   .catv2-tile .catv2-label{ display:block; font-weight:700; color:var(--forest); font-size:.95rem; }
   .catv2-title{ font-family:var(--serif); font-size:1.15rem; color:var(--forest); margin:0 0 10px; text-align:left; }
-  #catV1Detail .back-link-btn, #catV2Detail .back-link-btn{ margin-bottom:14px; }
+  #catV2Detail .back-link-btn{ margin-bottom:14px; }
   .mudra-card, .mantra-card{
     text-align:left; background:#f7fbfa; border-radius:18px; padding:16px 18px; margin-top:12px;
   }
@@ -974,30 +997,32 @@
   <div class="page med-page" id="medPage">
     <div class="compass-card">
       <h2>🧘 Deine Meditationen</h2>
-      <p class="lead">Wähle eine Kategorie – dort findest du alle passenden Meditationen.</p>
+      <p class="lead">Passend zu deinem Kompass – du kannst aber frei wählen.</p>
       <p class="dialect-chip">🇨🇭 Die Anleitungen sind auf Schweizerdeutsch</p>
 
-      <div class="catv2-grid" id="catV1Grid">
-        <button class="catv2-tile" data-dir="nord">
-          <span class="catv2-icon">🧠</span><span class="catv2-label">Denken</span>
-        </button>
-        <button class="catv2-tile" data-dir="sued">
-          <span class="catv2-icon">❤️</span><span class="catv2-label">Fühlen</span>
-        </button>
-        <button class="catv2-tile" data-dir="west">
-          <span class="catv2-icon">🌪️</span><span class="catv2-label">Anspannung</span>
-        </button>
-        <button class="catv2-tile" data-dir="ost">
-          <span class="catv2-icon">🌊</span><span class="catv2-label">Entspannung</span>
-        </button>
+      <div class="pref-row">
+        <div class="pref-group">
+          <h3>Wie viele Meditationen?</h3>
+          <div class="pref-opts" data-field="medCount">
+            <div class="opt" data-value="1">1</div>
+            <div class="opt" data-value="2">2</div>
+            <div class="opt" data-value="3">3</div>
+          </div>
+        </div>
+        <div class="pref-group">
+          <h3>Maximale Dauer insgesamt?</h3>
+          <div class="pref-opts" data-field="maxDuration">
+            <div class="opt" data-value="10">10 Min</div>
+            <div class="opt" data-value="20">20 Min</div>
+            <div class="opt" data-value="30">30 Min</div>
+            <div class="opt" data-value="99">egal</div>
+          </div>
+        </div>
       </div>
+      <div class="pref-status" id="prefStatus"></div>
 
-      <div id="catV1Detail" style="display:none">
-        <button class="back-link-btn" id="catV1BackBtn">← Kategorien</button>
-        <h3 class="catv2-title" id="catV1Title"></h3>
-        <div class="pref-status" id="prefStatus"></div>
-        <div class="med-list" id="medList"></div>
-      </div>
+      <div class="rec-note" id="recNote"></div>
+      <div class="med-list" id="medList"></div>
 
       <div class="companion">
         <h4>Dein Begleiter</h4>
@@ -1248,6 +1273,13 @@
              "Und an öppis a dir sälber, wo di hüt trage hät.",
              "Nimm das Gfühl mit zrugg."] }
   ];
+
+  var CAT_INFO = {
+    mini:   { name:"Kurze Meditationen",    range:"3–6 Min" },
+    mittel: { name:"Mittlere Meditationen", range:"7–14 Min" },
+    tief:   { name:"Tiefe Meditationen",    range:"15–30 Min" }
+  };
+  var CAT_ORDER = ["mini","mittel","tief"];
 
   // Themenvielfalt: nicht mehr nur Insel-Stimmung, sondern klassische
   // Achtsamkeits-, Körperarbeit- und Alltagsthemen. Siehe SPEC.md §5a.
@@ -1529,7 +1561,8 @@
   var compassBefore = { x:0, y:0 };
   var compassAfter  = { x:0, y:0 };
   var chosenMedIds = [];      // array of meditation ids, in selection order = playback order
-  var currentCatV1 = null;    // gewaehlte Kompass-Richtung (Kategorie) in Variante 1
+  var desiredCount = 2;       // how many meditations the person wants
+  var maxDuration = 20;       // minutes, total budget
   var completedLog = [];      // [{name, min, seconds}] filled in as the playlist plays
 
   var DIRS = {
@@ -1808,7 +1841,7 @@
     home:       { label:"", sub:"" },
     island:     { label:"Insel gestalten · optional",   sub:"Wähle, wie deine Insel aussieht." },
     compass:    { label:"Schritt 1 von 3 · Kompass",    sub:"Stell den Zeiger auf deine Richtung." },
-    meditation: { label:"Schritt 2 von 3 · Meditation 1", sub:"Wähle eine Kategorie, dann eine Übung." },
+    meditation: { label:"Schritt 2 von 3 · Meditation 1", sub:"Wähle eine Übung – oder nimm die Empfehlung." },
     meditation2:{ label:"Schritt 2 von 3 · Meditation 2", sub:"Nach Kategorie und Dauer wählen." },
     outro:      { label:"Schritt 3 von 3 · Abschluss",  sub:"Schau, was sich verändert hat." },
     profil:     { label:"Profil",                      sub:"Deine Inselreise und dein Zugang." },
@@ -1906,44 +1939,100 @@
     }, 0);
   }
 
-  // ---- Meditationsauswahl Variante 1: nach Kategorie (Kompass-Richtung)
-  // durchklicken, dann frei so viele Meditationen daraus waehlen wie man
-  // will - keine Anzahl- oder Dauer-Vorgabe mehr. ----
-  function openCatV1(dir){
-    currentCatV1 = dir;
-    chosenMedIds = [];
-    document.getElementById("catV1Title").textContent = DIRS[dir].label;
-    document.getElementById("catV1Grid").style.display = "none";
-    document.getElementById("catV1Detail").style.display = "block";
-    renderMedList();
-  }
-  function closeCatV1(){
-    document.getElementById("catV1Grid").style.display = "grid";
-    document.getElementById("catV1Detail").style.display = "none";
-  }
+  var catOpenState = { mini:false, mittel:false, tief:false };
 
   function renderMedList(){
-    var pool = MEDITATIONS.filter(function(m){ return m.dir === currentCatV1; });
+    var dir = dirFromCompass(compassBefore);
     var host = document.getElementById("medList");
-    host.innerHTML = pool.map(function(m){
-      var pos = chosenMedIds.indexOf(m.id);
-      var active = pos !== -1;
-      var frei = istFrei(m.id);
-      return '<div class="med-card' + (active ? ' active' : '') + (frei ? '' : ' locked') + '" data-med="' + m.id + '">' +
-        '<div class="med-check">' + (active ? (pos + 1) : "") + '</div>' +
-        '<div class="med-body">' +
-          '<div class="title">' + m.name + (frei ? '' : '<span class="med-lock">🔒</span>') + '</div>' +
-          '<div class="meta">' + m.min + ' Min · ' + m.desc + '</div>' +
-        '</div>' +
-      '</div>';
+    document.getElementById("recNote").innerHTML =
+      "<strong>Dein Kompass zeigt Richtung " + DIRS[dir].label + ".</strong><br>" + DIRS[dir].note;
+
+    if (chosenMedIds.length === 0){
+      var recommended = MEDITATIONS.filter(function(m){ return m.dir === dir && istFrei(m.id); });
+      if (maxDuration >= 99){
+        // "egal" - keine Zieldauer, dann reicht kuerzeste zuerst als einfache Regel
+        recommended.sort(function(a,b){ return a.min - b.min; });
+      } else {
+        // Wer "30 Min" waehlt, will eine ~30-Min-Uebung sehen - nicht die
+        // kuerzeste, die zufaellig ins Budget passt. Also nach Naehe zur
+        // Zieldauer je Slot sortieren (Budget geteilt durch Anzahl),
+        // nicht nach kuerzester Dauer.
+        var ziel = maxDuration / desiredCount;
+        recommended.sort(function(a,b){ return Math.abs(a.min - ziel) - Math.abs(b.min - ziel); });
+      }
+      var pick = [];
+      for (var i = 0; i < recommended.length && pick.length < desiredCount; i++){
+        if (totalMinutes(pick.concat(recommended[i].id)) <= maxDuration || pick.length === 0){
+          pick.push(recommended[i].id);
+        }
+      }
+      chosenMedIds = pick;
+    }
+    // keep selection within the current desired count (trim oldest if the count was lowered)
+    if (chosenMedIds.length > desiredCount){
+      chosenMedIds = chosenMedIds.slice(chosenMedIds.length - desiredCount);
+    }
+
+    // auto-expand any category that currently holds a chosen meditation
+    chosenMedIds.forEach(function(id){
+      var m = MEDITATIONS.filter(function(x){ return x.id === id; })[0];
+      if (m) catOpenState[m.cat] = true;
+    });
+
+    host.innerHTML = CAT_ORDER.map(function(cat){
+      var info = CAT_INFO[cat];
+      var items = MEDITATIONS.filter(function(m){ return m.cat === cat; });
+      var recCount = items.filter(function(m){ return m.dir === dir && chosenMedIds.indexOf(m.id) !== -1; }).length;
+      var open = !!catOpenState[cat];
+
+      var cardsHtml = items.map(function(m){
+        var rec = m.dir === dir;
+        var pos = chosenMedIds.indexOf(m.id);
+        var active = pos !== -1;
+        var frei = istFrei(m.id);
+        return '<div class="med-card' + (active ? ' active' : '') + (frei ? '' : ' locked') + '" data-med="' + m.id + '">' +
+          '<div class="med-check">' + (active ? (pos + 1) : "") + '</div>' +
+          '<div class="med-body">' +
+            '<div class="title">' + m.name +
+              (frei ? '' : '<span class="med-lock">🔒</span>') +
+              (rec && frei ? '<span class="rec-badge">Empfohlen</span>' : '') + '</div>' +
+            '<div class="meta">' + m.min + ' Min · ' + m.desc + '</div>' +
+            (rec ? '<div class="why">Passt zu ' + DIRS[dir].label + '</div>' : '') +
+          '</div>' +
+        '</div>';
+      }).join("");
+
+      return '' +
+        '<div class="cat-block' + (open ? ' open' : '') + '">' +
+          '<button class="cat-header" data-cat="' + cat + '">' +
+            '<span class="cat-name">' + info.name + (recCount ? ' <span class="cat-rec-dot"></span>' : '') + '</span>' +
+            '<span class="cat-meta">' + items.length + ' Übungen · ' + info.range + '</span>' +
+            '<span class="cat-arrow">' + (open ? "▾" : "▸") + '</span>' +
+          '</button>' +
+          '<div class="cat-body">' + cardsHtml + '</div>' +
+        '</div>';
     }).join("");
 
+    Array.prototype.forEach.call(host.querySelectorAll(".cat-header"), function(btn){
+      btn.addEventListener("click", function(){
+        var cat = btn.getAttribute("data-cat");
+        catOpenState[cat] = !catOpenState[cat];
+        renderMedList();
+      });
+    });
+
     Array.prototype.forEach.call(host.querySelectorAll(".med-card"), function(card){
-      card.addEventListener("click", function(){
+      card.addEventListener("click", function(e){
+        e.stopPropagation();
         var id = card.getAttribute("data-med");
         if (!istFrei(id)){ renderAbo(); goToStep("abo"); return; }
         var pos = chosenMedIds.indexOf(id);
-        if (pos !== -1) chosenMedIds.splice(pos, 1); else chosenMedIds.push(id);
+        if (pos !== -1){
+          chosenMedIds.splice(pos, 1); // toggle off
+        } else {
+          chosenMedIds.push(id);
+          if (chosenMedIds.length > desiredCount) chosenMedIds.shift(); // keep newest N
+        }
         renderMedList();
       });
     });
@@ -1954,14 +2043,30 @@
   function updatePrefStatus(){
     var mins = totalMinutes(chosenMedIds);
     var status = document.getElementById("prefStatus");
-    status.classList.remove("over");
-    status.textContent = chosenMedIds.length + " ausgewählt · " + mins + " Min gesamt";
+    var over = maxDuration < 99 && mins > maxDuration;
+    status.classList.toggle("over", over);
+    status.textContent = chosenMedIds.length + " von " + desiredCount + " ausgewählt · " + mins + " Min gesamt" +
+      (maxDuration < 99 ? " (Ziel: " + maxDuration + " Min)" : "") +
+      (over ? " – etwas mehr als geplant, das ist okay" : "");
   }
 
-  Array.prototype.forEach.call(document.querySelectorAll("#catV1Grid .catv2-tile"), function(tile){
-    tile.addEventListener("click", function(){ openCatV1(tile.getAttribute("data-dir")); });
+  document.querySelectorAll(".pref-opts").forEach(function(group){
+    var field = group.getAttribute("data-field");
+    group.addEventListener("click", function(e){
+      var target = e.target.closest("[data-value]");
+      if (!target) return;
+      Array.prototype.forEach.call(group.children, function(el){
+        el.classList.toggle("active", el === target);
+      });
+      if (field === "medCount") desiredCount = parseInt(target.getAttribute("data-value"), 10);
+      if (field === "maxDuration") maxDuration = parseInt(target.getAttribute("data-value"), 10);
+      renderMedList();
+    });
   });
-  document.getElementById("catV1BackBtn").addEventListener("click", closeCatV1);
+  (function initPrefDefaults(){
+    document.querySelector('.pref-opts[data-field="medCount"] [data-value="' + desiredCount + '"]').classList.add("active");
+    document.querySelector('.pref-opts[data-field="maxDuration"] [data-value="' + maxDuration + '"]').classList.add("active");
+  })();
 
   // ---- Meditationsauswahl Variante 2: nach Kategorie (Kompass-Richtung)
   // durchklicken, dann nur noch eine Zieldauer statt Anzahl+Dauer waehlen.
@@ -2591,7 +2696,8 @@
       (document.body.getAttribute("data-step") === "outro"
         ? (". Kompass nachher: " + compassText(compassAfter).replace(/&amp;/g,"und") +
            ". Gerade beendet: " + (completedLog.length ? completedLog.map(function(l){ return l.name; }).join(", ") : "–"))
-        : (". Aktuell gewählt: " + meds));
+        : (". Gewünschte Anzahl Meditationen: " + desiredCount + ", maximale Gesamtdauer: " +
+           (maxDuration < 99 ? maxDuration + " Min" : "egal") + ". Aktuell gewählt: " + meds));
   }
 
   function medCatalogueText(){
@@ -2630,8 +2736,10 @@
         return m.name.toLowerCase() === name.trim().toLowerCase();
       })[0];
       if (!match) return false;
-      if (currentCatV1 !== match.dir) openCatV1(match.dir);
-      if (chosenMedIds.indexOf(match.id) === -1) chosenMedIds.push(match.id);
+      if (chosenMedIds.indexOf(match.id) === -1){
+        chosenMedIds.push(match.id);
+        if (chosenMedIds.length > desiredCount) chosenMedIds.shift();
+      }
       renderMedList();
       var el = document.querySelector('.med-card[data-med="' + match.id + '"]');
       if (el) el.scrollIntoView({ behavior:"smooth", block:"nearest" });
@@ -2703,7 +2811,7 @@
   document.getElementById("toCompassBtn").addEventListener("click", function(){ goToStep("compass"); });
   document.getElementById("backToIslandBtn").addEventListener("click", function(){ goToStep("home"); });
   document.getElementById("toMedBtn").addEventListener("click", function(){
-    closeCatV1();
+    renderMedList();
     goToStep("meditation");
   });
   document.getElementById("backToCompassBtn").addEventListener("click", function(){ goToStep("compass"); });
@@ -2805,7 +2913,7 @@
       var tab = btn.getAttribute("data-tab");
       if (tab === "home"){ goToStep("home"); return; }
       if (tab === "kompass"){ goToStep("compass"); return; }
-      if (tab === "meditation"){ closeCatV1(); goToStep("meditation"); return; }
+      if (tab === "meditation"){ renderMedList(); goToStep("meditation"); return; }
       if (tab === "meditation2"){ closeCatV2(); goToStep("meditation2"); return; }
       if (tab === "profil"){ renderProfil(); goToStep("profil"); return; }
     });

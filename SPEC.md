@@ -72,19 +72,24 @@ Der frühere Insel-Konfigurator-Schritt (`island`) existiert im Code noch (SVG-I
 - Ergebnis wird **nicht in Prozent**, sondern als kurzes Wort ausgegeben (`moodOf()`/`moodHtml()`, siehe §5) — dabei zählt **nur der Winkel**, nicht wie weit gezogen wird: welcher der beiden Pole eines Quadranten (z. B. Fühlen oder Entspannung) näher an der Nadel liegt, bestimmt das Wort
 - Speichert `compassBefore = {x, y}` (jeweils −1…1)
 
-### 3.3 Meditationsauswahl 1 (`data-step="meditation"`, Tab "Meditation 1")
+### 3.3 Meditationsauswahl 1 ("Deine Meditationen", `data-step="meditation"`, Tab "Meditation 1")
+
+Die alte, ursprüngliche Logik — auf Christines Wunsch bewusst wiederhergestellt, nachdem Meditation 1 zwischenzeitlich auf Kategorie-Kacheln umgestellt war und dadurch nicht mehr von Meditation 2 zu unterscheiden war. Jetzt sind beide Varianten wieder klar verschieden und über eigene Tabs erreichbar.
+
 - Eigene Karten-Überschrift **"🧘 Deine Meditationen"** — der allgemeine Seitenkopf (Topbar/Stepper) ist auf diesem Schritt bewusst ausgeblendet, sonst gäbe es zwei Titel übereinander (gleiches Prinzip wie beim Kompass-, Abschluss- und Profil-Schritt, siehe §3.2/§3.5)
-- **Kategorie-Kacheln:** 2×2-Raster (`.catv2-grid`/`#catV1Grid`) mit einer Kachel je Kompass-Richtung, jede mit passendem Symbol: 🧠 Denken, ❤️ Fühlen, 🌪️ Anspannung, 🌊 Entspannung. Antippen zeigt alle Meditationen dieser Richtung (`#catV1Detail`) mit einem **"← Kategorien"-Knopf** (`#catV1BackBtn`) zurück zur Kachel-Ansicht.
-- Keine Anzahl- oder Dauer-Vorgabe mehr — innerhalb der gewählten Kategorie wird frei per Antippen ausgewählt (Mehrfachauswahl mit nummerierten Checkboxen ①②③…), Live-Status: "2 ausgewählt · 13 Min gesamt"
-- KI-Begleiter-Chat (kontextbewusst, kann per `[EMPFEHLUNG: <Name>]`-Tag eine Übung zur Auswahl hinzufügen — öffnet dafür bei Bedarf automatisch die passende Kategorie)
+- Zwei Präferenz-Fragen oben: "Wie viele Meditationen?" (1/2/3) und "Maximale Dauer insgesamt?" (10/20/30 Min/egal)
+- Live-Status: "2 von 3 ausgewählt · 15 Min gesamt (Ziel: 20 Min)"
+- Bibliothek in **3 aufklappbaren Kategorien** nach Dauerstufe — Kurze (mini, 3–6 Min), Mittlere (mittel, 7–14 Min), Tiefe (tief, 15–30 Min) Meditationen/Inselreisen (siehe §5), Mehrfachauswahl mit nummerierten Checkboxen (①②③…)
+- Empfehlungslogik wählt automatisch passende Übungen zur Kompass-Richtung; die Kategorie mit einer Empfehlung **klappt automatisch auf**
+- KI-Begleiter-Chat (kontextbewusst, kann per `[EMPFEHLUNG: <Name>]`-Tag eine Übung zur Auswahl hinzufügen)
 - "Insel betreten & starten →" → Vollbild-Session
-- **Offen:** Die Symbole der 4 Kacheln sind aktuell Emoji (🧠❤️🌪️🌊), keine echten Yoga-Icons — Christine sucht dafür passende Yoga-Symbole/-Referenzen und liefert sie nach. Ausserdem soll hier wieder eine Kompass-basierte Empfehlungslogik rein — Entwurf dafür (Quadranten, Empfehlungsrichtung, Intensitäts-Konzept) siehe §5 "Geplant: Intensität + Empfehlungslogik". Umsetzung wartet noch auf die Meditations-Klassifizierung von Christine; aktuell ist die Auswahl in Meditation 1 komplett manuell ohne Empfehlung.
+- **Offen:** Die Kompass-basierte Empfehlung wählt aktuell nur nach Richtung + Dauer-Nähe, nicht nach dem neuen Intensitäts-Konzept, das Christine beschrieben hat — Entwurf dafür (Quadranten, Empfehlungsrichtung, Intensität) siehe §5 "Geplant: Intensität + Empfehlungslogik". Umsetzung wartet noch auf die Meditations-Klassifizierung von Christine (welche Übung zu welcher Intensitätsstufe passt).
 
-### 3.3a Meditationsauswahl 2 (`data-step="meditation2"`, Tab "Meditation 2")
+### 3.3a Meditationsauswahl 2 ("Nach Kategorie wählen", `data-step="meditation2"`, Tab "Meditation 2")
 
-Eigener Tab in der Tab-Bar (`data-tab="meditation2"`), gleichberechtigt neben Meditation 1 — kein Unterschied mehr in "Haupt-" vs. "Experiment"-Variante, beide sind parallele Optionen, die Christine gegeneinander ausprobieren und sich dann für eine entscheiden kann. Beide Flüsse teilen sich dieselbe Session-Wiedergabe. Strukturell sind sich beide Varianten sehr ähnlich; der Unterschied ist die **Dauer-Zielwahl mit automatischem Auffüllen** in Meditation 2, während Meditation 1 komplett ohne Zielvorgabe rein manuell auswählen lässt.
+Eigener Tab in der Tab-Bar (`data-tab="meditation2"`), gleichberechtigt neben Meditation 1 — beide sind parallele Optionen, die Christine gegeneinander ausprobieren und sich dann für eine entscheiden kann. Beide Flüsse teilen sich dieselbe Session-Wiedergabe. Der Unterschied zu Meditation 1: Kategorie-Kacheln statt Akkordeon, und Dauer-Zielwahl mit automatischem Auffüllen statt Anzahl+Dauer-Präferenz mit Empfehlung.
 
-- **Kategorie-Kacheln:** 2×2-Raster (`.catv2-grid`) mit einer Kachel je Kompass-Richtung, jede mit passendem Symbol: 🧠 Denken, ❤️ Fühlen, 🌪️ Anspannung, 🌊 Entspannung (dieselben Emoji-Platzhalter wie bei Meditation 1, siehe §3.3 "Offen"). Antippen zeigt alle Meditationen dieser Richtung (nicht nach mini/mittel/tief unterteilt, einfach die volle Liste).
+- **Kategorie-Kacheln:** 2×2-Raster (`.catv2-grid`) mit einer Kachel je Kompass-Richtung, jede mit passendem Symbol: 🧠 Denken, ❤️ Fühlen, 🌪️ Anspannung, 🌊 Entspannung — aktuell Emoji-Platzhalter, keine echten Yoga-Icons; Christine sucht dafür passende Yoga-Symbole/-Referenzen und liefert sie nach. Antippen zeigt alle Meditationen dieser Richtung (nicht nach mini/mittel/tief unterteilt, einfach die volle Liste).
 - **Dauer, schon auf der Kompass-Seite gewählt:** "Wie lange möchtest du meditieren?" mit festen Werten **5/10/15/20/30 Minuten**. Dieser Picker sitzt auf der **Kompass-Seite** (`#durationOptsV2`, direkt vor "Weiter zu den Meditationen"), nicht auf der Kategorie-Seite von Variante 2 selbst — beim Öffnen einer Kategorie ist die Zieldauer also schon gesetzt. Die Anzahl der ausgewählten Übungen ergibt sich automatisch aus der Zieldauer, keine separate Eingabe nötig.
 - **Auto-Auswahl:** `autoFillV2()` füllt gierig auf — wählt aus der Kategorie immer die Übung, deren Dauer der *verbleibenden* Zieldauer am nächsten kommt, bis das Ziel erreicht oder leicht überschritten ist (Toleranz +4 Min). Mindestens eine Übung wird immer gewählt, auch wenn sie allein schon über dem Ziel liegt.
 - Einzelne Übungen bleiben antippbar (an-/abwählen) — `chosenMedIdsV2` ist ein eigener, separater Auswahl-Zustand.
@@ -156,7 +161,7 @@ MEDITATIONS[] = {
 }
 ```
 - **40 handgeschriebene Meditationen insgesamt** (13 mini / 13 mittel / 14 tief) — siehe §5a für die volle Titelliste. Kein Generator mehr: `generateLibrary()`/`THEMES`/`PHRASES` wurden entfernt, jeder Eintrag ist ein einzeln geschriebenes Skript.
-- Das Feld `cat` ("mini"/"mittel"/"tief") ist noch Teil der Datenstruktur, wird aber aktuell nirgends fürs UI ausgewertet — beide Auswahl-Varianten gruppieren nur noch nach Kompass-Richtung (`dir`), nicht mehr nach Dauerstufe.
+- Das Feld `cat` ("mini"/"mittel"/"tief") gruppiert die Akkordeon-Kategorien in Meditation 1 (siehe §3.3); Meditation 2 gruppiert stattdessen nur nach Kompass-Richtung (`dir`), nicht nach Dauerstufe.
 
 ### Mudras & Mantras (Abschluss-Seite)
 ```js
@@ -243,15 +248,17 @@ zeigeMudra()/zeigeMantra()  // rendern die Karte in #mudraBox/#mantraBox, Richtu
 
 ### Auswahl-Logik
 ```js
-chosenMedIds = []       // Reihenfolge = Playlist-Reihenfolge (Variante 1)
-currentCatV1 = null     // gewählte Kompass-Richtung/Kategorie in Variante 1
-completedLog = []       // [{name, min, seconds}], während der Session befüllt
+chosenMedIds = []        // Reihenfolge = Playlist-Reihenfolge (Meditation 1)
+desiredCount = 2         // 1..3, von der Person gewählt (Meditation 1)
+maxDuration  = 20        // Minuten, oder 99 = "egal" (Meditation 1)
+catOpenState = { mini:false, mittel:false, tief:false }  // Accordion-Zustand (Meditation 1)
+completedLog = []        // [{name, min, seconds}], während der Session befüllt
 
-chosenMedIdsV2 = []     // eigener Auswahl-Zustand für Variante 2
-currentCatV2 = null     // gewählte Kompass-Richtung/Kategorie in Variante 2
-durationV2   = 10       // Minuten, auf der Kompass-Seite gewählt
+chosenMedIdsV2 = []      // eigener Auswahl-Zustand für Meditation 2
+currentCatV2   = null    // gewählte Kompass-Richtung/Kategorie in Meditation 2
+durationV2     = 10      // Minuten, auf der Kompass-Seite gewählt
 ```
-Variante 1: keine Empfehlung/Zielvorgabe mehr — innerhalb der gewählten Kategorie wird rein manuell ausgewählt (siehe §3.3). Variante 2: `autoFillV2()` füllt beim Öffnen einer Kategorie automatisch bis nahe an `durationV2` auf (siehe §3.3a).
+Meditation 1: Erst-Empfehlung aus allen zur Kompass-Richtung passenden Meditationen — sortiert nach Nähe zur Zieldauer je Slot (`maxDuration / desiredCount`), bis `desiredCount` erreicht oder `maxDuration` überschritten würde (siehe §3.3). Meditation 2: `autoFillV2()` füllt beim Öffnen einer Kategorie automatisch bis nahe an `durationV2` auf (siehe §3.3a).
 
 ### Session/Playlist
 ```js
@@ -272,7 +279,7 @@ TAB_FOR_STEP = { home:"home", compass:"kompass", meditation:"meditation", medita
 
 - Zwei Chat-Instanzen: eine auf der Meditationsauswahl (`allowRecommend = true`), eine im Abschluss (`false`)
 - System-Prompt: warmherziger, kurzer (max. 3 Sätze), unaufdringlicher Begleiter, keine Diagnosen, ermutigt bei ernster Not zu echtem menschlichen Kontakt
-- Bekommt vollen Kontext mitgeschickt: Kompass vorher/(nachher), aktuelle Auswahl bzw. abgeschlossene Meditationen
+- Bekommt vollen Kontext mitgeschickt: Kompass vorher/(nachher), gewünschte Anzahl/Dauer, aktuelle Auswahl bzw. abgeschlossene Meditationen
 - Kann in der Auswahl-Ansicht per angehängtem `[EMPFEHLUNG: <exakter Name>]`-Tag eine Übung **zur Mehrfachauswahl hinzufügen** (nicht ersetzen)
 - Fallback-Sätze bei API-Fehlern/Offline (kein Absturz, kein sichtbarer Fehler für die Person)
 
@@ -289,4 +296,4 @@ TAB_FOR_STEP = { home:"home", compass:"kompass", meditation:"meditation", medita
 7. **Mehrsprachigkeit**: Oberfläche Hochdeutsch, Meditationen Schweizerdeutsch, beides hart codiert.
 8. **Themenvielfalt** (siehe §5a): Titelliste und Texte sind umgesetzt. Offen: passende Fotos je Thema beschaffen und `bg`-Feld je Meditation einführen.
 9. **Bezahlung**: Testphase/Abo-Zustand ist reine Anzeige-Logik ohne echten Zahlungsanbieter — siehe Hinweis auf der Abo-Seite in der App ("noch nicht bezahlbar"). Solange das so ist, steht in `index.html` der Schalter `var ABO_LIVE = false;` — damit bleibt die ganze Bibliothek für alle offen (keine gesperrten Übungen, keine Testphasen-/Ablauf-Anzeige in Profil und Abo-Seite). Die Test-/Abo-Logik (`hatAbo()`, `imTest()`, `GRATIS_IDS`, Plan-Auswahl) bleibt vollständig im Code erhalten und lässt sich mit `ABO_LIVE = true` jederzeit wieder scharf schalten, sobald eine echte Bezahlung angeschlossen wird.
-10. **Kompass-Empfehlungslogik (Meditation 1 & 2)**: Entwurf von Christine liegt vor — Quadranten-Stimmungswörter (bereits umgesetzt, siehe §5 "Kompass"), Empfehlungsrichtung je Quadrant und ein neues Intensitäts-Konzept (Distanz vom Zentrum soll künftig mitzählen, siehe §5 "Geplant: Intensität + Empfehlungslogik"). Umsetzung wartet auf die Meditations-Klassifizierung (welche der 40 Übungen zu welchem Quadranten/welcher Intensität passt) — liefert Christine noch nach. Gleiches offen für die Yoga-Icons der Kategorie-Kacheln (siehe §3.3).
+10. **Kompass-Empfehlungslogik (Meditation 1 & 2)**: Entwurf von Christine liegt vor — Quadranten-Stimmungswörter (bereits umgesetzt, siehe §5 "Kompass"), Empfehlungsrichtung je Quadrant und ein neues Intensitäts-Konzept (Distanz vom Zentrum soll künftig mitzählen, siehe §5 "Geplant: Intensität + Empfehlungslogik"). Umsetzung wartet auf die Meditations-Klassifizierung (welche der 40 Übungen zu welchem Quadranten/welcher Intensität passt) — liefert Christine noch nach. Gleiches offen für die Yoga-Icons der Kategorie-Kacheln in Meditation 2 (siehe §3.3a). Sobald es soweit ist, wird dieser Teil mit dem leistungsfähigeren Opus-5-Modell umgesetzt (Christines Wunsch).
