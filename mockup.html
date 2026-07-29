@@ -1,0 +1,826 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>My Meditation Island — Design-Mockup</title>
+<style>
+/* ============================================================
+   Design-Mockup (kein funktionierender Prototyp).
+   Ruhige Palette: Sand, Creme, Türkis, Salbei - bewusst ohne
+   das kräftige Gold der ersten Fassung.
+   ============================================================ */
+:root{
+  /* Basis */
+  --creme:#FBF8F2;
+  --sand:#EFE6D6;
+  --sand-tief:#E2D5BE;
+  --papier:#FFFDF9;
+  /* Akzente */
+  --tuerkis:#2F7F78;
+  --tuerkis-hell:#5BAAA2;
+  --tuerkis-blass:#DCEDEA;
+  --salbei:#8AA98C;
+  --salbei-tief:#5F7F63;
+  --salbei-blass:#E6EDE4;
+  /* Text */
+  --tinte:#1D2E2B;
+  --tinte-60:rgba(29,46,43,.6);
+  --tinte-42:rgba(29,46,43,.42);
+  --linie:rgba(29,46,43,.09);
+  --serif:'Iowan Old Style',Georgia,'Palatino Linotype',serif;
+}
+*{ box-sizing:border-box; }
+html,body{ margin:0; padding:0; }
+body{
+  background:
+    radial-gradient(1200px 600px at 20% -10%, #F6EFE4 0%, transparent 60%),
+    radial-gradient(900px 500px at 95% 10%, #E7F0EC 0%, transparent 55%),
+    #F7F3EB;
+  color:var(--tinte);
+  font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+  -webkit-font-smoothing:antialiased;
+  padding:44px 0 56px;
+}
+
+/* ---------- Kopf des One-Pagers ---------- */
+.doc-head{ max-width:1180px; margin:0 auto 34px; padding:0 28px; }
+.doc-eyebrow{
+  display:inline-block; font-size:.68rem; font-weight:800; letter-spacing:.2em;
+  text-transform:uppercase; color:var(--tuerkis); margin-bottom:12px;
+}
+.doc-head h1{
+  margin:0 0 10px; font-family:var(--serif); font-size:2.5rem; line-height:1.1;
+  font-weight:700; letter-spacing:-.6px;
+}
+.doc-head p{ margin:0; max-width:62ch; font-size:.98rem; line-height:1.6; color:var(--tinte-60); }
+.doc-legend{ display:flex; flex-wrap:wrap; gap:10px; margin-top:22px; }
+.swatch{
+  display:inline-flex; align-items:center; gap:8px; background:var(--papier);
+  border:1px solid var(--linie); border-radius:999px; padding:6px 13px 6px 7px;
+  font-size:.74rem; font-weight:600; color:var(--tinte-60);
+}
+.swatch i{ width:16px; height:16px; border-radius:50%; display:block; }
+
+/* ---------- Bühne mit den Screens ---------- */
+.stage{
+  display:flex; gap:26px; overflow-x:auto; padding:12px 28px 30px;
+  scroll-snap-type:x proximity; scrollbar-width:thin;
+}
+.stage::-webkit-scrollbar{ height:9px; }
+.stage::-webkit-scrollbar-thumb{ background:rgba(29,46,43,.18); border-radius:9px; }
+.screen{ flex:0 0 auto; scroll-snap-align:center; }
+.screen-label{
+  margin:0 0 11px 4px; font-size:.72rem; font-weight:800; letter-spacing:.12em;
+  text-transform:uppercase; color:var(--tinte-42);
+}
+.screen-label b{ color:var(--tuerkis); font-weight:800; }
+
+/* ---------- Telefon ---------- */
+.phone{
+  position:relative; width:302px; height:648px; border-radius:40px; overflow:hidden;
+  background:var(--creme);
+  box-shadow:0 2px 4px rgba(29,46,43,.06), 0 22px 50px rgba(29,46,43,.16);
+  display:flex; flex-direction:column;
+}
+.statusbar{
+  flex:0 0 auto; display:flex; align-items:center; justify-content:space-between;
+  padding:13px 20px 4px; font-size:.72rem; font-weight:700; letter-spacing:.01em;
+}
+.statusbar .icons{ display:flex; align-items:center; gap:5px; opacity:.75; }
+.bar-sig{ width:15px; height:9px; }
+.bar-bat{ width:20px; height:10px; border:1.4px solid currentColor; border-radius:3px; position:relative; }
+.bar-bat::after{ content:""; position:absolute; inset:2px auto 2px 2px; width:9px; background:currentColor; border-radius:1px; }
+.bar-bat::before{ content:""; position:absolute; right:-3.5px; top:3px; width:2px; height:4px; background:currentColor; border-radius:0 1px 1px 0; }
+
+.body{ flex:1 1 auto; overflow:hidden; padding:6px 18px 0; position:relative; }
+.body.flush{ padding:0; }
+
+/* ---------- Tabbar ---------- */
+.tabbar{
+  flex:0 0 auto; display:flex; padding:9px 6px 15px;
+  background:rgba(255,253,249,.94); border-top:1px solid var(--linie);
+  backdrop-filter:blur(10px);
+}
+.tab{ flex:1; display:flex; flex-direction:column; align-items:center; gap:4px; color:var(--tinte-42); }
+.tab svg{ width:19px; height:19px; }
+.tab span{ font-size:.55rem; font-weight:700; letter-spacing:.01em; text-align:center; line-height:1.15; }
+.tab.on{ color:var(--tuerkis); }
+.tab.on span{ font-weight:800; }
+
+/* ---------- Bausteine ---------- */
+.h-page{ font-family:var(--serif); font-size:1.42rem; font-weight:700; margin:8px 0 3px; letter-spacing:-.2px; }
+.sub-page{ font-size:.79rem; color:var(--tinte-60); margin:0 0 16px; }
+.head-row{ display:flex; align-items:flex-start; justify-content:space-between; gap:10px; }
+.round-btn{
+  width:29px; height:29px; border-radius:50%; background:var(--papier); border:1px solid var(--linie);
+  display:flex; align-items:center; justify-content:center; color:var(--tinte-60); flex:0 0 auto;
+}
+.round-btn svg{ width:14px; height:14px; }
+
+.card{
+  background:var(--papier); border:1px solid var(--linie); border-radius:19px;
+  padding:14px 15px; box-shadow:0 1px 3px rgba(29,46,43,.04); margin-bottom:12px;
+}
+.card.tint{ background:linear-gradient(158deg,#EFF6F4,#E4EFEA); border-color:rgba(47,127,120,.16); }
+.card.sand{ background:linear-gradient(158deg,#F7F0E3,#F0E6D4); border-color:rgba(160,135,95,.18); }
+
+.eyebrow{
+  font-size:.62rem; font-weight:800; letter-spacing:.14em; text-transform:uppercase;
+  color:var(--tinte-42); margin:16px 0 9px;
+}
+.eyebrow:first-child{ margin-top:4px; }
+.eyebrow.row{ display:flex; align-items:baseline; justify-content:space-between; gap:8px; }
+.eyebrow.row .more{ white-space:nowrap; flex:0 0 auto; }
+.eyebrow .more{ color:var(--tuerkis); letter-spacing:.04em; text-transform:none; font-size:.66rem; }
+
+/* Meditations-Zeile */
+.med{
+  display:flex; align-items:center; gap:11px; background:var(--papier);
+  border:1px solid var(--linie); border-radius:16px; padding:9px 11px; margin-bottom:8px;
+}
+.med .thumb{ width:42px; height:42px; border-radius:12px; overflow:hidden; flex:0 0 auto; }
+.med .thumb svg{ width:100%; height:100%; display:block; }
+.med .txt{ flex:1; min-width:0; display:flex; flex-direction:column; }
+.med .nm{ display:block; font-size:.83rem; font-weight:700; line-height:1.25; }
+.med .mt{ display:block; font-size:.68rem; color:var(--tinte-42); margin-top:2px; }
+.play{
+  width:27px; height:27px; border-radius:50%; flex:0 0 auto;
+  background:var(--tuerkis); color:#fff; display:flex; align-items:center; justify-content:center;
+}
+.play svg{ width:9px; height:9px; }
+.play.ghost{ background:var(--tuerkis-blass); color:var(--tuerkis); }
+
+/* Chips */
+.chips{ display:flex; gap:6px; overflow:hidden; margin-bottom:13px; }
+.chip{
+  flex:0 0 auto; font-size:.68rem; font-weight:700; padding:6px 12px; border-radius:999px;
+  background:var(--papier); border:1px solid var(--linie); color:var(--tinte-60); white-space:nowrap;
+}
+.chip.on{ background:var(--tinte); border-color:var(--tinte); color:#fff; }
+
+/* Segment-Auswahl (Anzahl / Dauer) */
+.seg{ display:flex; gap:5px; }
+.seg .opt{
+  flex:1; text-align:center; font-size:.7rem; font-weight:700; padding:8px 2px; border-radius:11px;
+  background:var(--papier); border:1px solid var(--linie); color:var(--tinte-60);
+}
+.seg .opt.on{ background:var(--salbei-blass); border-color:var(--salbei); color:var(--salbei-tief); }
+.field-lbl{
+  font-size:.62rem; font-weight:800; letter-spacing:.11em; text-transform:uppercase;
+  color:var(--tinte-42); margin:0 0 6px;
+}
+
+/* Schieberegler-Achse */
+.axis{ margin-bottom:13px; }
+.axis-top{ display:flex; justify-content:space-between; font-size:.66rem; font-weight:700; color:var(--tinte-60); margin-bottom:6px; }
+.axis-track{ position:relative; height:5px; border-radius:999px; background:var(--sand-tief); }
+.axis-track::after{ content:""; position:absolute; left:50%; top:-3px; width:1px; height:11px; background:rgba(29,46,43,.15); }
+.axis-dot{
+  position:absolute; top:50%; width:15px; height:15px; border-radius:50%;
+  background:var(--tuerkis); border:2.5px solid #fff; transform:translate(-50%,-50%);
+  box-shadow:0 2px 6px rgba(29,46,43,.22);
+}
+
+/* Fortschrittszahlen */
+.stats{ display:flex; gap:8px; margin-bottom:12px; }
+.stat{ flex:1; background:var(--papier); border:1px solid var(--linie); border-radius:15px; padding:11px 6px; text-align:center; }
+.stat b{ display:block; font-family:var(--serif); font-size:1.28rem; line-height:1; color:var(--tuerkis); }
+.stat span{ display:block; font-size:.6rem; color:var(--tinte-42); margin-top:5px; line-height:1.25; }
+
+/* Ziel mit Balken */
+.goal{ display:flex; align-items:center; gap:11px; background:var(--papier); border:1px solid var(--linie); border-radius:16px; padding:11px 12px; margin-bottom:8px; }
+.goal .ic{ width:30px; height:30px; border-radius:10px; background:var(--salbei-blass); color:var(--salbei-tief); display:flex; align-items:center; justify-content:center; flex:0 0 auto; }
+.goal .ic svg{ width:14px; height:14px; }
+.goal .g-body{ flex:1; min-width:0; }
+.goal .g-nm{ font-size:.79rem; font-weight:700; }
+.goal .g-mt{ font-size:.66rem; color:var(--tinte-42); margin:2px 0 6px; }
+.pbar{ height:4px; border-radius:999px; background:var(--sand-tief); overflow:hidden; }
+.pbar i{ display:block; height:100%; border-radius:999px; background:linear-gradient(90deg,var(--tuerkis-hell),var(--tuerkis)); }
+
+/* Listenzeile im Profil */
+.row{ display:flex; align-items:center; gap:11px; padding:12px 13px; border-bottom:1px solid var(--linie); }
+.row:last-child{ border-bottom:none; }
+.row .ic{ width:27px; height:27px; border-radius:9px; background:var(--tuerkis-blass); color:var(--tuerkis); display:flex; align-items:center; justify-content:center; flex:0 0 auto; }
+.row .ic svg{ width:13px; height:13px; }
+.row .lbl{ flex:1; font-size:.82rem; font-weight:600; }
+.row .chev{ color:var(--tinte-42); font-size:.9rem; }
+.list-card{ background:var(--papier); border:1px solid var(--linie); border-radius:19px; overflow:hidden; margin-bottom:12px; }
+
+/* Wochen-Punkte */
+.week{ display:flex; justify-content:space-between; }
+.week div{ text-align:center; }
+.week .d{ font-size:.58rem; color:var(--tinte-42); font-weight:700; margin-bottom:5px; }
+.week .o{ width:23px; height:23px; border-radius:50%; background:var(--sand); display:flex; align-items:center; justify-content:center; }
+.week .o.on{ background:var(--tuerkis); }
+.week .o.on::after{ content:""; width:7px; height:7px; border-radius:50%; background:#fff; }
+.week .o.now{ background:transparent; border:1.6px dashed var(--tuerkis-hell); }
+
+/* Level / XP */
+.level-row{ display:flex; align-items:center; gap:12px; margin-bottom:11px; }
+.level-badge{
+  width:46px; height:46px; border-radius:16px; flex:0 0 auto; position:relative;
+  background:linear-gradient(150deg,var(--tuerkis-hell),var(--tuerkis)); color:#fff;
+  display:flex; flex-direction:column; align-items:center; justify-content:center; line-height:1;
+}
+.level-badge b{ font-family:var(--serif); font-size:1.15rem; }
+.level-badge span{ font-size:.48rem; font-weight:800; letter-spacing:.1em; opacity:.85; margin-top:2px; }
+
+/* Splash */
+.splash{ position:absolute; inset:0; display:flex; flex-direction:column; }
+.splash-art{ position:absolute; inset:0; }
+.splash-art svg{ width:100%; height:100%; display:block; }
+.splash-veil{ position:absolute; inset:0; background:linear-gradient(180deg, rgba(24,64,62,.04) 0%, rgba(24,64,62,.02) 38%, rgba(18,58,58,.34) 72%, rgba(14,48,50,.58) 100%); }
+.splash-in{ position:relative; margin-top:auto; padding:0 26px 34px; text-align:center; color:#fff; }
+.mark{
+  width:76px; height:76px; margin:0 auto 20px; border-radius:50%;
+  border:1.6px solid rgba(255,255,255,.75); display:flex; align-items:center; justify-content:center;
+}
+.mark svg{ width:40px; height:40px; }
+.splash h2{ font-family:var(--serif); font-size:1.72rem; font-weight:700; margin:0 0 10px; letter-spacing:-.3px; text-shadow:0 2px 14px rgba(10,30,28,.4); }
+.splash p{ margin:0; font-size:.82rem; line-height:1.6; opacity:.92; text-shadow:0 1px 10px rgba(10,30,28,.45); }
+.splash .cta{
+  margin-top:24px; background:rgba(255,253,249,.96); color:var(--tinte); border-radius:999px;
+  padding:14px; font-size:.88rem; font-weight:700; box-shadow:0 10px 26px rgba(10,30,28,.28);
+}
+.dots{ display:flex; gap:6px; justify-content:center; margin-top:18px; }
+.dots i{ width:6px; height:6px; border-radius:50%; background:rgba(255,255,255,.45); }
+.dots i.on{ background:#fff; width:17px; border-radius:999px; }
+
+/* Hero-Bild auf der Startseite */
+.hero-art{ height:132px; border-radius:19px; overflow:hidden; margin-bottom:4px; }
+.hero-art svg{ width:100%; height:100%; display:block; }
+
+/* Kompass */
+.dial{ position:relative; width:178px; height:178px; margin:2px auto 8px; }
+.dial-face{ position:absolute; inset:0; border-radius:50%; overflow:hidden; border:7px solid var(--papier); box-shadow:0 0 0 1.5px rgba(47,127,120,.3), 0 12px 28px rgba(29,46,43,.16); }
+.dial-face svg{ width:100%; height:100%; display:block; }
+.dial-ring{ position:absolute; inset:-13px; border-radius:50%; border:1px dashed rgba(47,127,120,.34); }
+.needle{ position:absolute; left:50%; top:50%; width:2.5px; height:60px; background:linear-gradient(180deg,var(--tuerkis),var(--tuerkis-hell)); transform-origin:50% 100%; transform:translate(-50%,-100%) rotate(29deg); border-radius:3px; }
+.hub{ position:absolute; left:50%; top:50%; width:15px; height:15px; border-radius:50%; background:var(--papier); border:2.5px solid var(--tuerkis); transform:translate(-50%,-50%); }
+.dial-lbl{ position:absolute; font-size:.66rem; font-weight:800; color:var(--tinte-60); letter-spacing:.02em; }
+.dial-lbl.t{ top:-30px; left:50%; transform:translateX(-50%); }
+.dial-lbl.b{ bottom:-30px; left:50%; transform:translateX(-50%); }
+.dial-lbl.l{ left:-42px; top:50%; transform:translateY(-50%) rotate(-90deg); }
+.dial-lbl.r{ right:-42px; top:50%; transform:translateY(-50%) rotate(90deg); }
+.dial-wrap{ padding:32px 0 26px; }
+
+.mood-pill{
+  display:flex; align-items:center; gap:10px; background:var(--salbei-blass);
+  border:1px solid rgba(138,169,140,.4); border-radius:15px; padding:11px 13px; margin-bottom:12px;
+}
+.mood-pill .em{ font-size:1.15rem; }
+.mood-pill .mp{ flex:1; }
+.mood-pill .mp b{ display:block; font-size:.82rem; color:var(--salbei-tief); }
+.mood-pill .mp span{ display:block; font-size:.68rem; color:var(--tinte-60); margin-top:1px; }
+
+.cta-full{
+  background:linear-gradient(135deg,var(--tuerkis-hell),var(--tuerkis)); color:#fff; border-radius:16px;
+  padding:14px; text-align:center; font-size:.87rem; font-weight:700;
+  box-shadow:0 8px 20px rgba(47,127,120,.3); display:flex; align-items:center; justify-content:center; gap:8px;
+}
+.cta-soft{
+  background:var(--tinte); color:#fff; border-radius:13px; padding:10px 16px;
+  font-size:.78rem; font-weight:700; display:inline-flex; align-items:center; gap:7px;
+}
+
+/* Begleiter-Karte */
+.guide{ display:flex; gap:12px; align-items:flex-start; }
+.guide .av{ width:52px; height:52px; border-radius:15px; overflow:hidden; flex:0 0 auto; }
+.guide .av svg{ width:100%; height:100%; display:block; }
+.guide .gt{ flex:1; min-width:0; }
+.guide h4{ margin:0 0 4px; font-family:var(--serif); font-size:.98rem; font-weight:700; line-height:1.25; }
+.guide p{ margin:0 0 10px; font-size:.72rem; line-height:1.5; color:var(--tinte-60); }
+
+.note-line{
+  display:flex; gap:7px; align-items:flex-start; font-size:.71rem; line-height:1.45;
+  color:var(--tinte-60); background:var(--tuerkis-blass); border-radius:12px; padding:9px 11px; margin-bottom:13px;
+}
+.note-line svg{ width:12px; height:12px; flex:0 0 auto; margin-top:2px; color:var(--tuerkis); }
+
+.fade{ position:absolute; left:0; right:0; bottom:0; height:34px; background:linear-gradient(180deg,rgba(251,248,242,0),var(--creme)); pointer-events:none; }
+
+/* Fussnote */
+.doc-foot{ max-width:1180px; margin:26px auto 0; padding:0 28px; font-size:.78rem; color:var(--tinte-42); line-height:1.65; }
+@media (max-width:640px){
+  .doc-head h1{ font-size:1.9rem; }
+  body{ padding-top:30px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ===== SVG-Bibliothek: Inselszenen in Sand/Türkis/Salbei ===== -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#FBF3E6"/><stop offset="55%" stop-color="#E9F1EC"/><stop offset="100%" stop-color="#D3E7E2"/>
+    </linearGradient>
+    <linearGradient id="skyDusk" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#F6E9D6"/><stop offset="40%" stop-color="#E4EDE6"/><stop offset="100%" stop-color="#BFD9D3"/>
+    </linearGradient>
+    <linearGradient id="sea" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#8FC6BE"/><stop offset="100%" stop-color="#4E9C93"/>
+    </linearGradient>
+    <linearGradient id="seaDeep" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#6DB3AA"/><stop offset="100%" stop-color="#2F7F78"/>
+    </linearGradient>
+    <linearGradient id="sandG" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#F2E6D0"/><stop offset="100%" stop-color="#E0CFB0"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Breite Inselszene -->
+  <symbol id="isle" viewBox="0 0 320 200" preserveAspectRatio="xMidYMid slice">
+    <rect width="320" height="200" fill="url(#sky)"/>
+    <circle cx="228" cy="56" r="26" fill="#F7EFDF" opacity=".95"/>
+    <circle cx="228" cy="56" r="38" fill="#F7EFDF" opacity=".35"/>
+    <path d="M0 118 Q80 108 160 118 T320 116 L320 200 L0 200Z" fill="url(#sea)"/>
+    <path d="M0 140 Q90 132 170 142 T320 138 L320 200 L0 200Z" fill="url(#seaDeep)" opacity=".55"/>
+    <path d="M42 128 h58 M180 148 h72 M96 162 h54" stroke="#EAF5F2" stroke-width="2.4" stroke-linecap="round" opacity=".5"/>
+    <path d="M86 122 q34 -30 76 0 z" fill="#B9C9A9"/>
+    <path d="M96 122 q28 -22 58 0 z" fill="#95AE8B"/>
+    <ellipse cx="124" cy="124" rx="52" ry="7" fill="url(#sandG)"/>
+    <g stroke="#5F7F63" stroke-width="2.6" stroke-linecap="round" fill="none">
+      <path d="M112 122 q3 -22 -1 -32"/>
+      <path d="M111 90 q-13 -8 -22 -3 M111 90 q13 -9 23 -3 M111 90 q-9 -13 -6 -22 M111 90 q11 -12 17 -17"/>
+      <path d="M142 124 q4 -17 1 -25"/>
+      <path d="M143 99 q-10 -6 -17 -2 M143 99 q10 -7 18 -2 M143 99 q-7 -10 -5 -17"/>
+    </g>
+    <path d="M0 178 Q60 170 130 180 T320 174 L320 200 L0 200Z" fill="url(#sandG)"/>
+  </symbol>
+
+  <!-- Hochformat für den Splash -->
+  <symbol id="isleTall" viewBox="0 0 300 640" preserveAspectRatio="xMidYMid slice">
+    <rect width="300" height="640" fill="url(#skyDusk)"/>
+    <circle cx="206" cy="176" r="42" fill="#FAF2E3" opacity=".92"/>
+    <circle cx="206" cy="176" r="66" fill="#FAF2E3" opacity=".28"/>
+    <path d="M0 300 Q70 288 150 300 T300 294 L300 640 L0 640Z" fill="url(#sea)"/>
+    <path d="M0 350 Q80 338 160 352 T300 344 L300 640 L0 640Z" fill="url(#seaDeep)" opacity=".6"/>
+    <path d="M28 322 h66 M168 372 h84 M74 404 h62 M186 440 h70" stroke="#EAF5F2" stroke-width="3" stroke-linecap="round" opacity=".45"/>
+    <path d="M52 296 q46 -40 104 0 z" fill="#B9C9A9"/>
+    <path d="M66 296 q38 -30 78 0 z" fill="#95AE8B"/>
+    <ellipse cx="104" cy="300" rx="70" ry="9" fill="url(#sandG)"/>
+    <g stroke="#5F7F63" stroke-width="3.4" stroke-linecap="round" fill="none">
+      <path d="M86 298 q5 -34 -2 -50"/>
+      <path d="M84 248 q-18 -12 -31 -5 M84 248 q19 -13 33 -5 M84 248 q-13 -19 -9 -31 M84 248 q16 -17 24 -24"/>
+      <path d="M128 300 q6 -26 1 -39"/>
+      <path d="M129 261 q-15 -9 -25 -3 M129 261 q15 -10 26 -3 M129 261 q-10 -15 -7 -25"/>
+    </g>
+    <path d="M0 500 Q70 486 150 502 T300 492 L300 640 L0 640Z" fill="url(#sandG)"/>
+    <path d="M0 556 Q80 546 160 560 T300 550 L300 640 L0 640Z" fill="#E8D8BB"/>
+  </symbol>
+
+  <!-- Kleine Kachel -->
+  <symbol id="tile" viewBox="0 0 60 60" preserveAspectRatio="xMidYMid slice">
+    <rect width="60" height="60" fill="url(#sky)"/>
+    <circle cx="43" cy="17" r="8" fill="#F7EFDF"/>
+    <path d="M0 34 Q16 30 30 34 T60 32 L60 60 L0 60Z" fill="url(#sea)"/>
+    <path d="M0 44 Q18 40 32 45 T60 42 L60 60 L0 60Z" fill="url(#seaDeep)" opacity=".55"/>
+    <path d="M14 35 q12 -11 26 0 z" fill="#A9BE9C"/>
+    <path d="M0 53 Q18 49 34 54 T60 51 L60 60 L0 60Z" fill="url(#sandG)"/>
+  </symbol>
+
+  <!-- Nacht-Kachel (Schlaf) -->
+  <symbol id="tileNight" viewBox="0 0 60 60" preserveAspectRatio="xMidYMid slice">
+    <rect width="60" height="60" fill="#20404A"/>
+    <circle cx="42" cy="16" r="7" fill="#DCE9E4" opacity=".9"/>
+    <circle cx="38" cy="14" r="7" fill="#20404A"/>
+    <circle cx="14" cy="12" r="1.1" fill="#DCE9E4"/><circle cx="24" cy="22" r=".9" fill="#DCE9E4"/><circle cx="8" cy="26" r=".8" fill="#DCE9E4"/>
+    <path d="M0 38 Q16 34 30 38 T60 36 L60 60 L0 60Z" fill="#2F6E6A"/>
+    <path d="M0 47 Q18 43 32 48 T60 45 L60 60 L0 60Z" fill="#255A58"/>
+  </symbol>
+
+  <!-- Begleiter-Avatar -->
+  <symbol id="guideAv" viewBox="0 0 60 60" preserveAspectRatio="xMidYMid slice">
+    <rect width="60" height="60" fill="url(#skyDusk)"/>
+    <circle cx="30" cy="21" r="13" fill="#F7EFDF" opacity=".8"/>
+    <path d="M0 40 Q16 36 30 40 T60 38 L60 60 L0 60Z" fill="url(#sea)"/>
+    <path d="M16 41 q14 -13 30 0 z" fill="#95AE8B"/>
+    <g stroke="#5F7F63" stroke-width="2" stroke-linecap="round" fill="none">
+      <path d="M28 41 q2 -12 -1 -18"/>
+      <path d="M27 23 q-8 -5 -13 -2 M27 23 q8 -5 13 -2 M27 23 q-5 -8 -3 -13"/>
+    </g>
+    <path d="M0 52 Q18 48 34 53 T60 50 L60 60 L0 60Z" fill="url(#sandG)"/>
+  </symbol>
+</svg>
+
+<div class="doc-head">
+  <span class="doc-eyebrow">Design-Mockup · Überarbeitete Fassung</span>
+  <h1>My Meditation Island</h1>
+  <p>
+    Ruhigere Farbwelt und klarere Aufgabenteilung zwischen den Seiten: der <b>Kompass</b> erfasst den
+    Zustand, <b>My Meditation</b> ist das Herzstück mit der persönlichen Empfehlung, die
+    <b>Meditationsbibliothek</b> dient allein dem Entdecken — ohne Empfehlungen, damit sich beide
+    Seiten nicht mehr überschneiden. Kein funktionierender Prototyp, sondern eine Entwurfsvorlage.
+  </p>
+  <div class="doc-legend">
+    <span class="swatch"><i style="background:#EFE6D6"></i>Sand</span>
+    <span class="swatch"><i style="background:#FBF8F2;border:1px solid rgba(0,0,0,.08)"></i>Creme</span>
+    <span class="swatch"><i style="background:#2F7F78"></i>Türkis</span>
+    <span class="swatch"><i style="background:#8AA98C"></i>Salbei</span>
+    <span class="swatch"><i style="background:#1D2E2B"></i>Tinte</span>
+  </div>
+</div>
+
+<div class="stage">
+
+  <!-- ══════════════ 1 · WILLKOMMEN ══════════════ -->
+  <section class="screen">
+    <p class="screen-label"><b>01</b> · Willkommen</p>
+    <div class="phone">
+      <div class="statusbar" style="color:#fff;position:absolute;left:0;right:0;top:0;z-index:3">
+        <span>9:41</span>
+        <span class="icons">
+          <svg class="bar-sig" viewBox="0 0 15 9"><rect x="0" y="6" width="2.4" height="3" rx=".6" fill="currentColor"/><rect x="4" y="4" width="2.4" height="5" rx=".6" fill="currentColor"/><rect x="8" y="2" width="2.4" height="7" rx=".6" fill="currentColor"/><rect x="12" y="0" width="2.4" height="9" rx=".6" fill="currentColor" opacity=".4"/></svg>
+          <span class="bar-bat"></span>
+        </span>
+      </div>
+      <div class="splash">
+        <div class="splash-art"><svg><use href="#isleTall"/></svg></div>
+        <div class="splash-veil"></div>
+        <div class="splash-in">
+          <div class="mark">
+            <svg viewBox="0 0 40 40" fill="none" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="28" cy="12" r="4"/>
+              <path d="M9 30 q6 -2.5 11 0 t11 -1.4"/>
+              <path d="M5.5 25.5 q7 -2.5 13 0 t13 -1.4"/>
+              <path d="M13 22 q7 -7.5 14 0"/>
+              <path d="M20 22 v-8"/>
+              <path d="M20 14 q-5.5 -3 -9 -1 M20 14 q5.5 -3 9 -1 M20 14 q-3.5 -5 -2.5 -8.5 M20 14 q4 -4.5 7 -6"/>
+            </svg>
+          </div>
+          <h2>My Meditation Island</h2>
+          <p>Dein Ort. Deine Auszeit.<br>Dein inneres Gleichgewicht.</p>
+          <div class="cta">Meine Insel betreten</div>
+          <div class="dots"><i class="on"></i><i></i><i></i><i></i></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════ 2 · STARTSEITE ══════════════ -->
+  <section class="screen">
+    <p class="screen-label"><b>02</b> · Startseite</p>
+    <div class="phone">
+      <div class="statusbar">
+        <span>9:41</span>
+        <span class="icons">
+          <svg class="bar-sig" viewBox="0 0 15 9"><rect x="0" y="6" width="2.4" height="3" rx=".6" fill="currentColor"/><rect x="4" y="4" width="2.4" height="5" rx=".6" fill="currentColor"/><rect x="8" y="2" width="2.4" height="7" rx=".6" fill="currentColor"/><rect x="12" y="0" width="2.4" height="9" rx=".6" fill="currentColor" opacity=".4"/></svg>
+          <span class="bar-bat"></span>
+        </span>
+      </div>
+      <div class="body">
+        <div class="head-row">
+          <div>
+            <div class="h-page">Guten Morgen</div>
+            <p class="sub-page">Schön, dass du da bist.</p>
+          </div>
+          <div class="round-btn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 8a6 6 0 10-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"/><path d="M10 21h4"/></svg>
+          </div>
+        </div>
+
+        <div class="hero-art"><svg><use href="#isle"/></svg></div>
+
+        <div class="eyebrow">Dein heutiger Fokus</div>
+        <div class="med">
+          <span class="thumb"><svg><use href="#tile"/></svg></span>
+          <span class="txt"><span class="nm">Finde Ruhe im Moment</span><span class="mt">8 Min · Achtsamkeit</span></span>
+          <span class="play"><svg viewBox="0 0 10 10" fill="currentColor"><path d="M1 0l8 5-8 5z"/></svg></span>
+        </div>
+
+        <div class="eyebrow">Dein Zustand</div>
+        <div class="card sand">
+          <div style="display:flex;gap:12px;align-items:center">
+            <div style="flex:1">
+              <div style="font-family:var(--serif);font-size:.98rem;font-weight:700;margin-bottom:4px">Wie geht es dir gerade?</div>
+              <p style="margin:0 0 11px;font-size:.71rem;line-height:1.5;color:var(--tinte-60)">Stell den Kompass auf deinen Moment ein.</p>
+              <span class="cta-soft">Zum Kompass
+                <svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M5 12h13M13 6l6 6-6 6"/></svg>
+              </span>
+            </div>
+            <div style="width:52px;height:52px;border-radius:50%;border:1.6px solid rgba(47,127,120,.35);display:flex;align-items:center;justify-content:center;flex:0 0 auto;background:var(--papier)">
+              <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="#2F7F78" stroke-width="1.7" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M15.6 8.4l-2.2 5.2-5.2 2.2 2.2-5.2z" fill="#DCEDEA"/></svg>
+            </div>
+          </div>
+        </div>
+
+        <div class="eyebrow">Empfehlung für dich</div>
+        <div class="med">
+          <span class="thumb"><svg><use href="#tile"/></svg></span>
+          <span class="txt"><span class="nm">Loslassen &amp; Durchatmen</span><span class="mt">12 Min · Entspannung</span></span>
+          <span class="play"><svg viewBox="0 0 10 10" fill="currentColor"><path d="M1 0l8 5-8 5z"/></svg></span>
+        </div>
+        <div class="fade"></div>
+      </div>
+      <nav class="tabbar">
+        <span class="tab on"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/></svg><span>Startseite</span></span>
+        <span class="tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M15.5 8.5l-2 5-5 2 2-5z"/></svg><span>Kompass</span></span>
+        <span class="tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 20s-7-4.3-7-9.2A3.9 3.9 0 0112 8.6a3.9 3.9 0 017 2.2c0 4.9-7 9.2-7 9.2z"/></svg><span>My Meditation</span></span>
+        <span class="tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 5.5A1.5 1.5 0 015.5 4H10v16H5.5A1.5 1.5 0 014 18.5z"/><path d="M20 5.5A1.5 1.5 0 0018.5 4H14v16h4.5a1.5 1.5 0 001.5-1.5z"/></svg><span>Bibliothek</span></span>
+        <span class="tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg><span>Profil</span></span>
+      </nav>
+    </div>
+  </section>
+
+  <!-- ══════════════ 3 · KOMPASS ══════════════ -->
+  <section class="screen">
+    <p class="screen-label"><b>03</b> · Kompass</p>
+    <div class="phone">
+      <div class="statusbar">
+        <span>9:41</span>
+        <span class="icons">
+          <svg class="bar-sig" viewBox="0 0 15 9"><rect x="0" y="6" width="2.4" height="3" rx=".6" fill="currentColor"/><rect x="4" y="4" width="2.4" height="5" rx=".6" fill="currentColor"/><rect x="8" y="2" width="2.4" height="7" rx=".6" fill="currentColor"/><rect x="12" y="0" width="2.4" height="9" rx=".6" fill="currentColor" opacity=".4"/></svg>
+          <span class="bar-bat"></span>
+        </span>
+      </div>
+      <div class="body" style="overflow-y:auto">
+        <div class="head-row" style="align-items:center">
+          <div class="round-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M15 5l-7 7 7 7"/></svg></div>
+          <div style="text-align:center;flex:1">
+            <div class="h-page" style="margin:2px 0 2px">Kompass</div>
+            <p class="sub-page" style="margin:0">Wie geht es dir gerade?</p>
+          </div>
+          <div class="round-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></svg></div>
+        </div>
+
+        <div class="dial-wrap">
+          <div class="dial">
+            <span class="dial-lbl t">Gedanken</span>
+            <span class="dial-lbl b">Gefühle</span>
+            <span class="dial-lbl l">Entspannt</span>
+            <span class="dial-lbl r">Angespannt</span>
+            <div class="dial-ring"></div>
+            <div class="dial-face"><svg><use href="#isle"/></svg></div>
+            <div class="needle"></div>
+            <div class="hub"></div>
+          </div>
+        </div>
+
+        <div class="mood-pill">
+          <span class="em">🌤️</span>
+          <span class="mp">
+            <b>Leicht angespannt &amp; gedankenlastig</b>
+            <span>Deine Stimmung gerade</span>
+          </span>
+        </div>
+
+        <p class="field-lbl">Anzahl Meditationen</p>
+        <div class="seg" style="margin-bottom:13px">
+          <span class="opt">1</span><span class="opt on">2</span><span class="opt">3</span>
+        </div>
+
+        <p class="field-lbl">Dauer</p>
+        <div class="seg" style="margin-bottom:16px">
+          <span class="opt">5</span><span class="opt on">10</span><span class="opt">15</span><span class="opt">20</span><span class="opt">30</span>
+        </div>
+
+        <div class="cta-full">Meditationen empfehlen
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M5 12h13M13 6l6 6-6 6"/></svg>
+        </div>
+        <div style="height:14px"></div>
+      </div>
+      <nav class="tabbar">
+        <span class="tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/></svg><span>Startseite</span></span>
+        <span class="tab on"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M15.5 8.5l-2 5-5 2 2-5z"/></svg><span>Kompass</span></span>
+        <span class="tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 20s-7-4.3-7-9.2A3.9 3.9 0 0112 8.6a3.9 3.9 0 017 2.2c0 4.9-7 9.2-7 9.2z"/></svg><span>My Meditation</span></span>
+        <span class="tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 5.5A1.5 1.5 0 015.5 4H10v16H5.5A1.5 1.5 0 014 18.5z"/><path d="M20 5.5A1.5 1.5 0 0018.5 4H14v16h4.5a1.5 1.5 0 001.5-1.5z"/></svg><span>Bibliothek</span></span>
+        <span class="tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg><span>Profil</span></span>
+      </nav>
+    </div>
+  </section>
+
+  <!-- ══════════════ 4 · MY MEDITATION ══════════════ -->
+  <section class="screen">
+    <p class="screen-label"><b>04</b> · My Meditation — Herzstück</p>
+    <div class="phone">
+      <div class="statusbar">
+        <span>9:41</span>
+        <span class="icons">
+          <svg class="bar-sig" viewBox="0 0 15 9"><rect x="0" y="6" width="2.4" height="3" rx=".6" fill="currentColor"/><rect x="4" y="4" width="2.4" height="5" rx=".6" fill="currentColor"/><rect x="8" y="2" width="2.4" height="7" rx=".6" fill="currentColor"/><rect x="12" y="0" width="2.4" height="9" rx=".6" fill="currentColor" opacity=".4"/></svg>
+          <span class="bar-bat"></span>
+        </span>
+      </div>
+      <div class="body">
+        <div class="h-page">My Meditation</div>
+        <p class="sub-page">Dein individueller Weg</p>
+
+        <!-- Inselbegleiter oben -->
+        <div class="card tint">
+          <div class="guide">
+            <span class="av"><svg><use href="#guideAv"/></svg></span>
+            <span class="gt">
+              <h4>Dein Inselbegleiter</h4>
+              <p>„Du bist etwas angespannt und viel im Kopf. Lass uns mit zwei ruhigen Übungen beginnen."</p>
+              <span class="cta-soft">Weg starten
+                <svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M5 12h13M13 6l6 6-6 6"/></svg>
+              </span>
+            </span>
+          </div>
+        </div>
+
+        <div class="note-line">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></svg>
+          <span>Diese Empfehlung basiert auf deinem Kompass.</span>
+        </div>
+
+        <div class="eyebrow row">Deine Inselreise heute <span class="more">2 Übungen · 22 Min</span></div>
+        <div class="med">
+          <span class="thumb"><svg><use href="#tile"/></svg></span>
+          <span class="txt"><span class="nm">Gedanken zur Ruhe bringen</span><span class="mt">10 Min · Achtsamkeit</span></span>
+          <span class="play"><svg viewBox="0 0 10 10" fill="currentColor"><path d="M1 0l8 5-8 5z"/></svg></span>
+        </div>
+        <div class="med">
+          <span class="thumb"><svg><use href="#tile"/></svg></span>
+          <span class="txt"><span class="nm">Loslassen am Abend</span><span class="mt">12 Min · Entspannung</span></span>
+          <span class="play ghost"><svg viewBox="0 0 10 10" fill="currentColor"><path d="M1 0l8 5-8 5z"/></svg></span>
+        </div>
+
+        <div class="eyebrow row">Dein Fortschritt <span class="more">Details</span></div>
+        <div class="stats">
+          <span class="stat"><b>7</b><span>Tage am Stück</span></span>
+          <span class="stat"><b>12</b><span>Meditationen</span></span>
+          <span class="stat"><b>85%</b><span>Ziel erreicht</span></span>
+        </div>
+
+        <div class="eyebrow">Deine Ziele</div>
+        <div class="goal">
+          <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M4 18L10 12l4 4 6-8"/></svg></span>
+          <span class="g-body">
+            <span class="g-nm">Mehr innere Ruhe</span>
+            <span class="g-mt">5 von 10 Einheiten</span>
+            <span class="pbar"><i style="width:50%"></i></span>
+          </span>
+        </div>
+        <div class="fade"></div>
+      </div>
+      <nav class="tabbar">
+        <span class="tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/></svg><span>Startseite</span></span>
+        <span class="tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M15.5 8.5l-2 5-5 2 2-5z"/></svg><span>Kompass</span></span>
+        <span class="tab on"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 20s-7-4.3-7-9.2A3.9 3.9 0 0112 8.6a3.9 3.9 0 017 2.2c0 4.9-7 9.2-7 9.2z"/></svg><span>My Meditation</span></span>
+        <span class="tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 5.5A1.5 1.5 0 015.5 4H10v16H5.5A1.5 1.5 0 014 18.5z"/><path d="M20 5.5A1.5 1.5 0 0018.5 4H14v16h4.5a1.5 1.5 0 001.5-1.5z"/></svg><span>Bibliothek</span></span>
+        <span class="tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg><span>Profil</span></span>
+      </nav>
+    </div>
+  </section>
+
+  <!-- ══════════════ 5 · BIBLIOTHEK ══════════════ -->
+  <section class="screen">
+    <p class="screen-label"><b>05</b> · Meditationsbibliothek</p>
+    <div class="phone">
+      <div class="statusbar">
+        <span>9:41</span>
+        <span class="icons">
+          <svg class="bar-sig" viewBox="0 0 15 9"><rect x="0" y="6" width="2.4" height="3" rx=".6" fill="currentColor"/><rect x="4" y="4" width="2.4" height="5" rx=".6" fill="currentColor"/><rect x="8" y="2" width="2.4" height="7" rx=".6" fill="currentColor"/><rect x="12" y="0" width="2.4" height="9" rx=".6" fill="currentColor" opacity=".4"/></svg>
+          <span class="bar-bat"></span>
+        </span>
+      </div>
+      <div class="body">
+        <div class="h-page">Meditationsbibliothek</div>
+        <p class="sub-page">40 Übungen · 3–30 Minuten</p>
+
+        <div class="chips">
+          <span class="chip on">Alle</span><span class="chip">Entspannung</span><span class="chip">Schlaf</span><span class="chip">Achtsamkeit</span>
+        </div>
+
+        <div class="med">
+          <span class="thumb"><svg><use href="#tile"/></svg></span>
+          <span class="txt"><span class="nm">Ankommen &amp; Loslassen</span><span class="mt">8 Min · Entspannung</span></span>
+          <span class="play ghost"><svg viewBox="0 0 10 10" fill="currentColor"><path d="M1 0l8 5-8 5z"/></svg></span>
+        </div>
+        <div class="med">
+          <span class="thumb"><svg><use href="#tile"/></svg></span>
+          <span class="txt"><span class="nm">Ruhe im Sturm</span><span class="mt">12 Min · Stressbewältigung</span></span>
+          <span class="play ghost"><svg viewBox="0 0 10 10" fill="currentColor"><path d="M1 0l8 5-8 5z"/></svg></span>
+        </div>
+        <div class="med">
+          <span class="thumb"><svg><use href="#tile"/></svg></span>
+          <span class="txt"><span class="nm">Gedanken zur Ruhe bringen</span><span class="mt">10 Min · Achtsamkeit</span></span>
+          <span class="play ghost"><svg viewBox="0 0 10 10" fill="currentColor"><path d="M1 0l8 5-8 5z"/></svg></span>
+        </div>
+        <div class="med">
+          <span class="thumb"><svg><use href="#tileNight"/></svg></span>
+          <span class="txt"><span class="nm">Tiefer Schlaf finden</span><span class="mt">15 Min · Schlaf</span></span>
+          <span class="play ghost"><svg viewBox="0 0 10 10" fill="currentColor"><path d="M1 0l8 5-8 5z"/></svg></span>
+        </div>
+        <div class="med">
+          <span class="thumb"><svg><use href="#tile"/></svg></span>
+          <span class="txt"><span class="nm">Dankbarkeit spüren</span><span class="mt">7 Min · Positive Gedanken</span></span>
+          <span class="play ghost"><svg viewBox="0 0 10 10" fill="currentColor"><path d="M1 0l8 5-8 5z"/></svg></span>
+        </div>
+        <div class="med">
+          <span class="thumb"><svg><use href="#tile"/></svg></span>
+          <span class="txt"><span class="nm">Selbstliebe stärken</span><span class="mt">10 Min · Selbstfürsorge</span></span>
+          <span class="play ghost"><svg viewBox="0 0 10 10" fill="currentColor"><path d="M1 0l8 5-8 5z"/></svg></span>
+        </div>
+        <div class="fade"></div>
+      </div>
+      <nav class="tabbar">
+        <span class="tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/></svg><span>Startseite</span></span>
+        <span class="tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M15.5 8.5l-2 5-5 2 2-5z"/></svg><span>Kompass</span></span>
+        <span class="tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 20s-7-4.3-7-9.2A3.9 3.9 0 0112 8.6a3.9 3.9 0 017 2.2c0 4.9-7 9.2-7 9.2z"/></svg><span>My Meditation</span></span>
+        <span class="tab on"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 5.5A1.5 1.5 0 015.5 4H10v16H5.5A1.5 1.5 0 014 18.5z"/><path d="M20 5.5A1.5 1.5 0 0018.5 4H14v16h4.5a1.5 1.5 0 001.5-1.5z"/></svg><span>Bibliothek</span></span>
+        <span class="tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg><span>Profil</span></span>
+      </nav>
+    </div>
+  </section>
+
+  <!-- ══════════════ 6 · PROFIL ══════════════ -->
+  <section class="screen">
+    <p class="screen-label"><b>06</b> · Profil</p>
+    <div class="phone">
+      <div class="statusbar">
+        <span>9:41</span>
+        <span class="icons">
+          <svg class="bar-sig" viewBox="0 0 15 9"><rect x="0" y="6" width="2.4" height="3" rx=".6" fill="currentColor"/><rect x="4" y="4" width="2.4" height="5" rx=".6" fill="currentColor"/><rect x="8" y="2" width="2.4" height="7" rx=".6" fill="currentColor"/><rect x="12" y="0" width="2.4" height="9" rx=".6" fill="currentColor" opacity=".4"/></svg>
+          <span class="bar-bat"></span>
+        </span>
+      </div>
+      <div class="body">
+        <div class="head-row">
+          <div>
+            <div class="h-page">Profil</div>
+            <p class="sub-page">Dein Bereich</p>
+          </div>
+          <div class="round-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M5 5l2 2M17 17l2 2M19 5l-2 2M7 17l-2 2"/></svg></div>
+        </div>
+
+        <div class="eyebrow">Deine Inselwoche</div>
+        <div class="card">
+          <div class="week">
+            <div><div class="d">M</div><div class="o on"></div></div>
+            <div><div class="d">D</div><div class="o on"></div></div>
+            <div><div class="d">M</div><div class="o on"></div></div>
+            <div><div class="d">D</div><div class="o on"></div></div>
+            <div><div class="d">F</div><div class="o now"></div></div>
+            <div><div class="d">S</div><div class="o"></div></div>
+            <div><div class="d">S</div><div class="o"></div></div>
+          </div>
+          <p style="margin:11px 0 0;font-size:.7rem;color:var(--tinte-60);line-height:1.45">4 Tage in Folge — deine längste Serie bisher.</p>
+        </div>
+
+        <div class="eyebrow">Deine Inselreise</div>
+        <div class="card">
+          <div class="level-row">
+            <span class="level-badge"><b>7</b><span>LEVEL</span></span>
+            <span style="flex:1;min-width:0">
+              <span style="display:block;font-size:.83rem;font-weight:700">Entdeckerin der Bucht</span>
+              <span style="display:block;font-size:.66rem;color:var(--tinte-42);margin:3px 0 7px">1 240 / 1 500 XP</span>
+              <span class="pbar"><i style="width:83%"></i></span>
+            </span>
+          </div>
+          <p style="margin:0;font-size:.7rem;color:var(--tinte-60);line-height:1.45">Noch 260 XP bis zur nächsten Insel.</p>
+        </div>
+
+        <div class="eyebrow">Premium</div>
+        <div class="card sand" style="display:flex;align-items:center;gap:12px">
+          <span style="width:38px;height:38px;border-radius:12px;background:var(--tuerkis);color:#fff;display:flex;align-items:center;justify-content:center;flex:0 0 auto">
+            <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M3 8l4.5 3.5L12 5l4.5 6.5L21 8l-1.7 10H4.7z"/></svg>
+          </span>
+          <span style="flex:1;min-width:0">
+            <span style="display:block;font-size:.82rem;font-weight:700">Premium aktiv</span>
+            <span style="display:block;font-size:.66rem;color:var(--tinte-60);margin-top:2px">Verlängert sich am 12.06.2026</span>
+          </span>
+          <span class="chev" style="color:var(--tinte-42)">›</span>
+        </div>
+
+        <div class="list-card">
+          <div class="row">
+            <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M4 20V10M10 20V4M16 20v-7M22 20h-20"/></svg></span>
+            <span class="lbl">Statistik</span><span class="chev">›</span>
+          </div>
+          <div class="row">
+            <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="12" cy="12" r="3"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3"/></svg></span>
+            <span class="lbl">Einstellungen</span><span class="chev">›</span>
+          </div>
+        </div>
+        <div class="fade"></div>
+      </div>
+      <nav class="tabbar">
+        <span class="tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/></svg><span>Startseite</span></span>
+        <span class="tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M15.5 8.5l-2 5-5 2 2-5z"/></svg><span>Kompass</span></span>
+        <span class="tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 20s-7-4.3-7-9.2A3.9 3.9 0 0112 8.6a3.9 3.9 0 017 2.2c0 4.9-7 9.2-7 9.2z"/></svg><span>My Meditation</span></span>
+        <span class="tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 5.5A1.5 1.5 0 015.5 4H10v16H5.5A1.5 1.5 0 014 18.5z"/><path d="M20 5.5A1.5 1.5 0 0018.5 4H14v16h4.5a1.5 1.5 0 001.5-1.5z"/></svg><span>Bibliothek</span></span>
+        <span class="tab on"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg><span>Profil</span></span>
+      </nav>
+    </div>
+  </section>
+
+</div>
+
+<div class="doc-foot">
+  <p style="margin:0 0 8px">
+    <b>Hinweis zur Navigation:</b> In der Leiste heisst der vierte Punkt aus Platzgründen „Bibliothek",
+    die Seite selbst trägt den vollen Titel „Meditationsbibliothek" — fünf Beschriftungen nebeneinander
+    brechen sonst um.
+  </p>
+  <p style="margin:0">
+    Die Insel-Illustrationen sind hier als Vektorgrafik angelegt (Sand, Türkis, Salbei) und dienen als
+    Platzhalter für die späteren Fotos. Dieses Mockup ist eine Entwurfsvorlage und hat keinen Einfluss
+    auf die laufende App.
+  </p>
+</div>
+
+</body>
+</html>
