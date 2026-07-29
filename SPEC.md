@@ -73,7 +73,7 @@ Als einziger Screen bewusst nach einer **festen visuellen Hierarchie** aufgebaut
 - **Text kurz und aufgabenorientiert:** Überschrift **"Wie fühlst du dich gerade?"** (Serif, 1.45rem) + eine Zeile **"Zieh den roten Punkt dorthin, wo du stehst."** — "roten Punkt" ist rot hervorgehoben, damit klar ist, *was* gezogen wird. Beide Zeilen bleiben bewusst einzeilig; jeder Umbruch kostet Höhe, die dem Kompass fehlt.
 - **Kompass-Grösse — höhenbewusst statt fester Stufen:** `max-width: min(320px, calc(100dvh - var(--tabbar-h) - var(--safe-bottom) - 475px))`. Der Abzugswert ist die gemessene Höhe alles Übrigen; der Kompass bekommt also auf jedem Gerät automatisch die grösstmögliche Grösse, die noch ohne Scrollen passt (Pro Max 320px, iPhone 14 265px, iPhone SE 207px — auf kurzen Bildschirmen mit eigenem, kleinerem Abzugswert). Damit die Bühne auf schmalen Geräten die volle Breite nutzt, ist die seitliche Polsterung der `.compass-card` hier kleiner (8px); die Luft sitzt innen in der Bühne, wo man sie sieht.
 - **Status (`#compassReadout`, `renderMoodStatus()`):** zwei Ebenen statt nur eines Worts.
-  1. **Abgestufte Pille** (`.mood-badge`): Emoji + ganzer Satz, dessen Stärke sich live mit der Nadel ändert — "Du wirkst **etwas** unruhig" (< 0.42) → "**eher** unruhig" (< 0.72) → "**sehr** unruhig". In der Ruhezone: "Du wirkst ausgeglichen".
+  1. **Abgestufte Pille** (`.mood-badge`): Emoji + ganzer Satz, dessen Stärke sich live mit der Nadel ändert — "Du fühlst dich **etwas** unruhig" (< 0.42) → "**eher** unruhig" (< 0.72) → "**sehr** unruhig". In der Ruhezone: "Du fühlst dich ausgeglichen". Bewusst **"Du fühlst dich"**, nicht "Du wirkst": die Nadel setzt die Person selbst, das ist eine Selbstaussage und keine Beobachtung von aussen.
   2. **Zwei schlanke Achsen-Spuren** (`.status-axes`) mit denselben Symbolen wie am Kompass (😣—😌 und 🧠—❤️) und je einem Punkt, der die aktuelle Position auf dieser Achse zeigt. Macht die zwei unabhängigen Achsen unmissverständlich und liefert dieselbe Information auch als `aria-label` für Screenreader. Auf kurzen Bildschirmen ausgeblendet — dort zählt jeder Pixel für den Kompass, und die Nadel zeigt dasselbe.
   Der Block wird **einmal** aufgebaut und danach nur noch aktualisiert, damit die Übergänge weich animieren statt bei jedem Ziehen neu zu springen.
 - **Mikro-Interaktion beim Ziehen:** Der rote Punkt wächst weich von r=11 auf r=14 und bekommt einen weichen roten Schein (`.rose-needle-halo`, r=0 → 26), das Status-Emoji skaliert leicht mit; alles über `cubic-bezier`-Übergänge von 0.22–0.28s. Zusätzlich ein kurzes haptisches Signal über `navigator.vibrate(8)`, wo das Gerät es unterstützt (iOS ignoriert es stillschweigend).
@@ -166,8 +166,9 @@ KATEGORIEN[]        // { dir, icon, name } - Kategorien nach NUTZEN benannt stat
 empfehlungen()      // Top-4 fuer den aktuellen Zustand: Zieldauer zuerst, dann Anspannung (§3.3)
 starteMeditation(id)// startet EINE Uebung direkt - der Kern des Coach-Gefuehls
 moodStaerke(c)      // → 0..1, wie weit die Nadel vom Zentrum weg liegt (max(|x|,|y|))
-moodSatz(c)         // → "Du wirkst etwas|eher|sehr <wort>" - Schwellen 0.42 / 0.72;
-                        //   in der Ruhezone "Du wirkst ausgeglichen"
+moodSatz(c)         // → "Du fühlst dich etwas|eher|sehr <wort>" - Schwellen 0.42 / 0.72;
+                        //   in der Ruhezone "Du fühlst dich ausgeglichen". Selbstaussage, nicht
+                        //   Beobachtung von aussen ("Du wirkst ...") - die Nadel setzt die Person selbst.
 renderMoodStatus(el, c) // baut den Status-Block EINMAL auf (Pille + zwei Achsen-Spuren + Hinweis)
                         //   und aktualisiert danach nur noch Texte und Punkt-Positionen, damit die
                         //   Uebergaenge weich animieren. Genutzt unter beiden Kompassen (§3.2/§3.5).

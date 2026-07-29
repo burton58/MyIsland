@@ -2837,12 +2837,14 @@
   function moodStaerke(c){
     return Math.min(1, Math.max(Math.abs(c.x), Math.abs(c.y)));
   }
+  // Bewusst "Du fühlst dich", nicht "Du wirkst": die Nadel setzt die Person
+  // selbst - das ist eine Selbstaussage, keine Beobachtung von aussen.
   function moodSatz(c){
     var m = moodOf(c);
-    if (m === MOOD_BALANCED) return "Du wirkst ausgeglichen";
+    if (m === MOOD_BALANCED) return "Du fühlst dich ausgeglichen";
     var s = moodStaerke(c);
     var grad = s < 0.42 ? "etwas " : (s < 0.72 ? "eher " : "sehr ");
-    return "Du wirkst " + grad + m.word;
+    return "Du fühlst dich " + grad + m.word;
   }
 
   // Grosse Anzeige unter dem Kompass: abgestufter Satz als Pille, darunter
