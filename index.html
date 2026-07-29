@@ -585,6 +585,113 @@
   }
   .fd-back{ display:block; width:100%; padding:14px; margin-bottom:8px; }
 
+  /* ---------- Bibliothek ----------
+     Eine Bibliothek muss Inhalt zeigen. Vier Kacheln, hinter denen sich
+     alles versteckt, liessen zwei Drittel des Screens leer und luden nicht
+     zum Stoebern ein. Jetzt: kompakter Kopf, waagrechte Filter, darunter
+     die Uebungen selbst - nach Laenge gruppiert. */
+  .lib-shell{ max-width:520px; margin:0 auto; text-align:left; padding:8px 4px 0; }
+
+  .lib-hero{ padding:8px 2px 20px; }
+  .lib-eyebrow{
+    display:block; font-size:.68rem; font-weight:800; letter-spacing:.16em;
+    text-transform:uppercase; color:var(--sage-deep); margin-bottom:8px;
+  }
+  .lib-hero h2{
+    margin:0 0 8px; font-family:var(--serif); font-size:2rem; line-height:1.12;
+    font-weight:700; color:#14211d; letter-spacing:-.4px;
+  }
+  .lib-meta{ margin:0; font-size:.88rem; color:rgba(20,33,29,.55); line-height:1.5; }
+  .lib-meta strong{ color:#14211d; font-weight:700; }
+
+  /* Waagrechte Filter statt 2x2-Raster: gleiche Information, ein Sechstel
+     der Hoehe - der Platz gehoert dem Inhalt. */
+  .lib-filters{
+    display:flex; gap:8px; overflow-x:auto; scrollbar-width:none;
+    padding:0 4px 4px; margin:0 -4px 20px;
+  }
+  .lib-filters::-webkit-scrollbar{ display:none; }
+  .lib-chip{
+    flex:0 0 auto; display:inline-flex; align-items:center; gap:6px;
+    border:1px solid rgba(20,33,29,.1); background:#fffefb; color:rgba(20,33,29,.72);
+    font-family:inherit; font-size:.85rem; font-weight:600; cursor:pointer;
+    padding:9px 15px; border-radius:999px; white-space:nowrap;
+    transition:background-color .18s ease, color .18s ease, border-color .18s ease, transform .12s ease;
+  }
+  .lib-chip:active{ transform:scale(.97); }
+  .lib-chip.active{
+    background:#14211d; border-color:#14211d; color:#fff; font-weight:700;
+    box-shadow:0 4px 14px rgba(20,33,29,.22);
+  }
+
+  .lib-group-title{
+    display:flex; align-items:baseline; gap:8px;
+    margin:22px 2px 10px; font-size:.68rem; font-weight:800;
+    letter-spacing:.13em; text-transform:uppercase; color:rgba(20,33,29,.42);
+  }
+  .lib-group-title:first-child{ margin-top:0; }
+  .lib-group-title span{ letter-spacing:.02em; font-weight:600; text-transform:none; opacity:.8; }
+
+  /* Zeilen statt Kacheln: mehr Uebungen pro Bildschirm, ruhiger Rhythmus,
+     Dauer immer an derselben Stelle - das macht Vergleichen leicht. */
+  .lib-row{
+    display:flex; align-items:center; gap:14px; width:100%; text-align:left;
+    background:#fffefb; border:1px solid rgba(20,33,29,.07); border-radius:18px;
+    padding:15px 16px; margin-bottom:8px; cursor:pointer; font-family:inherit;
+    transition:background-color .16s ease, border-color .16s ease, transform .12s ease;
+  }
+  .lib-row:active{ transform:scale(.99); }
+  .lib-row.active{
+    border-color:var(--sage-deep); background:#f1f8f4;
+    box-shadow:0 3px 14px rgba(47,82,51,.12);
+  }
+  .lib-row.locked{ opacity:.5; }
+  .lib-check{
+    flex:0 0 auto; width:22px; height:22px; border-radius:50%;
+    border:1.5px solid rgba(20,33,29,.2); background:transparent;
+    display:flex; align-items:center; justify-content:center;
+    font-size:.68rem; font-weight:800; color:#fff; transition:.16s ease;
+  }
+  .lib-row.active .lib-check{ background:var(--sage-deep); border-color:var(--sage-deep); }
+  .lib-row-body{ flex:1; min-width:0; display:flex; flex-direction:column; }
+  .lib-row-name{ display:block; font-weight:700; font-size:.98rem; color:#14211d; line-height:1.3; }
+  .lib-row-desc{
+    display:block; font-size:.82rem; color:rgba(20,33,29,.5); line-height:1.4; margin-top:3px;
+    overflow:hidden; text-overflow:ellipsis; white-space:nowrap;
+  }
+  .lib-done{
+    display:inline-block; margin-left:7px; font-size:.66rem; font-weight:700;
+    color:var(--sage-deep); vertical-align:.08em;
+  }
+  .lib-row-min{
+    flex:0 0 auto; text-align:center; min-width:42px;
+    font-family:var(--serif); font-size:1.15rem; font-weight:700; color:#14211d; line-height:1;
+  }
+  .lib-row-min small{ display:block; font-family:inherit; font-size:.6rem; font-weight:700;
+    letter-spacing:.08em; text-transform:uppercase; color:rgba(20,33,29,.4); margin-top:3px; }
+
+  /* Auswahl-Leiste klebt ueber der Tabbar - der Start ist immer erreichbar,
+     egal wie weit man gescrollt hat. */
+  .lib-bar{
+    /* ueber der Tabbar kleben, nicht dahinter */
+    position:sticky; bottom:calc(var(--tabbar-h) + var(--safe-bottom) + 12px); z-index:5;
+    display:flex; align-items:center; gap:12px; margin:20px 0 8px;
+    background:rgba(20,33,29,.96); backdrop-filter:blur(12px);
+    border-radius:22px; padding:12px 12px 12px 18px;
+    box-shadow:0 10px 30px rgba(20,33,29,.28);
+    transform:translateY(0); opacity:1; transition:.22s cubic-bezier(.34,1.1,.64,1);
+  }
+  .lib-bar.leer{ opacity:0; transform:translateY(14px); pointer-events:none; }
+  .lib-bar-text{ flex:1; min-width:0; color:#fff; font-size:.85rem; font-weight:600; line-height:1.35; }
+  .lib-bar-text b{ font-weight:800; }
+  .lib-bar-btn{
+    flex:0 0 auto; border:none; cursor:pointer; font-family:inherit;
+    background:linear-gradient(135deg,var(--sage),var(--sage-deep)); color:#fff;
+    font-weight:700; font-size:.9rem; padding:12px 20px; border-radius:16px;
+  }
+  .lib-bar-btn:active{ transform:translateY(1px); }
+  .lib-leer{ padding:36px 8px; text-align:center; color:rgba(20,33,29,.45); font-size:.9rem; }
+
   /* ---------- AI companion ---------- */
   .companion{ margin-top:18px; border-top:1px solid #eaf1f0; padding-top:16px; text-align:left; }
   .companion h4{ margin:0 0 4px; font-size:.8rem; text-transform:uppercase; letter-spacing:.08em; opacity:.5; }
@@ -1306,37 +1413,23 @@
     </div>
   </div>
 
+  <!-- Bibliothek: zeigt die Uebungen selbst, statt nur vier Kacheln, hinter
+       denen sie sich verstecken. Filter statt Drill-down - stoebern heisst,
+       Inhalt zu sehen. -->
   <div class="page medv2-page" id="medV2Page">
-    <div class="compass-card">
-      <h2>📚 Alle Meditationen</h2>
-      <p class="lead">Stöbere frei – oder wähle einen Bereich, der zu dir passt.</p>
+    <div class="lib-shell">
+      <header class="lib-hero">
+        <span class="lib-eyebrow">Bibliothek</span>
+        <h2>Finde deine Übung</h2>
+        <p class="lib-meta" id="libMeta"></p>
+      </header>
 
-      <div class="catv2-grid" id="catV2Grid">
-        <button class="catv2-tile" data-dir="nord">
-          <span class="catv2-icon">🧠</span><span class="catv2-label">Gedanken beruhigen</span>
-        </button>
-        <button class="catv2-tile" data-dir="sued">
-          <span class="catv2-icon">❤️</span><span class="catv2-label">Gefühle verstehen</span>
-        </button>
-        <button class="catv2-tile" data-dir="west">
-          <span class="catv2-icon">💪</span><span class="catv2-label">Stress lösen</span>
-        </button>
-        <button class="catv2-tile" data-dir="ost">
-          <span class="catv2-icon">🌿</span><span class="catv2-label">Entspannen</span>
-        </button>
-      </div>
+      <div class="lib-filters" id="libFilters"></div>
+      <div class="lib-list" id="libList"></div>
 
-      <div id="catV2Detail" style="display:none">
-        <button class="back-link-btn" id="catV2BackBtn">← Kategorien</button>
-        <h3 class="catv2-title" id="catV2Title"></h3>
-        <div class="pref-status" id="prefStatusV2"></div>
-
-        <div class="med-list" id="medListV2"></div>
-
-        <div class="compass-actions">
-          <button class="back-link-btn" id="backToMedBtnV2">← Zurück</button>
-          <button class="enter-btn" id="enterBtnV2">Insel betreten &amp; starten →</button>
-        </div>
+      <div class="lib-bar" id="libBar">
+        <span class="lib-bar-text" id="libBarText"></span>
+        <button class="lib-bar-btn" id="enterBtnV2">Starten →</button>
       </div>
     </div>
   </div>
@@ -2372,6 +2465,12 @@
   var durationV2 = 10;
   var desiredCountV2 = 2;
 
+  var TIER = [
+    { cat:"mini",   titel:"Kurz",   spanne:"3–6 Min" },
+    { cat:"mittel", titel:"Mittel", spanne:"7–14 Min" },
+    { cat:"tief",   titel:"Tief",   spanne:"15–30 Min" }
+  ];
+
   function autoFillV2(){
     var pool = MEDITATIONS.filter(function(m){ return m.dir === currentCatV2 && istFrei(m.id); });
     var ziel = durationV2 / desiredCountV2;
@@ -2385,69 +2484,107 @@
     chosenMedIdsV2 = pick;
   }
 
-  function renderMedListV2(){
-    if (chosenMedIdsV2.length === 0) autoFillV2();
-    var pool = MEDITATIONS.filter(function(m){ return m.dir === currentCatV2; });
-    var host = document.getElementById("medListV2");
-    host.innerHTML = pool.map(function(m){
-      var pos = chosenMedIdsV2.indexOf(m.id);
-      var active = pos !== -1;
-      var frei = istFrei(m.id);
-      return '<div class="med-card' + (active ? ' active' : '') + (frei ? '' : ' locked') + '" data-med="' + m.id + '">' +
-        '<div class="med-check">' + (active ? (pos + 1) : "") + '</div>' +
-        '<div class="med-body">' +
-          '<div class="title">' + m.name + (frei ? '' : '<span class="med-lock">🔒</span>') + '</div>' +
-          '<div class="meta">' + m.min + ' Min · ' + m.desc + '</div>' +
-        '</div>' +
-      '</div>';
-    }).join("");
+  // Welche Uebungen schon einmal gelaufen sind - aus dem echten Verlauf,
+  // nicht erfunden. Gibt der Liste Tiefe und macht sie persoenlich.
+  function schonGemacht(){
+    var namen = {};
+    loadHistory().forEach(function(e){
+      (e.meds || []).forEach(function(m){ namen[m.name] = true; });
+    });
+    return namen;
+  }
 
-    Array.prototype.forEach.call(host.querySelectorAll(".med-card"), function(card){
-      card.addEventListener("click", function(){
-        var id = card.getAttribute("data-med");
+  function renderLibFilters(){
+    var host = document.getElementById("libFilters");
+    var chips = [{ dir:null, icon:"", name:"Alle" }].concat(KATEGORIEN);
+    host.innerHTML = chips.map(function(k){
+      var aktiv = (k.dir || null) === currentCatV2;
+      return '<button class="lib-chip' + (aktiv ? ' active' : '') + '"' +
+        (k.dir ? ' data-dir="' + k.dir + '"' : '') + '>' +
+        (k.icon ? '<span>' + k.icon + '</span>' : '') + k.name + '</button>';
+    }).join("");
+    var aktivChip = host.querySelector(".lib-chip.active");
+    if (aktivChip) aktivChip.scrollIntoView({ block:"nearest", inline:"center", behavior:"smooth" });
+    Array.prototype.forEach.call(host.querySelectorAll(".lib-chip"), function(btn){
+      btn.addEventListener("click", function(){
+        var dir = btn.getAttribute("data-dir");
+        currentCatV2 = dir || null;
+        chosenMedIdsV2 = [];
+        if (currentCatV2) autoFillV2();   // passend zu Zeit und Anzahl vom Kompass
+        renderMedListV2();
+      });
+    });
+  }
+
+  function renderMedListV2(){
+    renderLibFilters();
+    var pool = MEDITATIONS.filter(function(m){ return !currentCatV2 || m.dir === currentCatV2; });
+    var gemacht = schonGemacht();
+
+    document.getElementById("libMeta").innerHTML =
+      "<strong>" + pool.length + "</strong> geführte Übungen · 3–30 Minuten";
+
+    var host = document.getElementById("libList");
+    var html = TIER.map(function(t){
+      var items = pool.filter(function(m){ return m.cat === t.cat; });
+      if (!items.length) return "";
+      return '<div class="lib-group-title">' + t.titel + ' <span>· ' + t.spanne + ' · ' + items.length + '</span></div>' +
+        items.map(function(m){
+          var aktiv = chosenMedIdsV2.indexOf(m.id) !== -1;
+          var frei = istFrei(m.id);
+          return '<button class="lib-row' + (aktiv ? ' active' : '') + (frei ? '' : ' locked') + '" data-med="' + m.id + '">' +
+            '<span class="lib-check">' + (aktiv ? '✓' : '') + '</span>' +
+            '<span class="lib-row-body">' +
+              '<span class="lib-row-name">' + m.name + (frei ? '' : ' 🔒') +
+                (gemacht[m.name] ? '<span class="lib-done">schon gemacht</span>' : '') + '</span>' +
+              '<span class="lib-row-desc">' + m.desc + '</span>' +
+            '</span>' +
+            '<span class="lib-row-min">' + m.min + '<small>Min</small></span>' +
+          '</button>';
+        }).join("");
+    }).join("");
+    host.innerHTML = html || '<p class="lib-leer">Hier ist gerade nichts.</p>';
+
+    Array.prototype.forEach.call(host.querySelectorAll(".lib-row"), function(row){
+      row.addEventListener("click", function(){
+        var id = row.getAttribute("data-med");
         if (!istFrei(id)){ renderAbo(); goToStep("abo"); return; }
         var pos = chosenMedIdsV2.indexOf(id);
         if (pos !== -1){
-          chosenMedIdsV2.splice(pos, 1); // toggle off
+          chosenMedIdsV2.splice(pos, 1);
         } else {
           chosenMedIdsV2.push(id);
-          if (chosenMedIdsV2.length > desiredCountV2) chosenMedIdsV2.shift(); // keep newest N
+          if (chosenMedIdsV2.length > desiredCountV2) chosenMedIdsV2.shift();
         }
         renderMedListV2();
       });
     });
 
-    var mins = totalMinutes(chosenMedIdsV2);
-    var status = document.getElementById("prefStatusV2");
-    var over = mins > durationV2;
-    status.classList.toggle("over", over);
-    status.textContent = chosenMedIdsV2.length + " von " + desiredCountV2 + " ausgewählt · " + mins + " Min gesamt (Ziel: " + durationV2 + " Min)" +
-      (over ? " – etwas mehr als geplant, das ist okay" : "");
+    // Auswahl-Leiste: erscheint erst, wenn wirklich etwas gewaehlt ist.
+    var bar = document.getElementById("libBar");
+    var n = chosenMedIdsV2.length;
+    bar.classList.toggle("leer", n === 0);
+    if (n){
+      var mins = totalMinutes(chosenMedIdsV2);
+      document.getElementById("libBarText").innerHTML =
+        "<b>" + n + (n === 1 ? " Übung" : " Übungen") + "</b> · " + mins + " Min";
+    }
   }
 
+  // Wird von den Kategorien auf "Für dich" aufgerufen - setzt hier einfach
+  // den Filter, statt in eine eigene Unterseite zu springen.
   function openCatV2(dir){
     currentCatV2 = dir;
     chosenMedIdsV2 = [];
-    var kat = KATEGORIEN.filter(function(k){ return k.dir === dir; })[0];
-    document.getElementById("catV2Title").textContent = kat ? kat.name : DIRS[dir].label;
-    document.getElementById("catV2Grid").style.display = "none";
-    document.getElementById("catV2Detail").style.display = "block";
+    autoFillV2();
     renderMedListV2();
   }
   function closeCatV2(){
-    document.getElementById("catV2Grid").style.display = "grid";
-    document.getElementById("catV2Detail").style.display = "none";
+    currentCatV2 = null;
+    chosenMedIdsV2 = [];
+    renderMedListV2();
   }
 
-  Array.prototype.forEach.call(document.querySelectorAll(".catv2-tile"), function(tile){
-    tile.addEventListener("click", function(){ openCatV2(tile.getAttribute("data-dir")); });
-  });
-  document.getElementById("catV2BackBtn").addEventListener("click", closeCatV2);
-  document.getElementById("backToMedBtnV2").addEventListener("click", closeCatV2);
-  // Die Dauer wird jetzt schon auf der Kompass-Seite gewaehlt (nicht mehr
-  // auf der Kategorie-Seite von Variante 2) - hier nur den Wert merken und
-  // die Auswahl zuruecksetzen, damit die naechste geoeffnete Kategorie mit
-  // der neuen Zieldauer neu auffuellt.
   document.getElementById("durationOptsV2").addEventListener("click", function(e){
     var target = e.target.closest("[data-value]");
     if (!target) return;
@@ -3280,6 +3417,7 @@
   });
 
   initKategorien();
+  renderMedListV2();   // Bibliothek einmal aufbauen, damit sie beim ersten Oeffnen steht
 
   initCompass("compassSvg", "needleLine", "needleTip", "compassReadout", compassBefore, null,
     [{ line: document.getElementById("needleLineHome"), tip: document.getElementById("needleTipHome") }]);

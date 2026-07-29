@@ -110,12 +110,18 @@ Der Kern-Screen der App. Er war vorher ein Katalog (Akkordeon nach Dauerstufe) u
 
 ### 3.3a "Alle Übungen" — die Bibliothek (`data-step="meditation2"`)
 
-Zum Stöbern, wenn man nicht der Empfehlung folgen will. Titel **"📚 Alle Meditationen"**.
+Zum Stöbern, wenn man nicht der Empfehlung folgen will. Vorher waren hier nur vier Kacheln, hinter denen sich alles versteckte — **zwei Drittel des Screens blieben leer**, und eine Bibliothek, die keine Übungen zeigt, lädt nicht zum Stöbern ein. Jetzt zeigt die Seite den Inhalt selbst.
 
-- **Kategorien nach Nutzen benannt** (`KATEGORIEN`): 🧠 Gedanken beruhigen, ❤️ Gefühle verstehen, 💪 Stress lösen, 🌿 Entspannen — statt der Kompass-Achsen "Denken/Fühlen/Anspannung/Entspannung", die nur beschrieben, *wo* man steht, nicht *was die Übung bringt*. Dieselben Namen erscheinen auch unten auf "Für dich" und als Überschrift der geöffneten Kategorie.
-- Antippen zeigt alle Übungen dieser Richtung, vorausgefüllt nach **Anzahl und Zieldauer** von der Kompass-Seite (`autoFillV2()`, `desiredCountV2`/`durationV2`).
-- Mehrfachauswahl bleibt hier erhalten, Status "2 von 2 ausgewählt · 8 Min gesamt (Ziel: 10 Min)", Start über "Insel betreten & starten →".
-- Gleiche helle Fläche wie "Für dich", damit beide Seiten als Paar lesbar sind.
+**Aufbau (`.lib-shell`):**
+- **Kopf** — Eyebrow "BIBLIOTHEK" (Salbei, gesperrt), Serif-Titel **"Finde deine Übung"** (2rem), darunter die Bestandszahl: "**40** geführte Übungen · 3–30 Minuten". Die Zahl ist bewusst gesetzt: sie belegt den Umfang und rechtfertigt damit das Abo, wo vorher gar nichts über den Bestand stand.
+- **Filter statt Drill-down** (`.lib-filters`, `#libFilters`) — waagrechte, scrollbare Chips: Alle · 🧠 Gedanken beruhigen · ❤️ Gefühle verstehen · 💪 Stress lösen · 🌿 Entspannen. Gleiche Information wie das frühere 2×2-Raster in **einem Sechstel der Höhe**; der aktive Chip ist dunkel gefüllt und scrollt sich selbst in den sichtbaren Bereich.
+- **Liste, nach Länge gruppiert** (`.lib-list`) — Abschnitte "Kurz · 3–6 Min · 13", "Mittel", "Tief". Jede Zeile: Auswahlkreis, Name, Kurzbeschreibung (einzeilig abgeschnitten) und die Dauer rechts in Serif — immer an derselben Stelle, damit Vergleichen leichtfällt.
+- **"schon gemacht"** — Übungen, die im Verlauf vorkommen (`schonGemacht()` aus `loadHistory()`), bekommen ein kleines Kennzeichen. Echte Daten, nichts Erfundenes; macht die Liste persönlich.
+- **Auswahl-Leiste** (`.lib-bar`) — klebt über der Tabbar (`bottom: calc(tabbar + safe + 12px)`), zeigt "2 Übungen · 8 Min" und den Start-Button. Blendet sich weich aus, wenn nichts gewählt ist. Der Start ist damit immer erreichbar, egal wie weit gescrollt wurde.
+
+**Verhalten:** Ein Kategorie-Chip füllt passend zu **Anzahl und Zieldauer** vom Kompass vor (`autoFillV2()`); "Alle" startet leer. Mehrfachauswahl bleibt auf `desiredCountV2` begrenzt (älteste fällt raus). `openCatV2(dir)` — aufgerufen von den Kategorien auf "Für dich" — setzt jetzt nur noch den Filter, statt in eine Unterseite zu springen.
+
+**Farben/Typografie:** wärmere Basis als zuvor, Karten `#fffefb` mit 1px-Rand statt Schatten (ruhiger, hochwertiger), Text `#14211d` für mehr Kontrast, Auswahl in Salbei. Serif nur für Titel und Dauer — das setzt Akzente, ohne verspielt zu wirken.
 
 ### 3.4 Session (Vollbild, `body.entered.in-session`)
 - Hintergrund: **aktuell überall dasselbe Titel-Foto** (nicht die animierte SVG-Insel), scharf statt verwischt gezeigt
