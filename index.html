@@ -221,8 +221,8 @@
     backdrop-filter:none; -webkit-backdrop-filter:none;
     box-shadow:none;
   }
-  body[data-step="compass"] .compass-card h2, body[data-step="compass"] .compass-card .lead,
-  body[data-step="compass"] .compass-card .compass-readout,
+  /* Die Kompass-Seite braucht keinen Text-Schein mehr: Titel, Hinweis und
+     Badge liegen dort auf der hellen .compass-stage-Flaeche. */
   body[data-step="meditation"] .compass-card h2, body[data-step="meditation"] .compass-card .lead,
   body[data-step="meditation"] .compass-card .pref-status,
   body[data-step="meditation"] .compass-card .companion h4, body[data-step="meditation"] .compass-card .companion .intro,
@@ -233,35 +233,88 @@
   }
   .compass-card h2{ margin:2px 0 6px; font-size:1.2rem; font-family:var(--serif); color:var(--forest); }
   .compass-card .lead{ margin:0 0 16px; opacity:.62; font-size:.88rem; }
-  /* Der Titel ging auf dem hellen Foto mit reinem text-shadow-Schein
-     unter. Jetzt eine kleine, volldeckende Plakette. */
-  #compassPage .compass-card h2{
-    display:inline-block; background:#eef6f2; color:var(--forest);
-    font-size:1.3rem; font-weight:700; padding:6px 18px; border-radius:20px; margin-bottom:14px;
+  /* ---------- Kompass-Seite: der Kompass ist das Zentrum ----------
+     Klare Hierarchie: 1. Kompass  2. Status-Badge  3. Optionen
+     4. Weiter-Button  5. sekundaere Navigation.
+     Alle Abstaende folgen einem 8-pt-Raster (8/16/24/32). */
+  /* Auf hohen Geraeten sass alles oben und unten blieb ein grosses Loch -
+     der Inhalt wird deshalb vertikal zentriert. Ueberschreitet er die
+     Hoehe, verhaelt sich die Seite wieder ganz normal (kein Abschneiden). */
+  body:not(.entered)[data-step="compass"] .compass-page{
+    display:flex; flex-direction:column; justify-content:center;
+    min-height:calc(100dvh - var(--tabbar-h) - 12px);
+    padding-bottom:8px; /* der Abstand zur Tabbar kommt schon vom body */
   }
-  /* Mit der ausfuehrlicheren Erklaerung ist die Seite insgesamt laenger als
-     vorher - der Kompass hier etwas kleiner als der App-Standard (320px),
-     damit trotzdem genug da ist, ohne die Abstaende wieder zusammenzu-
-     quetschen (das wirkte zuvor gequetscht/billig). */
-  /* Zurueck/Weiter bewusst NICHT anders gestylt als auf jeder anderen
-     Seite (Los geht's, Fertig, ...) - unterschiedliche Knopfgroessen je
-     Seite wirkten optisch inkonsistent. Stattdessen wird die noetige
-     Hoehe beim Kompass selbst eingespart, das faellt visuell kaum auf. */
-  #compassPage .compass-wrap{ max-width:240px; }
-  #compassPage .compass-readout{ margin-top:8px; }
-  #compassPage .compass-actions{ margin-top:12px; }
-  /* Auf kurzen Bildschirmen (iPhone SE & Co., <=700px hoch) reicht das
-     allein nicht - hier zusaetzlich zum kleineren Kompass auch die Texte/
-     Karten etwas naeher zusammenruecken, damit Zurueck/Weiter ohne
-     Scrollen sichtbar bleiben. Die Buttons selbst bleiben unveraendert. */
+  /* Seitlich schmaler als sonst, damit die Buehne - und damit der Kompass -
+     auf schmalen Geraeten die volle Breite nutzen kann. Die Luft sitzt
+     dafuer innen in der Buehne, wo man sie auch sieht. */
+  #compassPage .compass-card{ padding:16px 8px 24px; width:100%; }
+
+  /* Buehne fuer den Kompass: helle, milchige Flaeche mit starkem Blur -
+     hebt den Kompass klar vom unruhigen Foto ab und ersetzt den frueheren
+     Text-Schein samt Titel-Plakette. */
+  #compassPage .compass-stage{
+    background:rgba(255,255,255,.55);
+    backdrop-filter:blur(20px) saturate(1.2); -webkit-backdrop-filter:blur(20px) saturate(1.2);
+    border:1px solid rgba(255,255,255,.55);
+    border-radius:32px; padding:24px 16px;
+    box-shadow:0 8px 32px rgba(10,40,34,.14);
+  }
+  #compassPage .compass-card h2{
+    margin:0 0 8px; font-family:var(--serif); font-size:1.45rem; font-weight:700;
+    color:var(--forest); letter-spacing:.1px; line-height:1.25;
+  }
+  #compassPage .compass-hint{
+    margin:0 0 24px; font-size:.875rem; line-height:1.4; color:rgba(31,45,40,.6);
+  }
+  /* +33% gegenueber vorher (240px) - der Kompass darf jetzt gross sein,
+     weil der lange Erklaertext weggefallen ist. */
+  #compassPage .compass-wrap{ max-width:320px; }
+  #compassPage .compass-readout{ margin-top:24px; }
+  /* Der Hinweis zum Ziehen steht auf dieser Seite schon oben - unter dem
+     Badge waere er doppelt. */
+  #compassPage .compass-readout .sub{ display:none; }
+  #compassPage .compass-prefs{ margin-top:24px; }
+  #compassPage .compass-actions{ margin-top:24px; }
+
+  /* Kurze Bildschirme (iPhone SE & Co.): alles proportional kleiner, aber
+     die Hierarchie bleibt identisch - Ziel ist weiterhin, dass alles
+     inklusive der Buttons ohne Scrollen sichtbar ist. */
   @media (max-height:700px){
-    #compassPage .compass-wrap{ max-width:145px; }
-    #compassPage .compass-card h2{ margin-bottom:6px; }
-    #compassPage .compass-card .lead{ margin-bottom:6px; }
-    #compassPage .compass-readout{ margin-top:4px; }
-    #compassPage #durationGroupCompass{ margin-top:6px !important; }
-    #compassPage #durationGroupCompass h3{ margin-bottom:4px; }
-    #compassPage .compass-actions{ margin-top:6px; }
+    #compassPage .compass-card{ padding:8px 8px 16px; }
+    #compassPage .compass-stage{ padding:16px 16px; border-radius:26px; }
+    #compassPage .compass-card h2{ font-size:1.25rem; margin-bottom:4px; }
+    #compassPage .compass-hint{ margin-bottom:16px; font-size:.82rem; }
+    #compassPage .compass-wrap{ max-width:216px; }
+    #compassPage .compass-readout{ margin-top:16px; }
+    #compassPage .compass-prefs{ margin-top:16px; gap:12px; }
+    #compassPage .compass-actions{ margin-top:16px; }
+  }
+
+  /* Status-Badge unter dem Kompass */
+  .mood-badge{
+    display:inline-flex; align-items:center; gap:8px;
+    background:#e9f4ef; border:1px solid rgba(90,147,112,.3);
+    color:var(--forest); font-size:.95rem; font-weight:700;
+    padding:8px 16px; border-radius:999px;
+    box-shadow:0 2px 10px rgba(20,60,45,.08);
+  }
+
+  /* Optionen auf der Kompass-Seite: untergeordnet, ruhig, je eine Zeile */
+  .compass-prefs{ display:flex; flex-direction:column; gap:16px; text-align:left; }
+  .compass-prefs h3{
+    margin:0 0 8px; font-size:.68rem; text-transform:uppercase; letter-spacing:.09em;
+    font-weight:700; color:rgba(31,45,40,.68);
+    text-shadow:0 1px 3px rgba(255,255,255,.95), 0 1px 10px rgba(255,255,255,.8);
+  }
+  .compass-prefs .pref-opts{ gap:8px; flex-wrap:nowrap; }
+  .compass-prefs .opt{
+    flex:1 1 0; justify-content:center; padding:9px 4px; font-size:.82rem;
+    border-width:1px; border-color:rgba(255,255,255,.5); background:rgba(255,255,255,.66);
+    color:rgba(31,45,40,.72); font-weight:600; white-space:nowrap;
+  }
+  .compass-prefs .opt.active{
+    border-color:rgba(90,147,112,.65); background:#dcede4; color:var(--forest); font-weight:700;
   }
   .compass-wrap{
     position:relative; max-width:320px; aspect-ratio:1/1; margin:0 auto;
@@ -294,7 +347,6 @@
   }
 
   /* ---------- Meditation choice ---------- */
-  .pref-row{ display:flex; gap:10px; text-align:left; }
   .pref-group{ flex:1; text-align:left; }
   .pref-group h3{ margin:0 0 8px; font-size:.66rem; text-transform:uppercase; letter-spacing:.07em; opacity:.55; font-weight:700; }
   .pref-opts{ display:flex; gap:6px; flex-wrap:wrap; }
@@ -950,9 +1002,12 @@
 
   <div class="page compass-page" id="compassPage">
     <div class="compass-card">
-      <h2>🧭 Der Kompass</h2>
-      <p class="lead">Setze die Nadel dahin, wo du gerade stehst: zwischen Denken und Fühlen, und zwischen angespannt und entspannt.</p>
-      <p class="lead compass-explain-outro">Daraus finden wir deine passende Meditation.</p>
+      <!-- Buehne: helle Surface, damit der Kompass klar im Zentrum steht.
+           Titel, Hinweis und Status-Badge gehoeren visuell zum Kompass und
+           liegen deshalb mit ihm zusammen auf einer Flaeche. -->
+      <div class="compass-stage">
+        <h2>Wo stehst du gerade?</h2>
+        <p class="compass-hint">Ziehe den Punkt auf dem Kompass.</p>
 
       <div class="compass-wrap" id="compassWrap">
         <div class="compass-photo"></div>
@@ -977,11 +1032,14 @@
         </svg>
       </div>
 
-      <div class="compass-readout" id="compassReadout"></div>
+        <div class="compass-readout" id="compassReadout"></div>
+      </div>
 
-      <div class="pref-row" id="durationGroupCompass" style="margin:12px 0 0;">
+      <!-- Optionen bewusst dezent und untergeordnet: kleine Labels, kompakte
+           Chips, je eine Zeile - der Kompass bleibt die Hauptaufgabe. -->
+      <div class="compass-prefs" id="durationGroupCompass">
         <div class="pref-group">
-          <h3>Wie viele Meditationen?</h3>
+          <h3>Anzahl Meditationen</h3>
           <div class="pref-opts" data-field="countV2" id="countOptsV2">
             <div class="opt" data-value="1">1</div>
             <div class="opt" data-value="2">2</div>
@@ -989,7 +1047,7 @@
           </div>
         </div>
         <div class="pref-group">
-          <h3>Wie lange möchtest du meditieren?</h3>
+          <h3>Dauer</h3>
           <div class="pref-opts" data-field="durationV2" id="durationOptsV2">
             <div class="opt" data-value="5">5 Min</div>
             <div class="opt" data-value="10">10 Min</div>
@@ -1002,7 +1060,7 @@
 
       <div class="compass-actions">
         <button class="back-link-btn" id="backToIslandBtn">← Zurück</button>
-        <button class="enter-btn" id="toMedBtn">Weiter zu den Meditationen →</button>
+        <button class="enter-btn" id="toMedBtn">Zu den Meditationen →</button>
       </div>
     </div>
   </div>
@@ -1898,7 +1956,7 @@
       if (onChange) onChange();
     }
     function update(){
-      readout.innerHTML = moodHtml(target) +
+      readout.innerHTML = moodBadgeHtml(target) +
         '<span class="sub">Ziehe den Punkt, um es anzupassen</span>';
     }
     svg.addEventListener("pointerdown", function(e){
@@ -2242,7 +2300,7 @@
     document.getElementById("needleTip2").setAttribute("cx", mx);
     document.getElementById("needleTip2").setAttribute("cy", my);
     document.getElementById("compassReadout2").innerHTML =
-      moodHtml(compassAfter) +
+      moodBadgeHtml(compassAfter) +
       '<span class="sub">Ziehe den Punkt, um es anzupassen</span>';
     recordSession();
     renderRecap();
@@ -2446,6 +2504,15 @@
   function moodHtml(c){
     var m = moodOf(c);
     return '<span class="mood-emoji">' + m.emoji + '</span> ' + m.word;
+  }
+  // Grosse Anzeige unter dem Kompass: ganzer Satz als Pille statt nur des
+  // Worts - liest sich persoenlicher und wirkt als klarer Status-Anker.
+  // (moodHtml bleibt fuer Listen/Rueckblick, wo "Vorher: ausgeglichen"
+  // steht und ein ganzer Satz stoeren wuerde.)
+  function moodBadgeHtml(c){
+    var m = moodOf(c);
+    return '<span class="mood-badge"><span class="mood-emoji">' + m.emoji +
+           '</span> Du fühlst dich ' + m.word + '</span>';
   }
 
   // ---- Wochenansicht ----
