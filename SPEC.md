@@ -74,16 +74,17 @@ Der frühere Insel-Konfigurator-Schritt (`island`) existiert im Code noch (SVG-I
 
 ### 3.3 Meditationsauswahl 1 ("Deine Meditationen", `data-step="meditation"`, Tab "Meditation 1")
 
-Die alte, ursprüngliche Logik — auf Christines Wunsch bewusst wiederhergestellt, nachdem Meditation 1 zwischenzeitlich auf Kategorie-Kacheln umgestellt war und dadurch nicht mehr von Meditation 2 zu unterscheiden war. Jetzt sind beide Varianten wieder klar verschieden und über eigene Tabs erreichbar.
+Die Bibliothek nach Dauerstufe gegliedert (Kurze/Mittlere/Tiefe Inselreisen) — auf Christines Wunsch die ursprüngliche Gliederung, nachdem Meditation 1 zwischenzeitlich auf Kategorie-Kacheln umgestellt war und dadurch nicht mehr von Meditation 2 zu unterscheiden war. Beide Varianten sind jetzt wieder klar verschieden und über eigene Tabs erreichbar.
 
 - Eigene Karten-Überschrift **"🧘 Deine Meditationen"** — der allgemeine Seitenkopf (Topbar/Stepper) ist auf diesem Schritt bewusst ausgeblendet, sonst gäbe es zwei Titel übereinander (gleiches Prinzip wie beim Kompass-, Abschluss- und Profil-Schritt, siehe §3.2/§3.5)
-- Zwei Präferenz-Fragen oben: "Wie viele Meditationen?" (1/2/3) und "Maximale Dauer insgesamt?" (10/20/30 Min/egal)
-- Live-Status: "2 von 3 ausgewählt · 15 Min gesamt (Ziel: 20 Min)"
-- Bibliothek in **3 aufklappbaren Kategorien** nach Dauerstufe — Kurze (mini, 3–6 Min), Mittlere (mittel, 7–14 Min), Tiefe (tief, 15–30 Min) Meditationen/Inselreisen (siehe §5), Mehrfachauswahl mit nummerierten Checkboxen (①②③…)
-- Empfehlungslogik wählt automatisch passende Übungen zur Kompass-Richtung; die Kategorie mit einer Empfehlung **klappt automatisch auf**
+- **Keine Präferenz-Fragen mehr:** Die früheren Felder "Wie viele Meditationen?" (1/2/3) und "Maximale Dauer insgesamt?" (10/20/30 Min/egal) wurden auf Christines Wunsch entfernt — die Seite beginnt direkt mit Status, Kompass-Hinweis und Bibliothek.
+- Live-Status: "2 ausgewählt · 13 Min gesamt" (ohne Ziel-/Obergrenzen-Vergleich, da es kein Budget mehr gibt)
+- Bibliothek in **3 aufklappbaren Kategorien** nach Dauerstufe — Kurze (mini, 3–6 Min), Mittlere (mittel, 7–14 Min), Tiefe (tief, 15–30 Min) Meditationen/Inselreisen (siehe §5), Mehrfachauswahl mit nummerierten Checkboxen (①②③…), **ohne Obergrenze** — beliebig viele, beliebig lang
+- Kompass-Hinweis (`#recNote`) nennt die aktuelle Richtung samt Erklärsatz; alle Übungen dieser Richtung tragen ein **"Empfohlen"-Abzeichen** plus Zeile "Passt zu \<Richtung\>"
+- Vorauswahl: **genau eine** Übung zur Kompass-Richtung (die kürzeste als sanfter Einstieg) ist beim Öffnen schon angehakt, ihre Kategorie **klappt automatisch auf**. Ohne Anzahl-/Dauer-Frage gibt es kein Budget mehr, das eine grössere Vorauswahl rechtfertigen würde — alles Weitere wählt die Person frei dazu.
 - KI-Begleiter-Chat (kontextbewusst, kann per `[EMPFEHLUNG: <Name>]`-Tag eine Übung zur Auswahl hinzufügen)
 - "Insel betreten & starten →" → Vollbild-Session
-- **Offen:** Die Kompass-basierte Empfehlung wählt aktuell nur nach Richtung + Dauer-Nähe, nicht nach dem neuen Intensitäts-Konzept, das Christine beschrieben hat — Entwurf dafür (Quadranten, Empfehlungsrichtung, Intensität) siehe §5 "Geplant: Intensität + Empfehlungslogik". Umsetzung wartet noch auf die Meditations-Klassifizierung von Christine (welche Übung zu welcher Intensitätsstufe passt).
+- **Offen:** Die Kompass-basierte Empfehlung wählt aktuell nur nach Richtung (+ kürzeste Dauer für die Vorauswahl), nicht nach dem neuen Intensitäts-Konzept, das Christine beschrieben hat — Entwurf dafür (Quadranten, Empfehlungsrichtung, Intensität) siehe §5 "Geplant: Intensität + Empfehlungslogik". Umsetzung wartet noch auf die Meditations-Klassifizierung von Christine (welche Übung zu welcher Intensitätsstufe passt).
 
 ### 3.3a Meditationsauswahl 2 ("Nach Kategorie wählen", `data-step="meditation2"`, Tab "Meditation 2")
 
@@ -178,7 +179,7 @@ zeigeMudra()/zeigeMantra()  // rendern die Karte in #mudraBox/#mantraBox, Richtu
 
 **Entscheidung:** Die Insel bleibt das einzige Bild/Branding der App (kein zweites, drittes Landschafts-"Skin"). Die *Meditationen selbst* sind inhaltlich breiter als vorher — nicht mehr nur Strand/Palmen/Wellen, sondern klassische Themen aus Achtsamkeit, Körperarbeit und Alltagsbewältigung. Die vier Kompass-Richtungen (Denken/Fühlen/Anspannung/Entspannung) bleiben als Zuordnungs-Logik bestehen; jedes Thema hat weiterhin eine Richtung zugeordnet, damit die Empfehlungslogik unverändert funktioniert.
 
-**Umgesetzte Titelliste (40 Meditationen, alle handgeschrieben)** — ersetzt die früher automatisch generierten "Insel-<Thema>"-Einträge aus `THEMES[dir]`/`PHRASES[dir]` (dieser Generator inkl. `generateLibrary()` wurde entfernt, `MEDITATIONS[]` enthält jetzt alle 40 Einträge direkt). Jeder Titel ist einer Kategorie, einer festen Dauer und einer Kompass-Richtung zugeordnet, damit sowohl die Richtungs-Empfehlung als auch die Dauer-Passung (siehe §5, Auswahl-Logik) über die ganze Liste hinweg genug Auswahl haben — nicht nur ein, zwei Themen decken jede Dauerstufe ab. Titel in *Kursiv* sind die 8 ursprünglichen Flaggschiff-Skripte, die unverändert geblieben sind.
+**Umgesetzte Titelliste (40 Meditationen, alle handgeschrieben)** — ersetzt die früher automatisch generierten "Insel-<Thema>"-Einträge aus `THEMES[dir]`/`PHRASES[dir]` (dieser Generator inkl. `generateLibrary()` wurde entfernt, `MEDITATIONS[]` enthält jetzt alle 40 Einträge direkt). Jeder Titel ist einer Kategorie, einer festen Dauer und einer Kompass-Richtung zugeordnet, damit sowohl die Richtungs-Empfehlung (Meditation 1) als auch die Dauer-Auffüllung (Meditation 2) über die ganze Liste hinweg genug Auswahl haben — nicht nur ein, zwei Themen decken jede Dauerstufe ab. Titel in *Kursiv* sind die 8 ursprünglichen Flaggschiff-Skripte, die unverändert geblieben sind.
 
 **Mini (3–6 Min), 13 Titel:**
 
@@ -237,7 +238,7 @@ zeigeMudra()/zeigeMantra()  // rendern die Karte in #mudraBox/#mantraBox, Richtu
 
 **Verteilung über die vier Kompass-Richtungen** (Summe über alle 40): Denken 8 · Fühlen 12 · Anspannung 10 · Entspannung 10. Nicht perfekt gleich, aber bewusst nah dran — Fühlen ist am stärksten besetzt, weil sich viele der gewünschten Themen (Herz, Dankbarkeit, Verzeihen, Chakra-Herz, Schwangerschaft) inhaltlich dort einordnen. Falls das zu schief wirkt, liesse sich z. B. "Fantasiereise: Insel" oder "Dankbarkeits-Reise" auf Denken/Entspannung umlegen, ohne die Titel selbst zu ändern.
 
-**Dauer-Abdeckung je Kategorie:** Mini deckt 3–6 Min in allen vier Stufen mehrfach ab, Mittel deckt 6–13 Min, Tief deckt 10–30 Min inklusive der 30-Min-Stufe. Damit hat die Dauer-Empfehlungslogik (§5, Auswahl-Logik) in jeder Kategorie und Richtung genug Auswahl, um nah an die gewünschte Zieldauer zu kommen, statt immer auf denselben ein, zwei Titeln zu landen.
+**Dauer-Abdeckung je Kategorie:** Mini deckt 3–6 Min in allen vier Stufen mehrfach ab, Mittel deckt 6–13 Min, Tief deckt 10–30 Min inklusive der 30-Min-Stufe. Damit hat die Dauer-Auffüllung in Meditation 2 (§3.3a, `autoFillV2()`) in jeder Kategorie und Richtung genug Auswahl, um nah an die gewünschte Zieldauer zu kommen, statt immer auf denselben ein, zwei Titeln zu landen.
 
 **Bildsprache pro Meditation:** Der Foto-Hintergrund von Kompass-, Meditations- und Session-Seite (aktuell überall dasselbe Insel-Foto, siehe §3.4/§2) soll künftig **zur jeweiligen Meditation passen** — eine Fantasiereise "Bergspitze" mit Insel-Hintergrund abzuspielen wäre inhaltlich unstimmig. Konkret geplant:
 - Insel-Foto bleibt Standard-Hintergrund für Home, Kompass, Meditationsauswahl, Abschluss (der "Rahmen" der Reise) sowie für alle Insel-thematischen Meditationen.
@@ -248,9 +249,7 @@ zeigeMudra()/zeigeMantra()  // rendern die Karte in #mudraBox/#mantraBox, Richtu
 
 ### Auswahl-Logik
 ```js
-chosenMedIds = []        // Reihenfolge = Playlist-Reihenfolge (Meditation 1)
-desiredCount = 2         // 1..3, von der Person gewählt (Meditation 1)
-maxDuration  = 20        // Minuten, oder 99 = "egal" (Meditation 1)
+chosenMedIds = []        // Reihenfolge = Playlist-Reihenfolge (Meditation 1), keine Obergrenze
 catOpenState = { mini:false, mittel:false, tief:false }  // Accordion-Zustand (Meditation 1)
 completedLog = []        // [{name, min, seconds}], während der Session befüllt
 
@@ -258,7 +257,7 @@ chosenMedIdsV2 = []      // eigener Auswahl-Zustand für Meditation 2
 currentCatV2   = null    // gewählte Kompass-Richtung/Kategorie in Meditation 2
 durationV2     = 10      // Minuten, auf der Kompass-Seite gewählt
 ```
-Meditation 1: Erst-Empfehlung aus allen zur Kompass-Richtung passenden Meditationen — sortiert nach Nähe zur Zieldauer je Slot (`maxDuration / desiredCount`), bis `desiredCount` erreicht oder `maxDuration` überschritten würde (siehe §3.3). Meditation 2: `autoFillV2()` füllt beim Öffnen einer Kategorie automatisch bis nahe an `durationV2` auf (siehe §3.3a).
+Meditation 1 hat seit dem Entfernen der Anzahl-/Dauer-Frage **keinen Auswahl-Zustand für Präferenzen mehr** (`desiredCount`/`maxDuration` sind ersatzlos raus): Vorausgewählt wird genau eine Übung — die kürzeste zur Kompass-Richtung passende — danach ist die Auswahl frei und unbegrenzt (siehe §3.3). Meditation 2: `autoFillV2()` füllt beim Öffnen einer Kategorie automatisch bis nahe an `durationV2` auf (siehe §3.3a).
 
 ### Session/Playlist
 ```js
@@ -279,7 +278,7 @@ TAB_FOR_STEP = { home:"home", compass:"kompass", meditation:"meditation", medita
 
 - Zwei Chat-Instanzen: eine auf der Meditationsauswahl (`allowRecommend = true`), eine im Abschluss (`false`)
 - System-Prompt: warmherziger, kurzer (max. 3 Sätze), unaufdringlicher Begleiter, keine Diagnosen, ermutigt bei ernster Not zu echtem menschlichen Kontakt
-- Bekommt vollen Kontext mitgeschickt: Kompass vorher/(nachher), gewünschte Anzahl/Dauer, aktuelle Auswahl bzw. abgeschlossene Meditationen
+- Bekommt vollen Kontext mitgeschickt: Kompass vorher/(nachher), aktuelle Auswahl bzw. abgeschlossene Meditationen
 - Kann in der Auswahl-Ansicht per angehängtem `[EMPFEHLUNG: <exakter Name>]`-Tag eine Übung **zur Mehrfachauswahl hinzufügen** (nicht ersetzen)
 - Fallback-Sätze bei API-Fehlern/Offline (kein Absturz, kein sichtbarer Fehler für die Person)
 

@@ -224,7 +224,7 @@
   body[data-step="compass"] .compass-card h2, body[data-step="compass"] .compass-card .lead,
   body[data-step="compass"] .compass-card .compass-readout,
   body[data-step="meditation"] .compass-card h2, body[data-step="meditation"] .compass-card .lead,
-  body[data-step="meditation"] .compass-card .pref-group h3, body[data-step="meditation"] .compass-card .pref-status,
+  body[data-step="meditation"] .compass-card .pref-status,
   body[data-step="meditation"] .compass-card .companion h4, body[data-step="meditation"] .compass-card .companion .intro,
   body[data-step="meditation2"] .compass-card h2, body[data-step="meditation2"] .compass-card .lead,
   body[data-step="meditation2"] .compass-card .pref-group h3, body[data-step="meditation2"] .compass-card .pref-status,
@@ -294,13 +294,15 @@
   }
 
   /* ---------- Meditation choice ---------- */
-  .pref-row{ display:flex; gap:10px; margin:2px 0 12px; }
   .pref-group{ flex:1; text-align:left; }
   .pref-group h3{ margin:0 0 8px; font-size:.66rem; text-transform:uppercase; letter-spacing:.07em; opacity:.55; font-weight:700; }
   .pref-opts{ display:flex; gap:6px; flex-wrap:wrap; }
   .pref-opts .opt{ padding:7px 11px; font-size:.8rem; }
   .pref-status{ font-size:.8rem; opacity:.65; margin:-2px 0 14px; text-align:left; }
   .pref-status.over{ color:#a8493f; font-weight:700; opacity:1; }
+  /* Ohne die Anzahl-/Dauer-Frage darueber haengt die Statuszeile direkt am
+     Dialekt-Chip - hier etwas Luft, damit es nicht gequetscht wirkt. */
+  #medPage .pref-status{ margin-top:12px; }
 
   .med-list{ display:flex; flex-direction:column; gap:10px; margin:4px 0 6px; text-align:left; }
   .med-card{
@@ -1000,25 +1002,6 @@
       <p class="lead">Passend zu deinem Kompass – du kannst aber frei wählen.</p>
       <p class="dialect-chip">🇨🇭 Die Anleitungen sind auf Schweizerdeutsch</p>
 
-      <div class="pref-row">
-        <div class="pref-group">
-          <h3>Wie viele Meditationen?</h3>
-          <div class="pref-opts" data-field="medCount">
-            <div class="opt" data-value="1">1</div>
-            <div class="opt" data-value="2">2</div>
-            <div class="opt" data-value="3">3</div>
-          </div>
-        </div>
-        <div class="pref-group">
-          <h3>Maximale Dauer insgesamt?</h3>
-          <div class="pref-opts" data-field="maxDuration">
-            <div class="opt" data-value="10">10 Min</div>
-            <div class="opt" data-value="20">20 Min</div>
-            <div class="opt" data-value="30">30 Min</div>
-            <div class="opt" data-value="99">egal</div>
-          </div>
-        </div>
-      </div>
       <div class="pref-status" id="prefStatus"></div>
 
       <div class="rec-note" id="recNote"></div>
@@ -1561,8 +1544,6 @@
   var compassBefore = { x:0, y:0 };
   var compassAfter  = { x:0, y:0 };
   var chosenMedIds = [];      // array of meditation ids, in selection order = playback order
-  var desiredCount = 2;       // how many meditations the person wants
-  var maxDuration = 20;       // minutes, total budget
   var completedLog = [];      // [{name, min, seconds}] filled in as the playlist plays
 
   var DIRS = {
@@ -1947,30 +1928,14 @@
     document.getElementById("recNote").innerHTML =
       "<strong>Dein Kompass zeigt Richtung " + DIRS[dir].label + ".</strong><br>" + DIRS[dir].note;
 
+    // Ohne Anzahl-/Dauer-Frage gibt es kein Budget mehr, das die Empfehlung
+    // ausrechnen muesste: vorgeschlagen wird genau EINE Uebung zur Kompass-
+    // Richtung (die kuerzeste als sanfter Einstieg). Alles Weitere waehlt die
+    // Person frei dazu - beliebig viele, beliebig lang.
     if (chosenMedIds.length === 0){
       var recommended = MEDITATIONS.filter(function(m){ return m.dir === dir && istFrei(m.id); });
-      if (maxDuration >= 99){
-        // "egal" - keine Zieldauer, dann reicht kuerzeste zuerst als einfache Regel
-        recommended.sort(function(a,b){ return a.min - b.min; });
-      } else {
-        // Wer "30 Min" waehlt, will eine ~30-Min-Uebung sehen - nicht die
-        // kuerzeste, die zufaellig ins Budget passt. Also nach Naehe zur
-        // Zieldauer je Slot sortieren (Budget geteilt durch Anzahl),
-        // nicht nach kuerzester Dauer.
-        var ziel = maxDuration / desiredCount;
-        recommended.sort(function(a,b){ return Math.abs(a.min - ziel) - Math.abs(b.min - ziel); });
-      }
-      var pick = [];
-      for (var i = 0; i < recommended.length && pick.length < desiredCount; i++){
-        if (totalMinutes(pick.concat(recommended[i].id)) <= maxDuration || pick.length === 0){
-          pick.push(recommended[i].id);
-        }
-      }
-      chosenMedIds = pick;
-    }
-    // keep selection within the current desired count (trim oldest if the count was lowered)
-    if (chosenMedIds.length > desiredCount){
-      chosenMedIds = chosenMedIds.slice(chosenMedIds.length - desiredCount);
+      recommended.sort(function(a,b){ return a.min - b.min; });
+      chosenMedIds = recommended.length ? [recommended[0].id] : [];
     }
 
     // auto-expand any category that currently holds a chosen meditation
@@ -2027,12 +1992,7 @@
         var id = card.getAttribute("data-med");
         if (!istFrei(id)){ renderAbo(); goToStep("abo"); return; }
         var pos = chosenMedIds.indexOf(id);
-        if (pos !== -1){
-          chosenMedIds.splice(pos, 1); // toggle off
-        } else {
-          chosenMedIds.push(id);
-          if (chosenMedIds.length > desiredCount) chosenMedIds.shift(); // keep newest N
-        }
+        if (pos !== -1) chosenMedIds.splice(pos, 1); else chosenMedIds.push(id);
         renderMedList();
       });
     });
@@ -2043,30 +2003,9 @@
   function updatePrefStatus(){
     var mins = totalMinutes(chosenMedIds);
     var status = document.getElementById("prefStatus");
-    var over = maxDuration < 99 && mins > maxDuration;
-    status.classList.toggle("over", over);
-    status.textContent = chosenMedIds.length + " von " + desiredCount + " ausgewählt · " + mins + " Min gesamt" +
-      (maxDuration < 99 ? " (Ziel: " + maxDuration + " Min)" : "") +
-      (over ? " – etwas mehr als geplant, das ist okay" : "");
+    status.classList.remove("over");
+    status.textContent = chosenMedIds.length + " ausgewählt · " + mins + " Min gesamt";
   }
-
-  document.querySelectorAll(".pref-opts").forEach(function(group){
-    var field = group.getAttribute("data-field");
-    group.addEventListener("click", function(e){
-      var target = e.target.closest("[data-value]");
-      if (!target) return;
-      Array.prototype.forEach.call(group.children, function(el){
-        el.classList.toggle("active", el === target);
-      });
-      if (field === "medCount") desiredCount = parseInt(target.getAttribute("data-value"), 10);
-      if (field === "maxDuration") maxDuration = parseInt(target.getAttribute("data-value"), 10);
-      renderMedList();
-    });
-  });
-  (function initPrefDefaults(){
-    document.querySelector('.pref-opts[data-field="medCount"] [data-value="' + desiredCount + '"]').classList.add("active");
-    document.querySelector('.pref-opts[data-field="maxDuration"] [data-value="' + maxDuration + '"]').classList.add("active");
-  })();
 
   // ---- Meditationsauswahl Variante 2: nach Kategorie (Kompass-Richtung)
   // durchklicken, dann nur noch eine Zieldauer statt Anzahl+Dauer waehlen.
@@ -2696,8 +2635,7 @@
       (document.body.getAttribute("data-step") === "outro"
         ? (". Kompass nachher: " + compassText(compassAfter).replace(/&amp;/g,"und") +
            ". Gerade beendet: " + (completedLog.length ? completedLog.map(function(l){ return l.name; }).join(", ") : "–"))
-        : (". Gewünschte Anzahl Meditationen: " + desiredCount + ", maximale Gesamtdauer: " +
-           (maxDuration < 99 ? maxDuration + " Min" : "egal") + ". Aktuell gewählt: " + meds));
+        : (". Aktuell gewählt: " + meds));
   }
 
   function medCatalogueText(){
@@ -2736,10 +2674,7 @@
         return m.name.toLowerCase() === name.trim().toLowerCase();
       })[0];
       if (!match) return false;
-      if (chosenMedIds.indexOf(match.id) === -1){
-        chosenMedIds.push(match.id);
-        if (chosenMedIds.length > desiredCount) chosenMedIds.shift();
-      }
+      if (chosenMedIds.indexOf(match.id) === -1) chosenMedIds.push(match.id);
       renderMedList();
       var el = document.querySelector('.med-card[data-med="' + match.id + '"]');
       if (el) el.scrollIntoView({ behavior:"smooth", block:"nearest" });
